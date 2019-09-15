@@ -1,8 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SideNavOuterToolbarModule, SideNavInnerToolbarModule, SingleCardModule } from './layouts';
+import { FooterModule, LoginFormModule } from './shared/components';
+import { AuthService, ScreenService, AppInfoService } from './shared/services';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -10,9 +13,14 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    SideNavOuterToolbarModule,
+    SideNavInnerToolbarModule,
+    SingleCardModule,
+    FooterModule,
+    LoginFormModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [AuthService, ScreenService, AppInfoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
