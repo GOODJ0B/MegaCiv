@@ -1,14 +1,15 @@
-Angular - Visual Studio Code
-Spring - IntelliJ (community edition)
+Angular IDE - Visual Studio Code
 
 eenmalig:
-https://nodejs.org/en/ installeren
-npm install -g @angular/cli
-https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html
+	https://nodejs.org/en/ installeren
+    daarna in command window:
+	npm install -g @angular/cli
 
+App runnen:
 command window in /Angular:
-(als er foutmeldingen zijn) npm install
-ng serve
+	(de eerste keer en als er foutmeldingen zijn) npm install
+	ng serve
 
-
-spring runnen = map openen met IntelliJ en dan groene play knop bovenin
+command window in /socket-server:
+	(de eerste keer en als er foutmeldingen zijn) npm install
+	node src/app.js
