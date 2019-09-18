@@ -2,8 +2,11 @@
 <div class="content-block">
     <div class="dx-card responsive-paddings">
         
-    <div>{{ game.id }}</div>
-    
+    <div>countDown: {{ gameService.countDown }}</div>
+    <div>phase: {{ game.phase }}</div>
+    <div>turn: {{ game.turn }}</div>
+    <div>players[1].playerName: {{ game.players[1].playerName }}</div>
+
     <dx-button (onClick)="changeTestValue()">Test!</dx-button>
     </div>
 </div>
