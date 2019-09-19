@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GameService } from 'src/app/shared/services/game.service';
-import { Page } from '../page';
 
 @Component({
   templateUrl: 'home.component.html',

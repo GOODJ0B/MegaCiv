@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { UserPanelModule } from '../user-panel/user-panel.component';
 import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
-import { Page } from 'src/app/pages/page';
 import { GameService } from '../../services/game.service';
 
 @Component({
