@@ -14,8 +14,7 @@
         <dxi-item
             location="before"
             cssClass="header-title"
-            *ngIf="title"
-            [text]="title">
+            [text]="'Ronde: ' + this.gameService.game.turn + ', fase: ' + this.gameService.game.phase">
         </dxi-item>
         <dxi-item
             location="after"

@@ -21,6 +21,9 @@ export class SideNavInnerToolbarComponent implements OnInit {
   menuOpened: boolean;
   temporaryMenuOpened = false;
 
+  @Input()
+  title: string;
+
   menuMode = 'shrink';
   menuRevealMode = 'expand';
   minMenuSize = 0;

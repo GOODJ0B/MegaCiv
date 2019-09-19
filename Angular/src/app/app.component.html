@@ -2,9 +2,9 @@
     <app-side-nav-inner-toolbar>
         <router-outlet></router-outlet>
         <app-footer>
-            Copyright © 2011-2019 Developer Express Inc.
+            Countdown: {{ this.gameService.countDown }}
             <br/>
-            All trademarks or registered trademarks are property of their respective owners.
+            Player is ready = {{ this.gameService.getCurrentPlayer().isReady }}
         </app-footer>
     </app-side-nav-inner-toolbar>
 </ng-container>

@@ -1,38 +1,38 @@
-<h2 class="content-block">Ronde {{ game.turn }}, fase {{ game.phase }}</h2>
+<h2 class="content-block">Ronde {{ gameService.game.turn }}, fase {{ gameService.game.phase }}</h2>
 
 <div class="content-block dx-card responsive-paddings">
     {{ gameService.countDown }}
-    <div *ngIf="game.phase === 1">
+    <div *ngIf="gameService.game.phase === 1">
         Fase 1
     </div>
-    <div *ngIf="game.phase === 2">
+    <div *ngIf="gameService.game.phase === 2">
         Fase 2
     </div>
-    <div *ngIf="game.phase === 3">
+    <div *ngIf="gameService.game.phase === 3">
         Fase 3
     </div>
-    <div *ngIf="game.phase === 4">
+    <div *ngIf="gameService.game.phase === 4">
         Fase 4
     </div>
-    <div *ngIf="game.phase === 5">
+    <div *ngIf="gameService.game.phase === 5">
         Fase 5
     </div>
-    <div *ngIf="game.phase === 6">
+    <div *ngIf="gameService.game.phase === 6">
         Fase 6
     </div>
-    <div *ngIf="game.phase === 7">
+    <div *ngIf="gameService.game.phase === 7">
         Fase 7
     </div>
-    <div *ngIf="game.phase === 8">
+    <div *ngIf="gameService.game.phase === 8">
         Fase 8
     </div>
-    <div *ngIf="game.phase === 9">
+    <div *ngIf="gameService.game.phase === 9">
         Fase 9
     </div>
-    <div *ngIf="game.phase === 10">
+    <div *ngIf="gameService.game.phase === 10">
         Fase 10
     </div>
-    <div *ngIf="game.phase === 11">
+    <div *ngIf="gameService.game.phase === 11">
         Fase 11
     </div>
 </div>

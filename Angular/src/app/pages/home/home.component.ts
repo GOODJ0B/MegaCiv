@@ -7,14 +7,16 @@ import { Page } from '../page';
   styleUrls: ['./home.component.scss']
 })
 
-export class HomeComponent extends Page implements OnInit, OnDestroy {
+export class HomeComponent {
 
 
-  constructor(public readonly gameService: GameService) { super(gameService); }
+  constructor(public readonly gameService: GameService) {}
 
   changeTestValue() {
-    this.game.countDown = 10;
-    this.game.phase += 1;
-    this.gameService.updateGame(this.game);
+    this.gameService.game.countDown = 10;
+    this.gameService.game.phase += 1;
+    this.gameService.getCurrentPlayer().isReady = !this.gameService.getCurrentPlayer().isReady;
+
+    this.gameService.updateGame(this.gameService.game);
   }
 }

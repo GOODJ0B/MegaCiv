@@ -1,4 +1,4 @@
-import { Component, NgModule, Input, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, NgModule, Input, Output, EventEmitter, AfterViewInit, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { UserPanelModule } from '../user-panel/user-panel.component';
@@ -13,15 +13,12 @@ import { GameService } from '../../services/game.service';
   styleUrls: ['./header.component.scss']
 })
 
-export class HeaderComponent extends Page implements AfterViewInit {
+export class HeaderComponent {
   @Output()
   menuToggle = new EventEmitter<boolean>();
 
   @Input()
   menuToggleEnabled = false;
-
-  @Input()
-  title: string;
 
   userMenuItems = [{
     text: 'Profile',
@@ -31,12 +28,11 @@ export class HeaderComponent extends Page implements AfterViewInit {
     icon: 'runner',
   }];
 
-  toggleMenu = () => {
-    this.menuToggle.emit();
+  constructor(public readonly gameService: GameService) {
   }
 
-  ngAfterViewInit() {
-    this.title = `Ronde ${this.game.turn}, fase ${this.game.phase}, timer ${this.gameService.countDown}`;
+  toggleMenu = () => {
+    this.menuToggle.emit();
   }
 }
 

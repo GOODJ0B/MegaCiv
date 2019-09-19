@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Page } from '../page';
+import { GameService } from 'src/app/shared/services/game.service';
 
 
 @Component({
@@ -7,7 +8,8 @@ import { Page } from '../page';
   styleUrls: [ './actions.component.scss' ]
 })
 
-export class ActionsComponent extends Page {
+export class ActionsComponent {
 
+  constructor(public readonly gameService: GameService){}
 
 }

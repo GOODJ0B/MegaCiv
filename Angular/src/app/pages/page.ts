@@ -5,32 +5,32 @@ import { Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
 
-export class Page implements OnInit, OnDestroy {
+export class Page {
 
-  game: Game = new Game();
+  // game: Game = new Game();
 
-  subscription: Subscription;
+  // subscription: Subscription;
 
-  constructor(public readonly gameService: GameService) { }
+  // constructor(public readonly gameService: GameService) { }
 
-  ngOnInit() {
-    this.subscription = this.gameService.game.pipe(
-      startWith(this.game)
-    ).subscribe(data => {
-      if (!data.phase) {
-        data = new Game();
-      }
-      Object.assign(this.game, data);
-      console.log('recieved data: ', this.game);
-      if (this.game.countDown > 0) {
-        console.log('start countdown!');
-        this.gameService.startCountDown(this.game.countDown);
-        this.game.countDown = 0;
-      }
-    });
-  }
+  // ngOnInit() {
+  //   this.subscription = this.gameService.game.pipe(
+  //     startWith(new Game())
+  //   ).subscribe(data => {
+  //     if (!data.phase) {
+  //       data = new Game();
+  //     }
+  //     Object.assign(this.game, data);
+  //     console.log('recieved data: ', this.game);
+  //     if (this.game.countDown > 0) {
+  //       console.log('start countdown!');
+  //       this.gameService.startCountDown(this.game.countDown);
+  //       this.game.countDown = 0;
+  //     }
+  //   });
+  // }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.subscription.unsubscribe();
+  // }
 }
