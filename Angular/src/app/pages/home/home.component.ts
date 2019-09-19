@@ -14,7 +14,6 @@ export class HomeComponent extends Page implements OnInit, OnDestroy {
 
   changeTestValue() {
     this.game.countDown = 10;
-    this.gameService.startCountDown(10);
     this.game.phase += 1;
     this.gameService.updateGame(this.game);
   }

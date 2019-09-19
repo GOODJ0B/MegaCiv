@@ -7,6 +7,7 @@ import { DxDataGridModule, DxFormModule, DxButtonComponent } from 'devextreme-an
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { FormsModule } from '@angular/forms';
 import { ActionsComponent } from './pages/actions/actions.component';
+import { CommonModule } from '@angular/common';
 
 const routes: Routes = [
   {
@@ -36,6 +37,7 @@ const config: SocketIoConfig = { url: 'http://localhost:8889', options: {} };
     DxButtonModule,
     SocketIoModule.forRoot(config),
     FormsModule,
+    CommonModule
   ],
   providers: [],
   exports: [RouterModule],

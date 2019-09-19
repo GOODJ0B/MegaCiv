@@ -7,7 +7,7 @@ export const navigation = [
   {
     text: 'Acties',
     path: '/actions',
-    icon: ''
+    icon: 'favorites'
   }
 
   // {

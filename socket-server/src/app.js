@@ -10,6 +10,7 @@ io.on('connection', socket => {
         console.log("update game: ", incommingGame)
         game = incommingGame;
         socket.broadcast.emit('game', incommingGame);
+	socket.emit('game', incommingGame);
     });
 
     io.emit('game', game);

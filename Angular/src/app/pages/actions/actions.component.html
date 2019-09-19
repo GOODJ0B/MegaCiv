@@ -1,10 +1,38 @@
-<!-- <h2 class="content-block">Fase {{ game.phase }}</h2>
+<h2 class="content-block">Ronde {{ game.turn }}, fase {{ game.phase }}</h2>
 
 <div class="content-block dx-card responsive-paddings">
-    <dx-form id="form"
-        [formData]="employee"
-        labelLocation="top"
-        [minColWidth]="233"
-        colCount="auto">
-    </dx-form>
-</div> -->
+    {{ gameService.countDown }}
+    <div *ngIf="game.phase === 1">
+        Fase 1
+    </div>
+    <div *ngIf="game.phase === 2">
+        Fase 2
+    </div>
+    <div *ngIf="game.phase === 3">
+        Fase 3
+    </div>
+    <div *ngIf="game.phase === 4">
+        Fase 4
+    </div>
+    <div *ngIf="game.phase === 5">
+        Fase 5
+    </div>
+    <div *ngIf="game.phase === 6">
+        Fase 6
+    </div>
+    <div *ngIf="game.phase === 7">
+        Fase 7
+    </div>
+    <div *ngIf="game.phase === 8">
+        Fase 8
+    </div>
+    <div *ngIf="game.phase === 9">
+        Fase 9
+    </div>
+    <div *ngIf="game.phase === 10">
+        Fase 10
+    </div>
+    <div *ngIf="game.phase === 11">
+        Fase 11
+    </div>
+</div>

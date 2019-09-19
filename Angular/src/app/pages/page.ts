@@ -15,7 +15,7 @@ export class Page implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.gameService.game.pipe(
-      startWith(new Game())
+      startWith(this.game)
     ).subscribe(data => {
       if (!data.phase) {
         data = new Game();
