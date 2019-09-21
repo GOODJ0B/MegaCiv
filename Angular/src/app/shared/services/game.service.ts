@@ -13,7 +13,7 @@ export class GameService {
     game: Game = new Game();
     subscription: Subscription;
 
-    playerIndex: number = 1;
+    playerIndex: number;
 
     countDown: number;
     countDownInterval;
@@ -38,12 +38,12 @@ export class GameService {
         if (this.game.players[this.playerIndex]) {
             return this.game.players[this.playerIndex];
         }
-        return new Player('', 0, 0);
+        return null;
     }
 
-    updateGame(game: Game) {
-        console.log('++++++++++++++++ send game: ', game);
-        this.socket.emit('updateGame', game);
+    updateGame() {
+        console.log('++++++++++++++++ send game: ', this.game);
+        this.socket.emit('updateGame', this.game);
     }
 
     public startCountDown(seconds: number) {

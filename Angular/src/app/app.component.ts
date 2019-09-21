@@ -17,7 +17,8 @@ export class AppComponent {
     public appInfo: AppInfoService,
     public readonly gameService: GameService) { }
 
-  isAutorized() {
-    return true;
+  isAutorized(): boolean {
+    return this.gameService.playerIndex > -1;
   }
+
 }

@@ -1,0 +1,20 @@
+<dx-validation-group>
+    <div class="login-header">
+        <div class="title">MegaCiv</div>
+        <div>Wat is je naam?</div>
+    </div>
+    <div class="dx-field">
+        <dx-text-box [(value)]="playerName" placeholder="Naam" width="100%"></dx-text-box>
+    </div>
+    <div class="dx-field">
+        <dx-button type="default" text="OK" (onClick)="showCivilizations()" width="100%"></dx-button>
+    </div>
+    <div *ngIf='showCivilizationButtons'>
+        <div class="dx-field">
+            <a>Kies een volk:</a>
+        </div>
+        <div class="dx-field" *ngFor="let player of gameService.game.players; let i = index">
+            <dx-button type="normal" [text]="player.civilizationName" width="100%" (onClick)="chooseCivilization(i)"></dx-button>
+        </div>
+    </div>
+</dx-validation-group>

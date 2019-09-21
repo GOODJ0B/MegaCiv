@@ -9,8 +9,7 @@ export class Game {
     countDown = 0;
 
     constructor() {
-        this.players.push(null);
-
+        this.players.push(new Player('Admin', 0, 0));
         this.players.push(new Player('Minoa', 6, 9));
         this.players.push(new Player('Saba', 6, 9));
         this.players.push(new Player('Assyria', 5, 8));

@@ -1,7 +1,8 @@
 <h2 class="content-block">Testpagina:</h2>
 <div class="content-block">
     <div class="dx-card responsive-paddings">
-        
+
+    <div>civilization: {{ gameService.getCurrentPlayer().civilizationName }}</div>
     <div>countDown: {{ gameService.countDown }}</div>
     <div>phase: {{ gameService.game.phase }}</div>
     <div>turn: {{ gameService.game.turn }}</div>

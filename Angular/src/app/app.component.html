@@ -6,7 +6,5 @@
 </ng-container>
 
 <ng-template #notAuthorized>
-    <app-single-card>
-        <router-outlet></router-outlet>
-    </app-single-card>
+    <app-login-form (playerLogedIn)="playerLogedIn()"></app-login-form>
 </ng-template>

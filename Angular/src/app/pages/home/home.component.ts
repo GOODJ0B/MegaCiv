@@ -19,7 +19,7 @@ export class HomeComponent {
     this.gameService.getCurrentPlayer().isActive = true;
     this.gameService.game.startGame();
 
-    this.gameService.updateGame(this.gameService.game);
+    this.gameService.updateGame();
 
   }
 }

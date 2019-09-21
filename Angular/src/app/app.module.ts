@@ -1,3 +1,4 @@
+import { LoginFormModule } from './shared/components/login-form/login-form.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -9,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -17,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
     SingleCardModule,
     FooterModule,
     AppRoutingModule,
+    LoginFormModule
   ],
   providers: [ScreenService, AppInfoService],
   bootstrap: [AppComponent]
