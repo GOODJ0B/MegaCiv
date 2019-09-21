@@ -1,13 +1,13 @@
 export class Player {
-    isActive: boolean;
-    isReady: boolean;
+    isActive = false;
+    isReady = false;
     civilizationName: string;
     playerName: string;
-    cities: number;
+    cities = 0;
     stock = 55;
-    treasury: number;
-    units: number;
-    score: number;
+    treasury = 0;
+    units = 0;
+    score = 0;
     AstNextAgePoint1: number;
     AstNextAgePoint2: number;
     AstNextAgePoint3 = 11;

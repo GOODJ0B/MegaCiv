@@ -8,6 +8,11 @@ export const navigation = [
     text: 'Acties',
     path: '/actions',
     icon: 'favorites'
+  },
+  {
+    text: 'Overview',
+    path: '/overview',
+    icon: 'globe'
   }
 
   // {

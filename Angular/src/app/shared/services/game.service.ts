@@ -57,7 +57,7 @@ export class GameService {
                     clearInterval(this.countDownInterval);
                     this.countDown = 0;
                 }
-            });
+            }, 1000);
         }
     }
 }

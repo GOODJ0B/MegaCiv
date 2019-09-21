@@ -13,9 +13,13 @@ export class HomeComponent {
 
   changeTestValue() {
     this.gameService.game.countDown = 10;
-    this.gameService.game.phase += 1;
+    this.gameService.game.phase += this.gameService.game.phase === 13 ? -12 : 1;
     this.gameService.getCurrentPlayer().isReady = !this.gameService.getCurrentPlayer().isReady;
 
+    this.gameService.getCurrentPlayer().isActive = true;
+    this.gameService.game.startGame();
+
     this.gameService.updateGame(this.gameService.game);
+
   }
 }
