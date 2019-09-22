@@ -13,8 +13,12 @@
         <div class="dx-field">
             <a>Kies een volk:</a>
         </div>
-        <div class="dx-field" *ngFor="let player of gameService.game.players; let i = index">
-            <dx-button type="normal" [text]="player.civilizationName" width="100%" (onClick)="chooseCivilization(i)"></dx-button>
+        <div *ngFor="let player of gameService.game.players; let i = index">
+            <div class="dx-field"
+                *ngIf="(!gameService.game.hasStarted && !player.isActive) || player.playerName === playerName">
+                <dx-button [type]="player.isActive ? 'default' : 'normal'" [text]="player.civilizationName" width="100%"
+                    (onClick)="chooseCivilization(i)"></dx-button>
+            </div>
         </div>
     </div>
 </dx-validation-group>
