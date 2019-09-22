@@ -263,7 +263,7 @@ var routes = [
         redirectTo: 'home',
     }
 ];
-var config = { url: 'http://localhost:8889', options: {} };
+var config = { url: 'http://jantineislief.nl:8889', options: {} };
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
