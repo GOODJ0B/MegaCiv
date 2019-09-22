@@ -8,6 +8,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { FormsModule } from '@angular/forms';
 import { ActionsComponent } from './pages/actions/actions.component';
 import { CommonModule } from '@angular/common';
+import { AdminComponent } from './pages/admin/admin.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+  },
+  {
+    path: 'admin',
+    component: AdminComponent,
   },
   {
     path: '**',
@@ -41,6 +46,6 @@ const config: SocketIoConfig = { url: 'http://localhost:8889', options: {} };
   ],
   providers: [],
   exports: [RouterModule],
-  declarations: [HomeComponent, ActionsComponent, OverviewComponent]
+  declarations: [HomeComponent, ActionsComponent, OverviewComponent, AdminComponent]
 })
 export class AppRoutingModule { }

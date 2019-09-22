@@ -13,7 +13,13 @@ export const navigation = [
     text: 'Overview',
     path: '/overview',
     icon: 'globe'
+  },
+  {
+    text: 'Admin',
+    path: '/admin',
+    icon: 'toolbox'
   }
+  
 
   // {
   //   text: 'Examples',

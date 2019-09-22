@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { GameService } from 'src/app/shared/services/game.service';
 
 @Component({
-  templateUrl: 'home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: 'admin.component.html',
+  styleUrls: ['./admin.component.scss']
 })
 
-export class HomeComponent {
+export class AdminComponent {
 
 
   constructor(public readonly gameService: GameService) {}
