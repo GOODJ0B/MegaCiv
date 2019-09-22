@@ -2,7 +2,7 @@ export class Player {
     isActive = false;
     isReady = false;
     civilizationName: string;
-    playerName: string;
+    playerName = '';
     cities = 0;
     stock = 55;
     treasury = 0;
@@ -15,8 +15,8 @@ export class Player {
     AstEndpoint: 15;
     AstPosition = 0;
     taxRate = 2;
-    hasTaxRevolt: boolean;
-    hasTimeLeft: number;
+    hasTaxRevolt = false;
+    hasTimeLeft = 0;
 
     // Advances:
     hasMilitary: boolean;

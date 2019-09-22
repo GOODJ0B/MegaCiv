@@ -22,7 +22,7 @@ export class GameService {
         this.subscription = this.gameObservable.pipe(
             startWith(this.game)
         ).subscribe(data => {
-            if (!data.phase) {
+            if (data.hasStarted === undefined) {
                 data = new Game();
             }
             Object.assign(this.game, data);

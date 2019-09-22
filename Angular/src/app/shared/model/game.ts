@@ -4,7 +4,7 @@ export class Game {
     turn = 0;
     phase = 0;
     players: Player[] = [];
-    hasStarted: boolean;
+    hasStarted = false;
 
     countDown = 0;
 

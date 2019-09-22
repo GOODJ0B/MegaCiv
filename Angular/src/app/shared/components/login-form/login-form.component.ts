@@ -30,14 +30,14 @@ export class LoginFormComponent {
 
   chooseCivilization(index: number) {
     // Als deze naam al bij een ander volk staat moet hij daar eerst weg
-    for (let i = 0; i < this.gameService.game.players.length; i++) {
-      if (i !== index) {
-        if (this.gameService.game.players[i].playerName === this.playerName) {
-          this.gameService.game.players[i].isActive = false;
-          this.gameService.game.players[i].playerName = '';
-        }
-      }
-    }
+    // for (let i = 0; i < this.gameService.game.players.length; i++) {
+    //   if (i !== index) {
+    //     if (this.gameService.game.players[i].playerName === this.playerName) {
+    //       this.gameService.game.players[i].isActive = false;
+    //       this.gameService.game.players[i].playerName = '';
+    //     }
+    //   }
+    // }
 
     this.gameService.playerIndex = index;
     this.gameService.getCurrentPlayer().isActive = true;
