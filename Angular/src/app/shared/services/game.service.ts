@@ -33,9 +33,11 @@ export class GameService {
             }
             Object.assign(this.game, data);
             console.log('---------------- recieved data: ', this.game);
-            if(this.currentPhase !== this.game.phase) {
+            if (this.currentPhase !== this.game.phase) {
                 this.currentPhase = this.game.phase;
-                console.log('Phase changed!', this.game.phase);
+                this.game.players.forEach(player => {
+                    player.isReady = false;
+                });
             }
             if (this.game.countDown > 0) {
                 this.startCountDown(this.game.countDown);

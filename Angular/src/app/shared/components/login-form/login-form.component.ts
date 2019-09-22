@@ -40,7 +40,7 @@ export class LoginFormComponent {
     }
 
     this.gameService.playerIndex = index;
-    this.gameService.getCurrentPlayer().isActive = true;
+    this.gameService.getCurrentPlayer().isActive = index !== 0 ? true : false;
     this.gameService.getCurrentPlayer().playerName = this.playerName;
 
     this.gameService.sendToOtherPlayers();
