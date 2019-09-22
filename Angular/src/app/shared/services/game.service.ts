@@ -46,6 +46,11 @@ export class GameService {
         this.socket.emit('updateGame', this.game);
     }
 
+    resetGame() {
+        console.log('||||||||||||||| reset game.');
+        this.socket.emit('resetGame');
+    }
+
     public startCountDown(seconds: number) {
         clearInterval(this.countDownInterval);
         this.countDown = seconds;

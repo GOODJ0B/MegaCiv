@@ -11,14 +11,7 @@ export class AdminComponent {
 
   constructor(public readonly gameService: GameService) {}
 
-  changeTestValue() {
-    this.gameService.game.countDown = 10;
-    this.gameService.game.phase += this.gameService.game.phase === 13 ? -12 : 1;
-    this.gameService.getCurrentPlayer().isReady = !this.gameService.getCurrentPlayer().isReady;
-
-    this.gameService.getCurrentPlayer().isActive = true;
-
-    this.gameService.game.hasStarted = false;
-    this.gameService.updateGame();
+  resetGame() {
+    this.gameService.resetGame();
   }
 }

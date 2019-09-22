@@ -5,12 +5,19 @@ const io = require('socket.io')(http);
 var game = {};
 
 io.on('connection', socket => {
- 
+
     socket.on('updateGame', incommingGame => {
         console.log("update game: ", incommingGame)
         game = incommingGame;
         socket.broadcast.emit('game', incommingGame);
-	socket.emit('game', incommingGame);
+        socket.emit('game', incommingGame);
+    });
+
+    socket.on('resetGame', () => {
+        console.log("Resetting game.")
+        game = {};
+        socket.broadcast.emit('game', game);
+        socket.emit('game', game);
     });
 
     io.emit('game', game);

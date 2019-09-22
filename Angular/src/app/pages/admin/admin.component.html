@@ -2,14 +2,7 @@
 <div class="content-block">
     <div class="dx-card responsive-paddings">
 
-    <div>civilization: {{ gameService.getCurrentPlayer().civilizationName }}</div>
-    <div>playerName: {{ gameService.getCurrentPlayer().playerName }}</div>
 
-    <div>countDown: {{ gameService.countDown }}</div>
-    <div>phase: {{ gameService.game.phase }}</div>
-    <div>turn: {{ gameService.game.turn }}</div>
-    <div>players[1].playerName: {{ gameService.game.players[1].playerName }}</div>
-
-    <dx-button (onClick)="changeTestValue()">Test!</dx-button>
+    <dx-button (onClick)="resetGame()">Reset game</dx-button>
     </div>
 </div>

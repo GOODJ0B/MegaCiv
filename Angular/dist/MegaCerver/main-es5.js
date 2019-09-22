@@ -74,7 +74,7 @@ module.exports = "<h2 class=\"content-block\">Ronde {{ gameService.game.turn }},
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"content-block\">Testpagina:</h2>\r\n<div class=\"content-block\">\r\n    <div class=\"dx-card responsive-paddings\">\r\n\r\n    <div>civilization: {{ gameService.getCurrentPlayer().civilizationName }}</div>\r\n    <div>playerName: {{ gameService.getCurrentPlayer().playerName }}</div>\r\n\r\n    <div>countDown: {{ gameService.countDown }}</div>\r\n    <div>phase: {{ gameService.game.phase }}</div>\r\n    <div>turn: {{ gameService.game.turn }}</div>\r\n    <div>players[1].playerName: {{ gameService.game.players[1].playerName }}</div>\r\n\r\n    <dx-button (onClick)=\"changeTestValue()\">Test!</dx-button>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<h2 class=\"content-block\">Testpagina:</h2>\r\n<div class=\"content-block\">\r\n    <div class=\"dx-card responsive-paddings\">\r\n\r\n\r\n    <dx-button (onClick)=\"resetGame()\">Reset game</dx-button>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -732,13 +732,8 @@ var AdminComponent = /** @class */ (function () {
     function AdminComponent(gameService) {
         this.gameService = gameService;
     }
-    AdminComponent.prototype.changeTestValue = function () {
-        this.gameService.game.countDown = 10;
-        this.gameService.game.phase += this.gameService.game.phase === 13 ? -12 : 1;
-        this.gameService.getCurrentPlayer().isReady = !this.gameService.getCurrentPlayer().isReady;
-        this.gameService.getCurrentPlayer().isActive = true;
-        this.gameService.game.hasStarted = false;
-        this.gameService.updateGame();
+    AdminComponent.prototype.resetGame = function () {
+        this.gameService.resetGame();
     };
     AdminComponent.ctorParameters = function () { return [
         { type: src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_2__["GameService"] }
@@ -1543,6 +1538,10 @@ var GameService = /** @class */ (function () {
     GameService.prototype.updateGame = function () {
         console.log('++++++++++++++++ send game: ', this.game);
         this.socket.emit('updateGame', this.game);
+    };
+    GameService.prototype.resetGame = function () {
+        console.log('||||||||||||||| reset game.');
+        this.socket.emit('resetGame');
     };
     GameService.prototype.startCountDown = function (seconds) {
         var _this = this;
