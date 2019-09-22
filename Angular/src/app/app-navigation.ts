@@ -19,7 +19,7 @@ export const navigation = [
     path: '/admin',
     icon: 'toolbox'
   }
-  
+
 
   // {
   //   text: 'Examples',
