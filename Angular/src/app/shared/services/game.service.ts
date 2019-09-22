@@ -1,11 +1,12 @@
 import { Subscription } from 'rxjs';
-import { Injectable, OnInit, AfterViewInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { Socket } from 'ngx-socket-io';
 
 import { Game } from '../model/game';
 import { startWith } from 'rxjs/operators';
 import { Player } from '../model/player';
+import { phases } from '../model/phases';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
@@ -13,7 +14,12 @@ export class GameService {
     game: Game = new Game();
     subscription: Subscription;
 
+    currentPhase = 0;
+    readonly maxUnits = 55;
+    readonly maxCities = 9;
+
     playerIndex: number;
+    disableReadyButton: boolean;
 
     countDown: number;
     countDownInterval;
@@ -27,6 +33,10 @@ export class GameService {
             }
             Object.assign(this.game, data);
             console.log('---------------- recieved data: ', this.game);
+            if(this.currentPhase !== this.game.phase) {
+                this.currentPhase = this.game.phase;
+                console.log('Phase changed!', this.game.phase);
+            }
             if (this.game.countDown > 0) {
                 this.startCountDown(this.game.countDown);
                 this.game.countDown = 0;
@@ -41,14 +51,18 @@ export class GameService {
         return null;
     }
 
-    updateGame() {
+    sendToOtherPlayers(): void {
         console.log('++++++++++++++++ send game: ', this.game);
         this.socket.emit('updateGame', this.game);
     }
 
-    resetGame() {
+    resetGame(): void {
         console.log('||||||||||||||| reset game.');
         this.socket.emit('resetGame');
+    }
+
+    getPhaseName(index?: number): string {
+        return phases[index ? index : this.game.phase];
     }
 
     public startCountDown(seconds: number) {

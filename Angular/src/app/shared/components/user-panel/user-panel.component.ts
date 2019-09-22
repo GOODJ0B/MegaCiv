@@ -1,3 +1,4 @@
+import { GameService } from 'src/app/shared/services/game.service';
 import { Component, NgModule, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -17,7 +18,7 @@ export class UserPanelComponent {
   @Input()
   menuMode: string;
 
-  constructor() {}
+  constructor(public readonly gameService: GameService) {}
 }
 
 @NgModule({

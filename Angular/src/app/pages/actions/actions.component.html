@@ -1,12 +1,29 @@
-<h2 class="content-block">Ronde {{ gameService.game.turn }}, fase {{ gameService.game.phase }}</h2>
+<h2 class="content-block">Fase {{ gameService.game.phase }} ({{ gameService.getPhaseName() }})</h2>
 
 <div class="content-block dx-card responsive-paddings">
-    {{ gameService.countDown }}
     <div *ngIf="gameService.game.phase === 1">
         Fase 1
     </div>
-    <div *ngIf="gameService.game.phase === 2">
-        Fase 2
+    <div *ngIf="gameService.game.phase === 2 || gameService.game.phase === 5 || gameService.game.phase === 11">
+        Tokens on board: <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensOnBoard"
+            (onValueChanged)="unitsChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55" [min]="0"
+            [showSpinButtons]="true" width="50px"></dx-number-box><br>
+        Tokens in stock: <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInStock"
+            (onValueChanged)="stockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55" [min]="0"
+            [showSpinButtons]="true" width="50px"></dx-number-box><br>
+        Treasury: <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
+            [max]="55" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
+        <div *ngIf="gameService.game.phase !== 2">
+            Cities on board: <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard"
+                (onValueChanged)="citiesOnBoardChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="9"
+                [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
+            Cities in stock: <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesInStock" [readOnly]="true"
+                [max]="9" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
+            <div style="color: red"
+                *ngIf="!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))">
+                Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!
+            </div>
+        </div>
     </div>
     <div *ngIf="gameService.game.phase === 3">
         Fase 3
@@ -14,9 +31,7 @@
     <div *ngIf="gameService.game.phase === 4">
         Fase 4
     </div>
-    <div *ngIf="gameService.game.phase === 5">
-        Fase 5
-    </div>
+    <!-- Fase 5 zit bij 2 -->
     <div *ngIf="gameService.game.phase === 6">
         Fase 6
     </div>
@@ -32,7 +47,8 @@
     <div *ngIf="gameService.game.phase === 10">
         Fase 10
     </div>
-    <div *ngIf="gameService.game.phase === 11">
-        Fase 11
+    <!-- Fase 11 zit bij 2 -->
+    <div *ngIf="gameService.game.phase === 12">
+        Fase 12
     </div>
 </div>

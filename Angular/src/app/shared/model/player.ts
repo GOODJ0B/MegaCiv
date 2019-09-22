@@ -3,10 +3,11 @@ export class Player {
     isReady = false;
     civilizationName: string;
     playerName = '';
-    cities = 0;
-    stock = 55;
-    treasury = 0;
-    units = 0;
+    citiesOnBoard = 0;
+    citiesInStock = 9;
+    tokensInStock = 55;
+    tokensInTreasury = 0;
+    tokensOnBoard = 0;
     score = 0;
     AstNextAgePoint1: number;
     AstNextAgePoint2: number;

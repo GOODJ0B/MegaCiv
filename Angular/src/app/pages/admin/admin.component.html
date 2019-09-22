@@ -1,8 +1,22 @@
-<h2 class="content-block">Testpagina:</h2>
-<div class="content-block">
-    <div class="dx-card responsive-paddings">
+<ng-container *ngIf="gameService.playerIndex === 0; else notAuthorized">
+    <h2 class="content-block">Admin</h2>
+    <div class="content-block">
+        <div class="dx-card responsive-paddings">
 
+            <dx-button (onClick)="startGame()" type="default">Start game</dx-button>
 
-    <dx-button (onClick)="resetGame()">Reset game</dx-button>
+            <br><br>
+
+            <dx-button (onClick)="resetGame()">Reset game</dx-button>
+        </div>
     </div>
-</div>
+</ng-container>
+
+<ng-template #notAuthorized>
+    <h2 class="content-block">Admin</h2>
+    <div class="content-block">
+        <div class="dx-card responsive-paddings">
+            Voor deze pagina moet je admin zijn.
+        </div>
+    </div>
+</ng-template>

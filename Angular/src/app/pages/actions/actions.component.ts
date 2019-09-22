@@ -11,4 +11,19 @@ export class ActionsComponent {
 
   constructor(public readonly gameService: GameService) { }
 
+  unitsChanged() {
+    this.gameService.getCurrentPlayer().tokensInStock = 
+      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensInTreasury;
+  }
+
+  stockChanged() {
+    this.gameService.getCurrentPlayer().tokensOnBoard = 
+      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensInStock - this.gameService.getCurrentPlayer().tokensInTreasury;
+  }
+
+  citiesOnBoardChanged() {
+    this.gameService.getCurrentPlayer().citiesInStock = 
+      this.gameService.maxCities - this.gameService.getCurrentPlayer().citiesOnBoard;
+
+  }
 }

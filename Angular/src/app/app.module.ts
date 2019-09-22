@@ -1,3 +1,4 @@
+import { DxTextBoxModule } from 'devextreme-angular/ui/text-box';
 import { LoginFormModule } from './shared/components/login-form/login-form.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -18,7 +19,7 @@ import { AppRoutingModule } from './app-routing.module';
     SingleCardModule,
     FooterModule,
     AppRoutingModule,
-    LoginFormModule
+    LoginFormModule,
   ],
   providers: [ScreenService, AppInfoService],
   bootstrap: [AppComponent]

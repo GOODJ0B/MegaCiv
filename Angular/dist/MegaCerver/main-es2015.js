@@ -63,7 +63,7 @@ module.exports = "<dx-scroll-view height=\"100%\" class=\"full-height-scrollable
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"content-block\">Ronde {{ gameService.game.turn }}, fase {{ gameService.game.phase }}</h2>\r\n\r\n<div class=\"content-block dx-card responsive-paddings\">\r\n    {{ gameService.countDown }}\r\n    <div *ngIf=\"gameService.game.phase === 1\">\r\n        Fase 1\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 2\">\r\n        Fase 2\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 3\">\r\n        Fase 3\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 4\">\r\n        Fase 4\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 5\">\r\n        Fase 5\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 6\">\r\n        Fase 6\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 7\">\r\n        Fase 7\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 8\">\r\n        Fase 8\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 9\">\r\n        Fase 9\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 10\">\r\n        Fase 10\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 11\">\r\n        Fase 11\r\n    </div>\r\n</div>"
+module.exports = "<h2 class=\"content-block\">Fase {{ gameService.game.phase }} ({{ gameService.getPhaseName() }})</h2>\r\n\r\n<div class=\"content-block dx-card responsive-paddings\">\r\n    <div *ngIf=\"gameService.game.phase === 1\">\r\n        Fase 1\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 2 || gameService.game.phase === 5 || gameService.game.phase === 11\">\r\n        Tokens on board: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensOnBoard\"\r\n            (onValueChanged)=\"unitsChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\" [min]=\"0\"\r\n            [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Tokens in stock: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInStock\"\r\n            (onValueChanged)=\"stockChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\" [min]=\"0\"\r\n            [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Treasury: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasury\" [readOnly]=\"true\"\r\n            [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        <div *ngIf=\"gameService.game.phase !== 2\">\r\n            Cities on board: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesOnBoard\"\r\n                (onValueChanged)=\"citiesOnBoardChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"9\"\r\n                [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n            Cities in stock: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesInStock\" [readOnly]=\"true\"\r\n                [max]=\"9\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n            <div style=\"color: red\"\r\n                *ngIf=\"!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))\">\r\n                Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 3\">\r\n        Fase 3\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 4\">\r\n        Fase 4\r\n    </div>\r\n    <!-- Fase 5 zit bij 2 -->\r\n    <div *ngIf=\"gameService.game.phase === 6\">\r\n        Fase 6\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 7\">\r\n        Fase 7\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 8\">\r\n        Fase 8\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 9\">\r\n        Fase 9\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 10\">\r\n        Fase 10\r\n    </div>\r\n    <!-- Fase 11 zit bij 2 -->\r\n    <div *ngIf=\"gameService.game.phase === 12\">\r\n        Fase 12\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -74,7 +74,7 @@ module.exports = "<h2 class=\"content-block\">Ronde {{ gameService.game.turn }},
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"content-block\">Testpagina:</h2>\r\n<div class=\"content-block\">\r\n    <div class=\"dx-card responsive-paddings\">\r\n\r\n\r\n    <dx-button (onClick)=\"resetGame()\">Reset game</dx-button>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<ng-container *ngIf=\"gameService.playerIndex === 0; else notAuthorized\">\r\n    <h2 class=\"content-block\">Admin</h2>\r\n    <div class=\"content-block\">\r\n        <div class=\"dx-card responsive-paddings\">\r\n\r\n            <dx-button (onClick)=\"startGame()\" type=\"default\">Start game</dx-button>\r\n\r\n            <br><br>\r\n\r\n            <dx-button (onClick)=\"resetGame()\">Reset game</dx-button>\r\n        </div>\r\n    </div>\r\n</ng-container>\r\n\r\n<ng-template #notAuthorized>\r\n    <h2 class=\"content-block\">Admin</h2>\r\n    <div class=\"content-block\">\r\n        <div class=\"dx-card responsive-paddings\">\r\n            Voor deze pagina moet je admin zijn.\r\n        </div>\r\n    </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -96,7 +96,7 @@ module.exports = "<h2 class=\"content-block\">Testpagina:</h2>\r\n<div class=\"c
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showBorders]=\"true\"\r\n    [focusedRowEnabled]=\"false\" [focusedRowIndex]=\"0\" [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\">\r\n\r\n    <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n    <dxo-pager [showPageSizeSelector]=\"true\" [showInfo]=\"true\"></dxo-pager>\r\n    <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n\r\n    <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\"></dxi-column>\r\n    <dxi-column dataField=\"civilizationName\" caption=\"Civilization\"></dxi-column>\r\n    <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n    <dxi-column dataField=\"cities\" caption=\"Steden\"></dxi-column>\r\n    <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n    <dxi-column dataField=\"units\" caption=\"units\"></dxi-column>\r\n    <dxi-column dataField=\"treasury\" caption=\"treasury\"></dxi-column>\r\n    <dxi-column dataField=\"stock\" caption=\"stock\"></dxi-column>\r\n\r\n</dx-data-grid>"
+module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showBorders]=\"true\"\r\n    [focusedRowEnabled]=\"false\" [focusedRowIndex]=\"0\" [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\">\r\n\r\n    <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n    <dxo-pager [showPageSizeSelector]=\"true\" [showInfo]=\"true\"></dxo-pager>\r\n    <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n\r\n    <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\"></dxi-column>\r\n    <dxi-column dataField=\"civilizationName\" caption=\"Civilization\"></dxi-column>\r\n    <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n    <dxi-column dataField=\"citiesOnBoard\" caption=\"Steden\"></dxi-column>\r\n    <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n    <dxi-column dataField=\"tokensOnBoard\" caption=\"units\"></dxi-column>\r\n    <dxi-column dataField=\"tokensInTreasury\" caption=\"treasury\"></dxi-column>\r\n    <dxi-column dataField=\"tokensInStock\" caption=\"stock\"></dxi-column>\r\n\r\n</dx-data-grid>"
 
 /***/ }),
 
@@ -107,7 +107,7 @@ module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "Countdown: {{ gameService.countDown }}\r\n<br/>\r\nPlayer is ready = {{ gameService.getCurrentPlayer().isReady }}x"
+module.exports = "<dx-button *ngIf=\"!gameService.getCurrentPlayer().isReady\" type=\"success\" (onClick)=\"playerIsReady()\" width=\"200px\" [disabled]=\"gameService.disableReadyButton\">Ready</dx-button>\r\n<dx-button *ngIf=\"gameService.getCurrentPlayer().isReady\" type=\"danger\" (onClick)=\"playerIsNotReady()\" width=\"200px\">Toch niet ready</dx-button>\r\n\r\n<!-- Countdown: {{ gameService.countDown }} -->\r\n\r\n"
 
 /***/ }),
 
@@ -118,7 +118,7 @@ module.exports = "Countdown: {{ gameService.countDown }}\r\n<br/>\r\nPlayer is r
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<header>\r\n    <dx-toolbar class=\"header-toolbar\">\r\n        <dxi-item\r\n            *ngIf=\"menuToggleEnabled\"\r\n            location=\"before\"\r\n            widget=\"dxButton\"\r\n            cssClass=\"menu-button\"\r\n            [options]=\"{\r\n                icon: 'menu',\r\n                stylingMode: 'text',\r\n                onClick: toggleMenu\r\n            }\">\r\n        </dxi-item>\r\n        <dxi-item\r\n            location=\"before\"\r\n            cssClass=\"header-title\"\r\n            [text]=\"'Ronde: ' + this.gameService.game.turn + ', fase: ' + this.gameService.game.phase\">\r\n        </dxi-item>\r\n        <!-- <dxi-item\r\n            location=\"after\"\r\n            locateInMenu=\"auto\"\r\n            menuItemTemplate=\"menuItem\">\r\n            <div *dxTemplate=\"let data of 'item'\">\r\n                <dx-button\r\n                    class=\"user-button authorization\"\r\n                    width=\"170px\"\r\n                    height=\"100%\"\r\n                    stylingMode=\"text\">\r\n                    <div *dxTemplate=\"let data of 'content'\">\r\n                        <app-user-panel [menuItems]=\"userMenuItems\" menuMode=\"context\"></app-user-panel>\r\n                    </div>\r\n                </dx-button>\r\n            </div>\r\n        </dxi-item>\r\n        <div *dxTemplate=\"let data of 'menuItem'\">\r\n            <app-user-panel [menuItems]=\"userMenuItems\" menuMode=\"list\"></app-user-panel>\r\n        </div> -->\r\n    </dx-toolbar>\r\n</header>\r\n"
+module.exports = "<header>\r\n    <dx-toolbar class=\"header-toolbar\">\r\n        <dxi-item\r\n            *ngIf=\"menuToggleEnabled\"\r\n            location=\"before\"\r\n            widget=\"dxButton\"\r\n            cssClass=\"menu-button\"\r\n            [options]=\"{\r\n                icon: 'menu',\r\n                stylingMode: 'text',\r\n                onClick: toggleMenu\r\n            }\">\r\n        </dxi-item>\r\n        <dxi-item\r\n            location=\"before\"\r\n            cssClass=\"header-title\"\r\n            [text]=\"'Ronde: ' + this.gameService.game.turn + ', fase: ' + this.gameService.game.phase\">\r\n        </dxi-item>\r\n        <dxi-item\r\n            location=\"after\"\r\n            locateInMenu=\"auto\"\r\n            menuItemTemplate=\"menuItem\">\r\n            <div *dxTemplate=\"let data of 'item'\">\r\n                <dx-button\r\n                    class=\"user-button authorization\"\r\n                    width=\"170px\"\r\n                    height=\"100%\"\r\n                    stylingMode=\"text\">\r\n                    <div *dxTemplate=\"let data of 'content'\">\r\n                        <app-user-panel [menuItems]=\"userMenuItems\" menuMode=\"context\"></app-user-panel>\r\n                    </div>\r\n                </dx-button>\r\n            </div>\r\n        </dxi-item>\r\n        <div *dxTemplate=\"let data of 'menuItem'\">\r\n            <app-user-panel [menuItems]=\"userMenuItems\" menuMode=\"list\"></app-user-panel>\r\n        </div>\r\n    </dx-toolbar>\r\n</header>\r\n"
 
 /***/ }),
 
@@ -151,7 +151,7 @@ module.exports = "<ng-content></ng-content>\r\n\r\n<div class=\"menu-container\"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"user-panel\">\r\n    <div class=\"user-info\">\r\n        <div class=\"image-container\">\r\n            <div class=\"user-image\"></div>\r\n        </div>\r\n        <div class=\"user-name\">Sandra Johnson</div>\r\n    </div>\r\n    <dx-context-menu\r\n        *ngIf=\"menuMode === 'context'\"\r\n        [items]=\"menuItems\"\r\n        target=\".user-button\"\r\n        showEvent=\"dxclick\"\r\n        width=\"170px\"\r\n        [position]=\"{ my: 'top center', at: 'bottom center' }\"\r\n        cssClass=\"user-menu\">\r\n    </dx-context-menu>\r\n    <dx-list\r\n        *ngIf=\"menuMode === 'list'\"\r\n        class=\"dx-toolbar-menu-action\"\r\n        [items]=\"menuItems\">\r\n    </dx-list>\r\n</div>\r\n"
+module.exports = "<div class=\"user-panel\">\r\n    <div class=\"user-info\">\r\n        <div class=\"image-container\">\r\n            <div class=\"user-image\"></div>\r\n        </div>\r\n        <div class=\"user-name\">{{ gameService.getCurrentPlayer().civilizationName }}</div>\r\n    </div>\r\n    <dx-context-menu\r\n        *ngIf=\"menuMode === 'context'\"\r\n        [items]=\"menuItems\"\r\n        target=\".user-button\"\r\n        showEvent=\"dxclick\"\r\n        width=\"170px\"\r\n        [position]=\"{ my: 'top center', at: 'bottom center' }\"\r\n        cssClass=\"user-menu\">\r\n    </dx-context-menu>\r\n    <dx-list\r\n        *ngIf=\"menuMode === 'list'\"\r\n        class=\"dx-toolbar-menu-action\"\r\n        [items]=\"menuItems\">\r\n    </dx-list>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -275,7 +275,8 @@ AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_1__["DxButtonModule"],
             ngx_socket_io__WEBPACK_IMPORTED_MODULE_7__["SocketIoModule"].forRoot(config),
             _angular_forms__WEBPACK_IMPORTED_MODULE_8__["FormsModule"],
-            _angular_common__WEBPACK_IMPORTED_MODULE_10__["CommonModule"]
+            _angular_common__WEBPACK_IMPORTED_MODULE_10__["CommonModule"],
+            devextreme_angular__WEBPACK_IMPORTED_MODULE_6__["DxNumberBoxModule"]
         ],
         providers: [],
         exports: [_angular_router__WEBPACK_IMPORTED_MODULE_3__["RouterModule"]],
@@ -390,7 +391,7 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _layouts__WEBPACK_IMPORTED_MODULE_5__["SingleCardModule"],
             _shared_components__WEBPACK_IMPORTED_MODULE_6__["FooterModule"],
             _app_routing_module__WEBPACK_IMPORTED_MODULE_8__["AppRoutingModule"],
-            _shared_components_login_form_login_form_component__WEBPACK_IMPORTED_MODULE_1__["LoginFormModule"]
+            _shared_components_login_form_login_form_component__WEBPACK_IMPORTED_MODULE_1__["LoginFormModule"],
         ],
         providers: [_shared_services__WEBPACK_IMPORTED_MODULE_7__["ScreenService"], _shared_services__WEBPACK_IMPORTED_MODULE_7__["AppInfoService"]],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
@@ -654,6 +655,18 @@ let ActionsComponent = class ActionsComponent {
     constructor(gameService) {
         this.gameService = gameService;
     }
+    unitsChanged() {
+        this.gameService.getCurrentPlayer().tokensInStock =
+            this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensInTreasury;
+    }
+    stockChanged() {
+        this.gameService.getCurrentPlayer().tokensOnBoard =
+            this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensInStock - this.gameService.getCurrentPlayer().tokensInTreasury;
+    }
+    citiesOnBoardChanged() {
+        this.gameService.getCurrentPlayer().citiesInStock =
+            this.gameService.maxCities - this.gameService.getCurrentPlayer().citiesOnBoard;
+    }
 };
 ActionsComponent.ctorParameters = () => [
     { type: src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_2__["GameService"] }
@@ -699,6 +712,10 @@ __webpack_require__.r(__webpack_exports__);
 let AdminComponent = class AdminComponent {
     constructor(gameService) {
         this.gameService = gameService;
+    }
+    startGame() {
+        this.gameService.game.startGame();
+        this.gameService.sendToOtherPlayers();
     }
     resetGame() {
         this.gameService.resetGame();
@@ -755,7 +772,7 @@ let HomeComponent = class HomeComponent {
         this.gameService.getCurrentPlayer().isReady = !this.gameService.getCurrentPlayer().isReady;
         this.gameService.getCurrentPlayer().isActive = true;
         this.gameService.game.hasStarted = false;
-        this.gameService.updateGame();
+        this.gameService.sendToOtherPlayers();
     }
 };
 HomeComponent.ctorParameters = () => [
@@ -829,8 +846,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FooterComponent", function() { return FooterComponent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FooterModule", function() { return FooterModule; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/shared/services/game.service */ "./src/app/shared/services/game.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
+/* harmony import */ var devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! devextreme-angular/ui/button */ "./node_modules/devextreme-angular/ui/button.js");
+/* harmony import */ var devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/shared/services/game.service */ "./src/app/shared/services/game.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+
+
 
 
 
@@ -838,12 +860,20 @@ let FooterComponent = class FooterComponent {
     constructor(gameService) {
         this.gameService = gameService;
     }
+    playerIsReady() {
+        this.gameService.getCurrentPlayer().isReady = true;
+        this.gameService.sendToOtherPlayers();
+    }
+    playerIsNotReady() {
+        this.gameService.getCurrentPlayer().isReady = false;
+        this.gameService.sendToOtherPlayers();
+    }
 };
 FooterComponent.ctorParameters = () => [
-    { type: src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_1__["GameService"] }
+    { type: src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_3__["GameService"] }
 ];
 FooterComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["Component"])({
         selector: 'app-footer',
         template: __webpack_require__(/*! raw-loader!./footer.component.html */ "./node_modules/raw-loader/index.js!./src/app/shared/components/footer/footer.component.html"),
         styles: [__webpack_require__(/*! ./footer.component.scss */ "./src/app/shared/components/footer/footer.component.scss")]
@@ -853,7 +883,8 @@ FooterComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 let FooterModule = class FooterModule {
 };
 FooterModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_4__["NgModule"])({
+        imports: [devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_2__["DxButtonModule"], _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"]],
         declarations: [FooterComponent],
         exports: [FooterComponent]
     })
@@ -1064,7 +1095,7 @@ let LoginFormComponent = class LoginFormComponent {
         this.gameService.playerIndex = index;
         this.gameService.getCurrentPlayer().isActive = true;
         this.gameService.getCurrentPlayer().playerName = this.playerName;
-        this.gameService.updateGame();
+        this.gameService.sendToOtherPlayers();
     }
 };
 LoginFormComponent.ctorParameters = () => [
@@ -1252,28 +1283,35 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserPanelComponent", function() { return UserPanelComponent; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserPanelModule", function() { return UserPanelModule; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
-/* harmony import */ var devextreme_angular_ui_list__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! devextreme-angular/ui/list */ "./node_modules/devextreme-angular/ui/list.js");
-/* harmony import */ var devextreme_angular_ui_list__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_list__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var devextreme_angular_ui_context_menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! devextreme-angular/ui/context-menu */ "./node_modules/devextreme-angular/ui/context-menu.js");
-/* harmony import */ var devextreme_angular_ui_context_menu__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_context_menu__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/shared/services/game.service */ "./src/app/shared/services/game.service.ts");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
+/* harmony import */ var devextreme_angular_ui_list__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! devextreme-angular/ui/list */ "./node_modules/devextreme-angular/ui/list.js");
+/* harmony import */ var devextreme_angular_ui_list__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_list__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var devextreme_angular_ui_context_menu__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! devextreme-angular/ui/context-menu */ "./node_modules/devextreme-angular/ui/context-menu.js");
+/* harmony import */ var devextreme_angular_ui_context_menu__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_context_menu__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
 
 
 let UserPanelComponent = class UserPanelComponent {
-    constructor() { }
+    constructor(gameService) {
+        this.gameService = gameService;
+    }
 };
+UserPanelComponent.ctorParameters = () => [
+    { type: src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_1__["GameService"] }
+];
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"])()
 ], UserPanelComponent.prototype, "menuItems", void 0);
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"])()
 ], UserPanelComponent.prototype, "menuMode", void 0);
 UserPanelComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
         selector: 'app-user-panel',
         template: __webpack_require__(/*! raw-loader!./user-panel.component.html */ "./node_modules/raw-loader/index.js!./src/app/shared/components/user-panel/user-panel.component.html"),
         styles: [__webpack_require__(/*! ./user-panel.component.scss */ "./src/app/shared/components/user-panel/user-panel.component.scss")]
@@ -1283,11 +1321,11 @@ UserPanelComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 let UserPanelModule = class UserPanelModule {
 };
 UserPanelModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
         imports: [
-            devextreme_angular_ui_list__WEBPACK_IMPORTED_MODULE_3__["DxListModule"],
-            devextreme_angular_ui_context_menu__WEBPACK_IMPORTED_MODULE_4__["DxContextMenuModule"],
-            _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"]
+            devextreme_angular_ui_list__WEBPACK_IMPORTED_MODULE_4__["DxListModule"],
+            devextreme_angular_ui_context_menu__WEBPACK_IMPORTED_MODULE_5__["DxContextMenuModule"],
+            _angular_common__WEBPACK_IMPORTED_MODULE_3__["CommonModule"]
         ],
         declarations: [UserPanelComponent],
         exports: [UserPanelComponent]
@@ -1315,6 +1353,7 @@ class Game {
         this.turn = 0;
         this.phase = 0;
         this.players = [];
+        this.hasStarted = false;
         this.countDown = 0;
         this.players.push(new _player__WEBPACK_IMPORTED_MODULE_0__["Player"]('Admin', 0, 0));
         this.players.push(new _player__WEBPACK_IMPORTED_MODULE_0__["Player"]('Minoa', 6, 9));
@@ -1351,6 +1390,36 @@ class Game {
 
 /***/ }),
 
+/***/ "./src/app/shared/model/phases.ts":
+/*!****************************************!*\
+  !*** ./src/app/shared/model/phases.ts ***!
+  \****************************************/
+/*! exports provided: phases */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "phases", function() { return phases; });
+const phases = [
+    'Voorbereiding',
+    'Tax Collection',
+    'Population Expansion',
+    'Movement',
+    'Conflict',
+    'City Construction',
+    'Tradecard Acquisition',
+    'Trade',
+    'Calamity selection',
+    'Calamity Resolution',
+    'Special Abilities',
+    'Surplus & Population',
+    'Advances Acquisistion',
+    'A.S.T. Alteration',
+];
+
+
+/***/ }),
+
 /***/ "./src/app/shared/model/player.ts":
 /*!****************************************!*\
   !*** ./src/app/shared/model/player.ts ***!
@@ -1365,14 +1434,18 @@ class Player {
     constructor(civilizationName, AstNextAgePoint1, AstNextAgePoint2) {
         this.isActive = false;
         this.isReady = false;
-        this.cities = 0;
-        this.stock = 55;
-        this.treasury = 0;
-        this.units = 0;
+        this.playerName = '';
+        this.citiesOnBoard = 0;
+        this.citiesInStock = 9;
+        this.tokensInStock = 55;
+        this.tokensInTreasury = 0;
+        this.tokensOnBoard = 0;
         this.score = 0;
         this.AstNextAgePoint3 = 11;
         this.AstPosition = 0;
         this.taxRate = 2;
+        this.hasTaxRevolt = false;
+        this.hasTimeLeft = 0;
         this.civilizationName = civilizationName;
         this.AstNextAgePoint1 = AstNextAgePoint1;
         this.AstNextAgePoint2 = AstNextAgePoint2;
@@ -1430,6 +1503,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var ngx_socket_io__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-socket-io */ "./node_modules/ngx-socket-io/index.js");
 /* harmony import */ var _model_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../model/game */ "./src/app/shared/model/game.ts");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var _model_phases__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../model/phases */ "./src/app/shared/model/phases.ts");
+
 
 
 
@@ -1440,12 +1515,19 @@ let GameService = class GameService {
         this.socket = socket;
         this.gameObservable = this.socket.fromEvent('game');
         this.game = new _model_game__WEBPACK_IMPORTED_MODULE_3__["Game"]();
+        this.currentPhase = 0;
+        this.maxUnits = 55;
+        this.maxCities = 9;
         this.subscription = this.gameObservable.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["startWith"])(this.game)).subscribe(data => {
-            if (!data.phase) {
+            if (data.hasStarted === undefined) {
                 data = new _model_game__WEBPACK_IMPORTED_MODULE_3__["Game"]();
             }
             Object.assign(this.game, data);
             console.log('---------------- recieved data: ', this.game);
+            if (this.currentPhase !== this.game.phase) {
+                this.currentPhase = this.game.phase;
+                console.log('Phase changed!', this.game.phase);
+            }
             if (this.game.countDown > 0) {
                 this.startCountDown(this.game.countDown);
                 this.game.countDown = 0;
@@ -1458,13 +1540,16 @@ let GameService = class GameService {
         }
         return null;
     }
-    updateGame() {
+    sendToOtherPlayers() {
         console.log('++++++++++++++++ send game: ', this.game);
         this.socket.emit('updateGame', this.game);
     }
     resetGame() {
         console.log('||||||||||||||| reset game.');
         this.socket.emit('resetGame');
+    }
+    getPhaseName(index) {
+        return _model_phases__WEBPACK_IMPORTED_MODULE_5__["phases"][index ? index : this.game.phase];
     }
     startCountDown(seconds) {
         clearInterval(this.countDownInterval);

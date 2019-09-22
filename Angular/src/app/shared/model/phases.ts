@@ -1,0 +1,16 @@
+export const phases = [
+    'Voorbereiding',
+    'Tax Collection',
+    'Population Expansion',
+    'Movement',
+    'Conflict',
+    'City Construction',
+    'Tradecard Acquisition',
+    'Trade',
+    'Calamity selection',
+    'Calamity Resolution',
+    'Special Abilities',
+    'Surplus & Population',
+    'Advances Acquisistion',
+    'A.S.T. Alteration',
+];

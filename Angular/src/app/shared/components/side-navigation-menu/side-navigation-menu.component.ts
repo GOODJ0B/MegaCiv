@@ -22,7 +22,7 @@ export class SideNavigationMenuComponent implements AfterViewInit, OnDestroy {
   items: any[];
 
   @Input()
-  set selectedItem(value: String) {
+  set selectedItem(value: string) {
     if (this.menu.instance) {
       this.menu.instance.selectItem(value);
     }

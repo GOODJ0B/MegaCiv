@@ -11,6 +11,11 @@ export class AdminComponent {
 
   constructor(public readonly gameService: GameService) {}
 
+  startGame() {
+    this.gameService.game.startGame();
+    this.gameService.sendToOtherPlayers();
+  }
+
   resetGame() {
     this.gameService.resetGame();
   }

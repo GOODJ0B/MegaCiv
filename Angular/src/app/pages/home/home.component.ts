@@ -19,6 +19,6 @@ export class HomeComponent {
     this.gameService.getCurrentPlayer().isActive = true;
 
     this.gameService.game.hasStarted = false;
-    this.gameService.updateGame();
+    this.gameService.sendToOtherPlayers();
   }
 }

@@ -1,3 +1,5 @@
-Countdown: {{ gameService.countDown }}
-<br/>
-Player is ready = {{ gameService.getCurrentPlayer().isReady }}x
+<dx-button *ngIf="!gameService.getCurrentPlayer().isReady" type="success" (onClick)="playerIsReady()" width="200px" [disabled]="gameService.disableReadyButton">Ready</dx-button>
+<dx-button *ngIf="gameService.getCurrentPlayer().isReady" type="danger" (onClick)="playerIsNotReady()" width="200px">Toch niet ready</dx-button>
+
+<!-- Countdown: {{ gameService.countDown }} -->
+
