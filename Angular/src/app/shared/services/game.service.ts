@@ -7,6 +7,7 @@ import { Game } from '../model/game';
 import { startWith } from 'rxjs/operators';
 import { Player } from '../model/player';
 import { phases } from '../model/phases';
+import { runInThisContext } from 'vm';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
@@ -20,6 +21,7 @@ export class GameService {
 
     playerIndex: number;
     disableReadyButton: boolean;
+    disableUnreadyButton: boolean;
 
     countDown: number;
     countDownInterval;
@@ -35,9 +37,9 @@ export class GameService {
             console.log('---------------- recieved data: ', this.game);
             if (this.currentPhase !== this.game.phase) {
                 this.currentPhase = this.game.phase;
-                this.game.players.forEach(player => {
-                    player.isReady = false;
-                });
+                this.disableReadyButton = false;
+                this.disableUnreadyButton = false;
+                this.phaseHasChangedActions(this.game.phase);
             }
             if (this.game.countDown > 0) {
                 this.startCountDown(this.game.countDown);
@@ -65,6 +67,33 @@ export class GameService {
 
     getPhaseName(index?: number): string {
         return phases[index ? index : this.game.phase];
+    }
+
+    phaseHasChangedActions(newPhase: number): void {
+        if (newPhase === 1) {
+            this.taxCollectionCalculations();
+            // als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
+            if (!(this.getCurrentPlayer().hasMonarchy || this.getCurrentPlayer().hasCoinage)) {
+                this.getCurrentPlayer().isReady = true;
+                this.disableUnreadyButton = true;
+            }
+        }
+    }
+
+    taxCollectionCalculations(): void {
+        this.getCurrentPlayer().collectedTax = this.getCurrentPlayer().citiesOnBoard * this.getCurrentPlayer().taxRate;
+        // check for tax revolt
+        if (this.getCurrentPlayer().tokensInStock < this.getCurrentPlayer().collectedTax) {
+            if (!this.getCurrentPlayer().hasDemocracy) {
+                this.getCurrentPlayer().hasTaxRevolt = true;
+            }
+            // collected tax can not be more than tokens in stock
+            this.getCurrentPlayer().collectedTax = this.getCurrentPlayer().tokensInStock;
+        } else {
+            this.getCurrentPlayer().hasTaxRevolt = false;
+        }
+        this.getCurrentPlayer().tokensInTreasury += this.getCurrentPlayer().collectedTax;
+        this.getCurrentPlayer().tokensInStock -= this.getCurrentPlayer().collectedTax;
     }
 
     public startCountDown(seconds: number) {

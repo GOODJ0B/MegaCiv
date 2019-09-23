@@ -16,12 +16,16 @@ export class Player {
     AstEndpoint: 15;
     AstPosition = 0;
     taxRate = 2;
+    collectedTax = 0;
     hasTaxRevolt = false;
     hasTimeLeft = 0;
 
     // Advances:
     hasMilitary: boolean;
     hasCulturalAscendancy: boolean;
+    hasCoinage: boolean;
+    hasMonarchy: boolean;
+    hasDemocracy: boolean;
 
     constructor(civilizationName: string, AstNextAgePoint1: number, AstNextAgePoint2: number){
         this.civilizationName = civilizationName;
