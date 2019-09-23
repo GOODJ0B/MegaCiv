@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { ActionsComponent } from './pages/actions/actions.component';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './pages/admin/admin.component';
+import { AdminOverviewComponent } from './pages/admin-overview/admin-overview.component';
+import { GamescreenComponent } from './pages/gamescreen/gamescreen.component';
 
 const routes: Routes = [
   {
@@ -25,8 +27,16 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
+    path: 'gamescreen',
+    component: GamescreenComponent,
+  },
+  {
     path: 'admin',
     component: AdminComponent,
+  },
+  {
+    path: 'admin-overview',
+    component: AdminOverviewComponent,
   },
   {
     path: '**',
@@ -47,7 +57,15 @@ const config: SocketIoConfig = { url: 'http://jantineislief.nl:8889', options: {
     DxNumberBoxModule
   ],
   providers: [],
-  exports: [RouterModule],
-  declarations: [HomeComponent, ActionsComponent, OverviewComponent, AdminComponent]
+  exports: [
+    RouterModule
+  ],
+  declarations: [
+    HomeComponent,
+    ActionsComponent,
+    OverviewComponent,
+    AdminComponent,
+    AdminOverviewComponent,
+    GamescreenComponent]
 })
 export class AppRoutingModule { }

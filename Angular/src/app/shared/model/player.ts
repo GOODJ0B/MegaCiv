@@ -7,7 +7,9 @@ export class Player {
     citiesInStock = 9;
     tokensInStock = 55;
     tokensInTreasury = 0;
+    treasuryDifference = 0;
     tokensOnBoard = 0;
+    shipsOnBoard = 0;
     score = 0;
     AstNextAgePoint1: number;
     AstNextAgePoint2: number;
@@ -21,13 +23,17 @@ export class Player {
     hasTimeLeft = 0;
 
     // Advances:
-    hasMilitary: boolean;
-    hasCulturalAscendancy: boolean;
-    hasCoinage: boolean;
-    hasMonarchy: boolean;
-    hasDemocracy: boolean;
+    hasMilitary = false;
+    hasCulturalAscendancy = false;
+    hasCoinage = false;
+    hasMonarchy = false;
+    hasDemocracy = false;
+    hasAdvancedMilitary = false;
+    hasEngineering = false;
+    hasMetalWorking = false;
+    hasNavalWarfare = false;
 
-    constructor(civilizationName: string, AstNextAgePoint1: number, AstNextAgePoint2: number){
+    constructor(civilizationName: string, AstNextAgePoint1: number, AstNextAgePoint2: number) {
         this.civilizationName = civilizationName;
         this.AstNextAgePoint1 = AstNextAgePoint1;
         this.AstNextAgePoint2 = AstNextAgePoint2;

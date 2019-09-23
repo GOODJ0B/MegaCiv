@@ -2,10 +2,10 @@ import { GameService } from './../../shared/services/game.service';
 import { Component } from '@angular/core';
 
 @Component({
-  templateUrl: 'overview.component.html'
+  templateUrl: 'gamescreen.component.html'
 })
 
-export class OverviewComponent {
+export class GamescreenComponent {
   dataSource: any;
   priority: any[];
 

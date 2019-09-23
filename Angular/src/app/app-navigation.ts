@@ -15,12 +15,20 @@ export const navigation = [
     icon: 'globe'
   },
   {
+    text: 'Gamescreen',
+    path: '/gamescreen',
+    icon: 'globe'
+  },
+  {
     text: 'Admin',
     path: '/admin',
     icon: 'toolbox'
-  }
-
-
+  },
+  {
+    text: 'Admin Overview',
+    path: '/admin-overview',
+    icon: 'globe'
+  },
   // {
   //   text: 'Examples',
   //   icon: 'folder',

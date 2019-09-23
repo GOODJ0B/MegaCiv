@@ -1,0 +1,20 @@
+<h2 class="content-block"></h2>
+
+<dx-data-grid class="dx-card wide-card" [dataSource]="gameService.game.players" [showBorders]="true"
+    [focusedRowEnabled]="false" [focusedRowIndex]="0" [columnAutoWidth]="true" [columnHidingEnabled]="false" [rowAlternationEnabled]="true">
+
+    <dxo-paging [pageSize]="20"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [showInfo]="true"></dxo-pager>
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+
+    <dxi-column dataField="isActive" [width]="0" [selectedFilterOperation]="'='" [filterValue]="true"></dxi-column>
+    <dxi-column dataField="civilizationName" caption="Civilization"></dxi-column>
+    <dxi-column dataField="playerName" caption="Speler"></dxi-column>
+    <dxi-column dataField="isReady" caption="Ready"></dxi-column>
+    <dxi-column dataField="citiesOnBoard" caption="Steden"></dxi-column>
+    <dxi-column dataField="score" caption="score"></dxi-column>
+    <dxi-column dataField="tokensOnBoard" caption="units"></dxi-column>
+    <dxi-column dataField="tokensInTreasury" caption="treasury"></dxi-column>
+    <dxi-column dataField="tokensInStock" caption="stock"></dxi-column>
+
+</dx-data-grid>

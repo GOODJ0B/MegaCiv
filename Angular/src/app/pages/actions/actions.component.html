@@ -32,7 +32,7 @@
                 (onValueChanged)="citiesOnBoardChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="9"
                 [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
             Cities in stock: <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesInStock" [readOnly]="true"
-                [max]="9" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
+                [max]="9" [min]="0" width="50px"></dx-number-box><br>
             <div style="color: red"
                 *ngIf="!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))">
                 Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!
@@ -40,10 +40,28 @@
         </div>
     </div>
     <div *ngIf="gameService.game.phase === 3">
-        Fase 3
+
+
+        <br>
+        Countdown: {{ gameService.countDown }}
+        <br><br>
+
+        Ships on board: <dx-number-box [(value)]="gameService.getCurrentPlayer().shipsOnBoard"
+            [readOnly]="gameService.getCurrentPlayer().isReady" [max]="4" [min]="0" [showSpinButtons]="true"
+            width="50px"></dx-number-box><br>
+        Treasury difference: <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference"
+            [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().shipsOnBoard === 0"
+            [max]="0" [min]="-1 * gameService.getCurrentPlayer().tokensInTreasury" [showSpinButtons]="true"
+            width="50px"></dx-number-box><br>
+        Treasury: <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
+            [max]="55" [min]="0" width="50px"></dx-number-box><br>
     </div>
     <div *ngIf="gameService.game.phase === 4">
-        Fase 4
+        Treasury won: <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference"
+            [readOnly]="gameService.getCurrentPlayer().isReady" [max]="gameService.getCurrentPlayer().tokensInStock"
+            [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
+        Tokens in stock: <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInStock" [readOnly]="true"
+            [max]="55" [min]="0" width="50px"></dx-number-box><br>
     </div>
     <!-- Fase 5 zit bij 2 -->
     <div *ngIf="gameService.game.phase === 6">

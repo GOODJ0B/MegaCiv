@@ -10,9 +10,15 @@ import { Component, NgModule } from '@angular/core';
 })
 
 export class FooterComponent {
+
+  
+
   constructor(public readonly gameService: GameService) { }
 
   playerIsReady(): void {
+    this.gameService.getCurrentPlayer().tokensInTreasury += this.gameService.getCurrentPlayer().treasuryDifference;
+    this.gameService.getCurrentPlayer().treasuryDifference = 0;
+
     this.gameService.getCurrentPlayer().isReady = true;
     this.gameService.sendToOtherPlayers();
   }
@@ -20,6 +26,14 @@ export class FooterComponent {
   playerIsNotReady(): void {
     this.gameService.getCurrentPlayer().isReady = false;
     this.gameService.sendToOtherPlayers();
+  }
+
+  editPhase(difference: number): void {
+    this.gameService.game.phase += difference;
+  }
+
+  test() {
+    this.gameService.getCurrentPlayer().hasTaxRevolt = !this.gameService.getCurrentPlayer().hasTaxRevolt;
   }
 }
 
