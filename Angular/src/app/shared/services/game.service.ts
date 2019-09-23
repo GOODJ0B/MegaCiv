@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
 import { Game } from '../model/game';
-import { startWith } from 'rxjs/operators';
+import { startWith, throttleTime } from 'rxjs/operators';
 import { Player } from '../model/player';
 import { phases } from '../model/phases';
 
@@ -47,25 +47,43 @@ export class GameService {
         });
     }
 
-    getCurrentPlayer(): Player {
-        if (this.game.players[this.playerIndex]) {
-            return this.game.players[this.playerIndex];
+    playerIsReady(index?: number) {
+        let player: Player;
+        if (index) {
+            player = this.game.players[index];
+        } else {
+            player = this.getCurrentPlayer();
         }
-        return null;
+
+        player.tokensInTreasury += player.treasuryDifference;
+        player.treasuryDifference = 0;
+
+        player.isReady = true;
+
+        this.checkIfEverybodyIsReadyAndProceedToNextPhaseIfSo();
+
+        this.sendToOtherPlayers();
     }
 
-    sendToOtherPlayers(): void {
-        console.log('++++++++++++++++ send game: ', this.game);
-        this.socket.emit('updateGame', this.game);
-    }
-
-    resetGame(): void {
-        console.log('||||||||||||||| reset game.');
-        this.socket.emit('resetGame');
-    }
-
-    getPhaseName(index?: number): string {
-        return phases[index ? index : this.game.phase];
+    checkIfEverybodyIsReadyAndProceedToNextPhaseIfSo() {
+        for (const player of this.game.players) {
+            if (player.isActive && !player.isReady) {
+                return; // Somebody is not yet ready
+            }
+        }
+        this.game.phase += this.game.phase === 13 ? -12 : 1;
+        for (const player of this.game.players) {
+            if (player.isActive) {
+                player.isReady = false;
+            }
+        }
+        if (this.game.phase === 3) {
+            const sortedArray = this.game.players.sort((a: Player, b: Player) => a.tokensOnBoard - b.tokensOnBoard);
+            for (let i = 0; i < this.game.players.length; i++) {
+                sortedArray[i].censusOrder = sortedArray[i].hasMilitary ? i + this.game.players.length : i;
+            }
+            console.log(sortedArray);
+        }
     }
 
     phaseHasChangedActions(newPhase: number): void {
@@ -109,4 +127,26 @@ export class GameService {
             }, 1000);
         }
     }
+
+    getCurrentPlayer(): Player {
+        if (this.game.players[this.playerIndex]) {
+            return this.game.players[this.playerIndex];
+        }
+        return null;
+    }
+
+    sendToOtherPlayers(): void {
+        console.log('++++++++++++++++ send game: ', this.game);
+        this.socket.emit('updateGame', this.game);
+    }
+
+    resetGame(): void {
+        console.log('||||||||||||||| reset game.');
+        this.socket.emit('resetGame');
+    }
+
+    getPhaseName(index?: number): string {
+        return phases[index ? index : this.game.phase];
+    }
+
 }

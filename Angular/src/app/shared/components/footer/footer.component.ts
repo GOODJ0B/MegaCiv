@@ -11,16 +11,10 @@ import { Component, NgModule } from '@angular/core';
 
 export class FooterComponent {
 
-  
-
   constructor(public readonly gameService: GameService) { }
 
   playerIsReady(): void {
-    this.gameService.getCurrentPlayer().tokensInTreasury += this.gameService.getCurrentPlayer().treasuryDifference;
-    this.gameService.getCurrentPlayer().treasuryDifference = 0;
-
-    this.gameService.getCurrentPlayer().isReady = true;
-    this.gameService.sendToOtherPlayers();
+    this.gameService.playerIsReady();
   }
 
   playerIsNotReady(): void {
@@ -33,7 +27,7 @@ export class FooterComponent {
   }
 
   test() {
-    this.gameService.getCurrentPlayer().hasTaxRevolt = !this.gameService.getCurrentPlayer().hasTaxRevolt;
+    this.gameService.getCurrentPlayer().hasMilitary = true;
   }
 }
 

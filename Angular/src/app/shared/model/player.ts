@@ -1,6 +1,7 @@
 export class Player {
     isActive = false;
     isReady = false;
+    censusOrder = 0;
     civilizationName: string;
     playerName = '';
     citiesOnBoard = 0;
