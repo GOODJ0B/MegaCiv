@@ -7,7 +7,6 @@ import { Game } from '../model/game';
 import { startWith } from 'rxjs/operators';
 import { Player } from '../model/player';
 import { phases } from '../model/phases';
-import { runInThisContext } from 'vm';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
