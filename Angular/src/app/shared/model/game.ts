@@ -28,6 +28,10 @@ export class Game {
         this.players.push(new Player('Indus', 5, 8));
         this.players.push(new Player('Egypt', 5, 8));
         this.players.push(new Player('Parthia', 5, 9));
+
+        for (let i = 0; i < this.players.length; i++) {
+            this.players[i].originalOrder = i;
+        }
     }
 
 }

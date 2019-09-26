@@ -13,9 +13,9 @@ export class GameService {
     gameObservable = this.socket.fromEvent<Game>('game');
     game: Game = new Game();
     gameSubscription: Subscription;
-    historyObservable = this.socket.fromEvent<Game>('history');
-    history: Game[];
-    historySubscription: Subscription;
+    // historyObservable = this.socket.fromEvent<Game>('history');
+    // history: Game[];
+    // historySubscription: Subscription;
 
     currentPhase = 0;
     readonly maxUnits = 55;
@@ -45,12 +45,12 @@ export class GameService {
                 this.game.countDown = 0;
             }
         });
-        this.historySubscription = this.historyObservable.pipe(
-            startWith([this.game])
-        ).subscribe(data => {
-            Object.assign(this.history, data);
-            console.log('---------------- recieved history: ', this.history);
-        });
+        // this.historySubscription = this.historyObservable.pipe(
+        //     startWith([this.game])
+        // ).subscribe(data => {
+        //     Object.assign(this.history, data);
+        //     console.log('---------------- recieved history: ', this.history);
+        // });
     }
 
     playerIsReady(index?: number) {
@@ -110,11 +110,14 @@ export class GameService {
                 }
             });
         } else if (this.game.phase === 2) {
-            
+
         } else if (this.game.phase === 3) {
-            const sortedArray = this.game.players.sort((a: Player, b: Player) => a.tokensOnBoard - b.tokensOnBoard);
+            // Sorteer spelers op aantal token (en bij gelijk aantal op originele volgorde)
+            this.game.players.sort((a: Player, b: Player) =>
+                a.tokensOnBoard - b.tokensOnBoard === 0 ? a.originalOrder - b.originalOrder : a.tokensOnBoard - b.tokensOnBoard
+            );
             for (let i = 0; i < this.game.players.length; i++) {
-                sortedArray[i].censusOrder = sortedArray[i].hasMilitary ? i + this.game.players.length : i;
+                this.game.players[i].censusOrder = this.game.players[i].hasMilitary ? i + this.game.players.length : i;
             }
         } else if (this.game.phase === 4) {
 

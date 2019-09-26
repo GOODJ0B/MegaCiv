@@ -27,6 +27,7 @@ export class FooterComponent {
   }
 
   test() {
+    this.gameService.game.hasStarted = false;
     this.gameService.getCurrentPlayer().hasMilitary = true;
   }
 }

@@ -1,4 +1,5 @@
 export class Player {
+    originalOrder: number;
     isActive = false;
     isReady = false;
     censusOrder = 0;
