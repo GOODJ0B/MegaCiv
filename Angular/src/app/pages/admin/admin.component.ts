@@ -19,4 +19,12 @@ export class AdminComponent {
   resetGame() {
     this.gameService.resetGame();
   }
+
+  nextPhase() {
+    this.gameService.nextPhase();
+  }
+
+  sendChanges() {
+    this.gameService.sendToOtherPlayers();
+  }
 }

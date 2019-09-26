@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
 import { Game } from '../model/game';
-import { startWith, throttleTime } from 'rxjs/operators';
+import { startWith } from 'rxjs/operators';
 import { Player } from '../model/player';
 import { phases } from '../model/phases';
 
@@ -12,7 +12,10 @@ import { phases } from '../model/phases';
 export class GameService {
     gameObservable = this.socket.fromEvent<Game>('game');
     game: Game = new Game();
-    subscription: Subscription;
+    gameSubscription: Subscription;
+    historyObservable = this.socket.fromEvent<Game>('history');
+    history: Game[];
+    historySubscription: Subscription;
 
     currentPhase = 0;
     readonly maxUnits = 55;
@@ -23,10 +26,10 @@ export class GameService {
     disableUnreadyButton: boolean;
 
     countDown: number;
-    countDownInterval;
+    countDownInterval: any;
 
     constructor(private socket: Socket) {
-        this.subscription = this.gameObservable.pipe(
+        this.gameSubscription = this.gameObservable.pipe(
             startWith(this.game)
         ).subscribe(data => {
             if (data.hasStarted === undefined) {
@@ -45,6 +48,12 @@ export class GameService {
                 this.game.countDown = 0;
             }
         });
+        this.historySubscription = this.historyObservable.pipe(
+            startWith([this.game])
+        ).subscribe(data => {
+            Object.assign(this.history, data);
+            console.log('---------------- recieved history: ', this.history);
+        });
     }
 
     playerIsReady(index?: number) {
@@ -60,17 +69,23 @@ export class GameService {
 
         player.isReady = true;
 
-        this.checkIfEverybodyIsReadyAndProceedToNextPhaseIfSo();
+        if (this.everybodyIsReady()) {
+            this.nextPhase();
+        }
 
         this.sendToOtherPlayers();
     }
 
-    checkIfEverybodyIsReadyAndProceedToNextPhaseIfSo() {
+    everybodyIsReady(): boolean {
         for (const player of this.game.players) {
             if (player.isActive && !player.isReady) {
-                return; // Somebody is not yet ready
+                return false; // Somebody is not yet ready
             }
         }
+        return true;
+    }
+
+    nextPhase() {
         this.game.phase += this.game.phase === 13 ? -12 : 1;
         for (const player of this.game.players) {
             if (player.isActive) {
