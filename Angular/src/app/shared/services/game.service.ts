@@ -38,9 +38,6 @@ export class GameService {
             Object.assign(this.game, data);
             console.log('---------------- recieved data: ', this.game);
             if (this.currentPhase !== this.game.phase) {
-                this.currentPhase = this.game.phase;
-                this.disableReadyButton = false;
-                this.disableUnreadyButton = false;
                 this.phaseHasChangedActions(this.game.phase);
             }
             if (this.game.countDown > 0) {
@@ -71,9 +68,9 @@ export class GameService {
 
         if (this.everybodyIsReady()) {
             this.nextPhase();
+        } else {
+            this.sendToOtherPlayers();
         }
-
-        this.sendToOtherPlayers();
     }
 
     everybodyIsReady(): boolean {
@@ -86,46 +83,89 @@ export class GameService {
     }
 
     nextPhase() {
-        this.game.phase += this.game.phase === 13 ? -12 : 1;
+        if (!this.game.hasStarted) {
+            return;
+        }
+        if (this.game.phase === 13) {
+            this.game.phase = 1;
+            this.game.turn += 1;
+        } else {
+            this.game.phase += 1;
+        }
+
+        // All players are set to unready
         for (const player of this.game.players) {
             if (player.isActive) {
                 player.isReady = false;
             }
         }
-        if (this.game.phase === 3) {
+
+        // Calculations on phase change to determine readyness and other values
+        if (this.game.phase === 1) {
+            this.game.players.forEach(player => {
+                this.taxCollectionCalculations(player);
+                // als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
+                if (!(player.hasMonarchy || player.hasCoinage)) {
+                    player.isReady = true;
+                }
+            });
+        } else if (this.game.phase === 2) {
+            
+        } else if (this.game.phase === 3) {
             const sortedArray = this.game.players.sort((a: Player, b: Player) => a.tokensOnBoard - b.tokensOnBoard);
             for (let i = 0; i < this.game.players.length; i++) {
                 sortedArray[i].censusOrder = sortedArray[i].hasMilitary ? i + this.game.players.length : i;
             }
-            console.log(sortedArray);
+        } else if (this.game.phase === 4) {
+
+        } else if (this.game.phase === 5) {
+
+        } else if (this.game.phase === 6) {
+
+        } else if (this.game.phase === 7) {
+
+        } else if (this.game.phase === 8) {
+
+        } else if (this.game.phase === 9) {
+
+        } else if (this.game.phase === 10) {
+
+        } else if (this.game.phase === 11) {
+
+        } else if (this.game.phase === 12) {
+
+        } else if (this.game.phase === 13) {
+
         }
+
+        this.sendToOtherPlayers();
     }
 
+    // Things that should happen when game arrives with changed phase
     phaseHasChangedActions(newPhase: number): void {
-        if (newPhase === 1) {
-            this.taxCollectionCalculations();
-            // als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
-            if (!(this.getCurrentPlayer().hasMonarchy || this.getCurrentPlayer().hasCoinage)) {
-                this.getCurrentPlayer().isReady = true;
-                this.disableUnreadyButton = true;
-            }
+        this.currentPhase = this.game.phase;
+        this.disableReadyButton = false;
+        if (this.getCurrentPlayer().isReady) {
+            this.disableUnreadyButton = true;
+        } else {
+            this.disableUnreadyButton = false;
         }
     }
 
-    taxCollectionCalculations(): void {
-        this.getCurrentPlayer().collectedTax = this.getCurrentPlayer().citiesOnBoard * this.getCurrentPlayer().taxRate;
+    taxCollectionCalculations(player: Player): void {
+        player.collectedTax = player.citiesOnBoard * player.taxRate;
         // check for tax revolt
-        if (this.getCurrentPlayer().tokensInStock < this.getCurrentPlayer().collectedTax) {
-            if (!this.getCurrentPlayer().hasDemocracy) {
-                this.getCurrentPlayer().hasTaxRevolt = true;
+        if (player.tokensInStock < player.collectedTax) {
+            if (!player.hasDemocracy) {
+                player.hasTaxRevolt = true;
             }
             // collected tax can not be more than tokens in stock
-            this.getCurrentPlayer().collectedTax = this.getCurrentPlayer().tokensInStock;
+            player.collectedTax = player.tokensInStock;
         } else {
-            this.getCurrentPlayer().hasTaxRevolt = false;
+            player.hasTaxRevolt = false;
         }
-        this.getCurrentPlayer().tokensInTreasury += this.getCurrentPlayer().collectedTax;
-        this.getCurrentPlayer().tokensInStock -= this.getCurrentPlayer().collectedTax;
+        player.tokensInTreasury += player.collectedTax;
+        player.tokensInStock -= player.collectedTax;
     }
 
     public startCountDown(seconds: number) {
@@ -150,11 +190,26 @@ export class GameService {
         return null;
     }
 
+    getActivePlayers(): Player[] {
+        const output: Player[] = [];
+        this.game.players.forEach(player => {
+            if (player.isActive) {
+                output.push(player);
+            }
+        });
+        return output;
+    }
+
     sendToOtherPlayers(): void {
         console.log('++++++++++++++++ send game: ', this.game);
         this.socket.emit('updateGame', this.game);
     }
 
+    startGame() {
+        this.game.hasStarted = true;
+        this.game.turn = 1;
+        this.nextPhase();
+    }
     resetGame(): void {
         console.log('||||||||||||||| reset game.');
         this.socket.emit('resetGame');

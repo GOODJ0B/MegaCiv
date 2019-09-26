@@ -30,14 +30,4 @@ export class Game {
         this.players.push(new Player('Parthia', 5, 9));
     }
 
-    public startGame() {
-        this.hasStarted = true;
-        this.turn = 1;
-        this.phase = 1;
-        this.players.forEach(player => {
-            if (player && !player.isActive) {
-                player = null;
-            }
-        });
-    }
 }
