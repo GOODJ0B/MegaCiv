@@ -29,6 +29,10 @@ export class Game {
         this.players.push(new Player('Egypt', 5, 8));
         this.players.push(new Player('Parthia', 5, 9));
 
+        // set admin name
+        this.players[0].playerName = 'admin';
+
+        // set originalOrder (for sorting)
         for (let i = 0; i < this.players.length; i++) {
             this.players[i].originalOrder = i;
         }

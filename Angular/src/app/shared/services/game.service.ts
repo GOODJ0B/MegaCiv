@@ -13,10 +13,7 @@ export class GameService {
     gameObservable = this.socket.fromEvent<Game>('game');
     game: Game = new Game();
     gameSubscription: Subscription;
-    // historyObservable = this.socket.fromEvent<Game>('history');
-    // history: Game[];
-    // historySubscription: Subscription;
-
+    
     currentPhase = 0;
     readonly maxUnits = 55;
     readonly maxCities = 9;
@@ -24,19 +21,21 @@ export class GameService {
     playerIndex: number;
     disableReadyButton: boolean;
     disableUnreadyButton: boolean;
+    playersInFrontOfCurrentPlayerInQueue: number;
 
     countDown: number;
+    countDownVisibleString: string;
     countDownInterval: any;
 
     constructor(private socket: Socket) {
         this.gameSubscription = this.gameObservable.pipe(
             startWith(this.game)
         ).subscribe(data => {
+            console.log('---------------- recieved data: ', data);
             if (data.hasStarted === undefined) {
                 data = new Game();
             }
             Object.assign(this.game, data);
-            console.log('---------------- recieved data: ', this.game);
             if (this.currentPhase !== this.game.phase) {
                 this.phaseHasChangedActions(this.game.phase);
             }
@@ -44,13 +43,21 @@ export class GameService {
                 this.startCountDown(this.game.countDown);
                 this.game.countDown = 0;
             }
+            // count players in queue during phase 3
+            if (this.game.phase === 3) {
+                let counter = 0;
+                this.getActivePlayers().forEach(player => {
+                    if (!player.isReady && player.censusOrder < this.getCurrentPlayer().censusOrder) {
+                        counter += 1;
+                    }
+                });
+                // Start the countdown if there were players in front of you but not anymore.
+                if (this.playersInFrontOfCurrentPlayerInQueue > 0 && counter === 0) {
+                    this.startCountDown(this.getCurrentPlayer().personalCountDown);
+                }
+                this.playersInFrontOfCurrentPlayerInQueue = counter;
+            }
         });
-        // this.historySubscription = this.historyObservable.pipe(
-        //     startWith([this.game])
-        // ).subscribe(data => {
-        //     Object.assign(this.history, data);
-        //     console.log('---------------- recieved history: ', this.history);
-        // });
     }
 
     playerIsReady(index?: number) {
@@ -66,7 +73,7 @@ export class GameService {
 
         player.isReady = true;
 
-        if (this.everybodyIsReady()) {
+        if (this.everybodyIsReady() && this.game.hasStarted) {
             this.nextPhase();
         } else {
             this.sendToOtherPlayers();
@@ -86,7 +93,7 @@ export class GameService {
         if (!this.game.hasStarted) {
             return;
         }
-        if (this.game.phase === 13) {
+        if (this.game.phase >= 13) {
             this.game.phase = 1;
             this.game.turn += 1;
         } else {
@@ -102,22 +109,41 @@ export class GameService {
 
         // Calculations on phase change to determine readyness and other values
         if (this.game.phase === 1) {
-            this.game.players.forEach(player => {
+            this.getActivePlayers().forEach(player => {
                 this.taxCollectionCalculations(player);
                 // als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
                 if (!(player.hasMonarchy || player.hasCoinage)) {
                     player.isReady = true;
                 }
+                // Automatisch door als iedereen ready is:
+                // if (this.everybodyIsReady()) {
+                //     this.nextPhase();
+                // }
             });
         } else if (this.game.phase === 2) {
 
         } else if (this.game.phase === 3) {
+            const playerList = this.getActivePlayers();
             // Sorteer spelers op aantal token (en bij gelijk aantal op originele volgorde)
-            this.game.players.sort((a: Player, b: Player) =>
-                a.tokensOnBoard - b.tokensOnBoard === 0 ? a.originalOrder - b.originalOrder : a.tokensOnBoard - b.tokensOnBoard
+            playerList.sort((a: Player, b: Player) =>
+                b.tokensOnBoard - a.tokensOnBoard === 0 ? a.originalOrder - b.originalOrder : b.tokensOnBoard - a.tokensOnBoard
             );
-            for (let i = 0; i < this.game.players.length; i++) {
-                this.game.players[i].censusOrder = this.game.players[i].hasMilitary ? i + this.game.players.length : i;
+            // Zet de spelers met Military achteraan de rij
+            for (let i = 0; i < playerList.length; i++) {
+                playerList[i].censusOrder = playerList[i].hasMilitary ? i + playerList.length : i;
+            }
+            // Sorteer spelers op censusVolgorde
+            playerList.sort((a: Player, b: Player) => a.censusOrder - b.censusOrder);
+            // Geef iedereen een volgnr (logischer leesbaar)
+            for (let i = 0; i < playerList.length; i++) {
+                playerList[i].censusOrder = i + 1;
+                if (i === 0) {
+                    playerList[i].personalCountDown = 150;
+                } else if (i === 1) {
+                    playerList[i].personalCountDown = 120;
+                } else {
+                    playerList[i].personalCountDown = 90;
+                }
             }
         } else if (this.game.phase === 4) {
 
@@ -126,7 +152,7 @@ export class GameService {
         } else if (this.game.phase === 6) {
 
         } else if (this.game.phase === 7) {
-
+            this.game.countDown = 900;
         } else if (this.game.phase === 8) {
 
         } else if (this.game.phase === 9) {
@@ -146,12 +172,21 @@ export class GameService {
 
     // Things that should happen when game arrives with changed phase
     phaseHasChangedActions(newPhase: number): void {
+        // check to prevent error on first load
+        if(!this.getCurrentPlayer()) {
+            return;
+        }
+
         this.currentPhase = this.game.phase;
         this.disableReadyButton = false;
         if (this.getCurrentPlayer().isReady) {
             this.disableUnreadyButton = true;
         } else {
             this.disableUnreadyButton = false;
+        }
+
+        if (this.game.phase === 8 && this.countDownInterval) {
+            clearInterval(this.countDownInterval);
         }
     }
 
@@ -178,13 +213,20 @@ export class GameService {
             const startTime = Date.now();
             this.countDownInterval = setInterval(() => {
                 this.countDown = seconds - Math.floor((Date.now() - startTime) / 1000);
+                this.updateCountDownVisibleString();
                 if (this.countDown < 1) {
                     clearInterval(this.countDownInterval);
                     this.countDown = 0;
                 }
-            }, 1000);
+            }, 999);
         }
     }
+
+    updateCountDownVisibleString() {
+        const minutes = Math.floor(this.countDown / 60);
+        this.countDown = this.countDown - minutes * 60;
+        this.countDownVisibleString = `${minutes}:${this.countDown < 10 ? 0 : ''}${this.countDown}`;
+      }
 
     getCurrentPlayer(): Player {
         if (this.game.players[this.playerIndex]) {
@@ -211,6 +253,8 @@ export class GameService {
     startGame() {
         this.game.hasStarted = true;
         this.game.turn = 1;
+        // Start game on phase 2 since nobody has cities yet.
+        this.game.phase = 1;
         this.nextPhase();
     }
     resetGame(): void {

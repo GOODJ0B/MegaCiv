@@ -12,7 +12,7 @@ export class ActionsComponent {
   constructor(public readonly gameService: GameService) { }
 
   taxRateChanged() {
-    this.gameService.taxCollectionCalculations();
+    this.gameService.taxCollectionCalculations(this.gameService.getCurrentPlayer());
   }
 
   unitsChanged() {

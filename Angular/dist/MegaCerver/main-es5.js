@@ -63,18 +63,7 @@ module.exports = "<dx-scroll-view height=\"100%\" class=\"full-height-scrollable
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"content-block\">Fase {{ gameService.game.phase }} ({{ gameService.getPhaseName() }})</h2>\r\n\r\n<div class=\"content-block dx-card responsive-paddings\">\r\n    <div *ngIf=\"gameService.game.phase === 1\">\r\n        Cities on board: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesOnBoard\" [readOnly]=\"true\"\r\n            [max]=\"9\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Tax rate: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().taxRate\" (onValueChanged)=\"taxRateChanged();\"\r\n            [readOnly]=\"gameService.getCurrentPlayer().isReady || !(gameService.getCurrentPlayer().hasCoinage || gameService.getCurrentPlayer().hasMonarchy)\"\r\n            [max]=\"gameService.getCurrentPlayer().hasCoinage || gameService.getCurrentPlayer().hasMonarchy ?\r\n             gameService.getCurrentPlayer().hasCoinage && gameService.getCurrentPlayer().hasMonarchy ? 4 : 3 : 2\"\r\n            [min]=\"gameService.getCurrentPlayer().hasCoinage ? 1 : 2\" [showSpinButtons]=\"true\" width=\"50px\">\r\n        </dx-number-box><br>\r\n        Tax collected: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().collectedTax\" [readOnly]=\"true\"\r\n            [max]=\"18\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Treasury: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasury\" [readOnly]=\"true\"\r\n            [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        <div style=\"color: red\" *ngIf=\"gameService.getCurrentPlayer().hasTaxRevolt\">\r\n            TAX REVOLT!\r\n        </div>\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 2 || gameService.game.phase === 5 || gameService.game.phase === 11\">\r\n        Tokens on board: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensOnBoard\"\r\n            (onValueChanged)=\"unitsChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\" [min]=\"0\"\r\n            [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Tokens in stock: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInStock\"\r\n            (onValueChanged)=\"stockChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\" [min]=\"0\"\r\n            [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Treasury: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasury\" [readOnly]=\"true\"\r\n            [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        <div *ngIf=\"gameService.game.phase !== 2\">\r\n            Cities on board: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesOnBoard\"\r\n                (onValueChanged)=\"citiesOnBoardChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"9\"\r\n                [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n            Cities in stock: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesInStock\" [readOnly]=\"true\"\r\n                [max]=\"9\" [min]=\"0\" width=\"50px\"></dx-number-box><br>\r\n            <div style=\"color: red\"\r\n                *ngIf=\"!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))\">\r\n                Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 3\">\r\n\r\n\r\n        <br>\r\n        Countdown: {{ gameService.countDown }}\r\n        <br><br>\r\n\r\n        Ships on board: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().shipsOnBoard\"\r\n            [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"4\" [min]=\"0\" [showSpinButtons]=\"true\"\r\n            width=\"50px\"></dx-number-box><br>\r\n        Treasury difference: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().treasuryDifference\"\r\n            [readOnly]=\"gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().shipsOnBoard === 0\"\r\n            [max]=\"0\" [min]=\"-1 * gameService.getCurrentPlayer().tokensInTreasury\" [showSpinButtons]=\"true\"\r\n            width=\"50px\"></dx-number-box><br>\r\n        Treasury: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasury\" [readOnly]=\"true\"\r\n            [max]=\"55\" [min]=\"0\" width=\"50px\"></dx-number-box><br>\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 4\">\r\n        Treasury won: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().treasuryDifference\"\r\n            [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"gameService.getCurrentPlayer().tokensInStock\"\r\n            [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Tokens in stock: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInStock\" [readOnly]=\"true\"\r\n            [max]=\"55\" [min]=\"0\" width=\"50px\"></dx-number-box><br>\r\n    </div>\r\n    <!-- Fase 5 zit bij 2 -->\r\n    <div *ngIf=\"gameService.game.phase === 6\">\r\n        Fase 6\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 7\">\r\n        Fase 7\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 8\">\r\n        Fase 8\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 9\">\r\n        Fase 9\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 10\">\r\n        Fase 10\r\n    </div>\r\n    <!-- Fase 11 zit bij 2 -->\r\n    <div *ngIf=\"gameService.game.phase === 12\">\r\n        Fase 12\r\n    </div>\r\n</div>"
-
-/***/ }),
-
-/***/ "./node_modules/raw-loader/index.js!./src/app/pages/admin-overview/admin-overview.component.html":
-/*!**********************************************************************************************!*\
-  !*** ./node_modules/raw-loader!./src/app/pages/admin-overview/admin-overview.component.html ***!
-  \**********************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showBorders]=\"true\"\r\n    [focusedRowEnabled]=\"false\" [focusedRowIndex]=\"0\" [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\" [rowAlternationEnabled]=\"true\">\r\n\r\n    <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n    <dxo-pager [showPageSizeSelector]=\"true\" [showInfo]=\"true\"></dxo-pager>\r\n    <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n\r\n    <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\"></dxi-column>\r\n    <dxi-column dataField=\"civilizationName\" caption=\"Civilization\"></dxi-column>\r\n    <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n    <dxi-column dataField=\"isReady\" caption=\"Ready\"></dxi-column>\r\n    <dxi-column dataField=\"citiesOnBoard\" caption=\"Steden\"></dxi-column>\r\n    <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n    <dxi-column dataField=\"tokensOnBoard\" caption=\"units\"></dxi-column>\r\n    <dxi-column dataField=\"tokensInTreasury\" caption=\"treasury\"></dxi-column>\r\n    <dxi-column dataField=\"tokensInStock\" caption=\"stock\"></dxi-column>\r\n\r\n</dx-data-grid>"
+module.exports = "<h2 class=\"content-block\">Fase {{ gameService.game.phase }} ({{ gameService.getPhaseName() }})</h2>\r\n\r\n<div class=\"content-block dx-card responsive-paddings\">\r\n    <div *ngIf=\"gameService.game.phase === 1\">\r\n        Cities on board: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesOnBoard\" [readOnly]=\"true\"\r\n            [max]=\"9\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Tax rate: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().taxRate\" (onValueChanged)=\"taxRateChanged();\"\r\n            [readOnly]=\"gameService.getCurrentPlayer().isReady || !(gameService.getCurrentPlayer().hasCoinage || gameService.getCurrentPlayer().hasMonarchy)\"\r\n            [max]=\"gameService.getCurrentPlayer().hasCoinage || gameService.getCurrentPlayer().hasMonarchy ?\r\n             gameService.getCurrentPlayer().hasCoinage && gameService.getCurrentPlayer().hasMonarchy ? 4 : 3 : 2\"\r\n            [min]=\"gameService.getCurrentPlayer().hasCoinage ? 1 : 2\" [showSpinButtons]=\"true\" width=\"50px\">\r\n        </dx-number-box><br>\r\n        Tax collected: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().collectedTax\" [readOnly]=\"true\"\r\n            [max]=\"18\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Treasury: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasury\" [readOnly]=\"true\"\r\n            [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        <div style=\"color: red\" *ngIf=\"gameService.getCurrentPlayer().hasTaxRevolt\">\r\n            TAX REVOLT!\r\n        </div>\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 2 || gameService.game.phase === 5 || gameService.game.phase === 11\">\r\n        Tokens on board: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensOnBoard\"\r\n            (onValueChanged)=\"unitsChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\" [min]=\"0\"\r\n            [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Tokens in stock: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInStock\"\r\n            (onValueChanged)=\"stockChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\" [min]=\"0\"\r\n            [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Treasury: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasury\" [readOnly]=\"true\"\r\n            [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Cities on board: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesOnBoard\"\r\n            (onValueChanged)=\"citiesOnBoardChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"9\"\r\n            [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Cities in stock: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesInStock\" [readOnly]=\"true\"\r\n            [max]=\"9\" [min]=\"0\" width=\"50px\"></dx-number-box><br>\r\n        <div style=\"color: red\"\r\n            *ngIf=\"!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))\">\r\n            Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!\r\n        </div>\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 3\">\r\n        Your place in queue: {{ gameService.getCurrentPlayer().censusOrder }}\r\n        <br>\r\n        Players left in front of you: {{ gameService.playersInFrontOfCurrentPlayerInQueue }}\r\n        <br>\r\n        Countdown: {{ gameService.countDownVisibleString }}\r\n        <br><br>\r\n\r\n        Ships on board: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().shipsOnBoard\"\r\n            [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"4\" [min]=\"0\" [showSpinButtons]=\"true\"\r\n            width=\"50px\"></dx-number-box><br>\r\n        Treasury difference: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().treasuryDifference\"\r\n            [readOnly]=\"gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().shipsOnBoard === 0\"\r\n            [max]=\"0\" [min]=\"-1 * gameService.getCurrentPlayer().tokensInTreasury\" [showSpinButtons]=\"true\"\r\n            width=\"50px\"></dx-number-box><br>\r\n        Treasury: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasury\" [readOnly]=\"true\"\r\n            [max]=\"55\" [min]=\"0\" width=\"50px\"></dx-number-box><br>\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 4\">\r\n        Treasury won: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().treasuryDifference\"\r\n            [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"gameService.getCurrentPlayer().tokensInStock\"\r\n            [min]=\"0\" [showSpinButtons]=\"true\" width=\"50px\"></dx-number-box><br>\r\n        Tokens in stock: <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInStock\" [readOnly]=\"true\"\r\n            [max]=\"55\" [min]=\"0\" width=\"50px\"></dx-number-box><br>\r\n    </div>\r\n    <!-- Fase 5 zit bij 2 -->\r\n    <div *ngIf=\"gameService.game.phase === 6\">\r\n        Fase 6\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 7\">\r\n        Countdown: {{ gameService.countDownVisibleString }}\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 8\">\r\n        Fase 8\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 9\">\r\n        Fase 9\r\n    </div>\r\n    <div *ngIf=\"gameService.game.phase === 10\">\r\n        Fase 10\r\n    </div>\r\n    <!-- Fase 11 zit bij 2 -->\r\n    <div *ngIf=\"gameService.game.phase === 12\">\r\n        Fase 12\r\n    </div>\r\n</div>"
 
 /***/ }),
 
@@ -85,7 +74,7 @@ module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngIf=\"gameService.playerIndex === 0; else notAuthorized\">\r\n    <h2 class=\"content-block\">Admin</h2>\r\n    <div class=\"content-block\">\r\n        <div class=\"dx-card responsive-paddings\">\r\n\r\n            <dx-button (onClick)=\"startGame()\" type=\"default\">Start game</dx-button>\r\n\r\n            <br><br>\r\n\r\n            <dx-button (onClick)=\"resetGame()\">Reset game</dx-button>\r\n        </div>\r\n    </div>\r\n</ng-container>\r\n\r\n<ng-template #notAuthorized>\r\n    <h2 class=\"content-block\">Admin</h2>\r\n    <div class=\"content-block\">\r\n        <div class=\"dx-card responsive-paddings\">\r\n            Voor deze pagina moet je admin zijn.\r\n        </div>\r\n    </div>\r\n</ng-template>"
+module.exports = "<ng-container *ngIf=\"gameService.playerIndex === 0 || true; else notAuthorized\">\r\n    <h2 class=\"content-block\">Admin</h2>\r\n    <div class=\"content-block\">\r\n        <div class=\"dx-card responsive-paddings\">\r\n\r\n            <dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showColumnLines]=\"true\"\r\n                [showRowLines]=\"false\" [showBorders]=\"true\" [rowAlternationEnabled]=\"true\" [focusedRowEnabled]=\"false\"\r\n                [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\">\r\n                <dxo-column-chooser></dxo-column-chooser>\r\n                <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n                <dxo-pager [showPageSizeSelector]=\"false\" [showInfo]=\"true\"></dxo-pager>\r\n                <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n                <dxo-editing [allowUpdating]=\"true\" mode=\"cell\"></dxo-editing>\r\n\r\n                <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\">\r\n                </dxi-column>\r\n                <dxi-column dataField=\"civilizationName\" caption=\"Civilization\"></dxi-column>\r\n                <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n                <dxi-column dataField=\"censusOrder\" caption=\"Volgorde\"></dxi-column>\r\n                <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n                <dxi-column dataField=\"isReady\" caption=\"Ready\"></dxi-column>\r\n                <dxi-column dataField=\"citiesOnBoard\" caption=\"Steden\"></dxi-column>\r\n                <dxi-column dataField=\"tokensOnBoard\" caption=\"units\"></dxi-column>\r\n                <dxi-column dataField=\"tokensInStock\" caption=\"stock\"></dxi-column>\r\n                <dxi-column dataField=\"tokensInTreasury\" caption=\"treasury\"></dxi-column>\r\n                <dxi-column dataField=\"hasTaxRevolt\" caption=\"Tax Revolt\"></dxi-column>\r\n                <dxi-column dataField=\"taxRate\" caption=\"taxRate\"></dxi-column>\r\n                <dxi-column dataField=\"hasMonarchy\" caption=\"Monarchy\"></dxi-column>\r\n                <dxi-column dataField=\"hasCoinage\" caption=\"Coinage\"></dxi-column>\r\n                <dxi-column dataField=\"treasuryDifference\" caption=\"Treasury won\"></dxi-column>\r\n                <dxi-column dataField=\"hasAdvancedMilitary\" caption=\"Advanded Military\"></dxi-column>\r\n                <dxi-column dataField=\"hasEngineering\" caption=\"Engineering\"></dxi-column>\r\n                <dxi-column dataField=\"hasMetalWorking\" caption=\"Metal Working\"></dxi-column>\r\n                <dxi-column dataField=\"hasNavalWarfare\" caption=\"Naval Warfare\"></dxi-column>\r\n\r\n            </dx-data-grid>\r\n\r\n\r\n            <dx-button *ngIf=\"!gameService.game.hasStarted\" (onClick)=\"startGame()\" type=\"default\">Start game</dx-button>\r\n            <dx-button (onClick)=\"nextPhase()\" type=\"normal\" [disabled]=\"!gameService.everybodyIsReady()\">Next phase</dx-button>\r\n            <dx-button (onClick)=\"sendChanges()\" type=\"default\">Send changes</dx-button>\r\n\r\n            <br><br>\r\n            <dx-button (onClick)=\"resetGame()\" type=\"warning\">Reset game</dx-button>\r\n\r\n        </div>\r\n    </div>\r\n</ng-container>\r\n\r\n\r\n\r\n<ng-template #notAuthorized>\r\n    <h2 class=\"content-block\">Admin</h2>\r\n    <div class=\"content-block\">\r\n        <div class=\"dx-card responsive-paddings\">\r\n            Voor deze pagina moet je admin zijn.\r\n        </div>\r\n    </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -96,7 +85,7 @@ module.exports = "<ng-container *ngIf=\"gameService.playerIndex === 0; else notA
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showColumnLines]=\"true\"\r\n    [showRowLines]=\"false\" [showBorders]=\"true\" [rowAlternationEnabled]=\"true\" [focusedRowEnabled]=\"false\"\r\n    [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\">\r\n\r\n    <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n    <dxo-pager [showPageSizeSelector]=\"false\" [showInfo]=\"true\"></dxo-pager>\r\n    <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n\r\n    <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\"></dxi-column>\r\n    <dxi-column dataField=\"civilizationName\" caption=\"Civilization\"></dxi-column>\r\n    <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n    <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n    <dxi-column dataField=\"isReady\" caption=\"Ready\"></dxi-column>\r\n    <dxi-column dataField=\"citiesOnBoard\" caption=\"Steden\"></dxi-column>\r\n    <dxi-column dataField=\"tokensOnBoard\" caption=\"units\"></dxi-column>\r\n    <dxi-column dataField=\"tokensInStock\" caption=\"stock\"></dxi-column>\r\n    <dxi-column dataField=\"tokensInTreasury\" caption=\"treasury\"></dxi-column>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 1\">\r\n        <dxi-column dataField=\"hasTaxRevolt\" caption=\"Tax Revolt\" cellTemplate=\"taxRevolt\"></dxi-column>\r\n        <dxi-column dataField=\"taxRate\" caption=\"taxRate\"></dxi-column>\r\n        <dxi-column dataField=\"hasMonarchy\" caption=\"Monarchy\"></dxi-column>\r\n        <dxi-column dataField=\"hasCoinage\" caption=\"Coinage\"></dxi-column>\r\n        <div *dxTemplate=\"let item of 'taxRevolt'\">\r\n            <div style=\"background-color: red; color: white\">\r\n                {{ item.data.hasTaxRevolt ? 'TAX REVOLT' : '' }}\r\n            </div>\r\n        </div>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 4\">\r\n        <dxi-column dataField=\"treasuryDifference\" caption=\"Treasury won\"></dxi-column>\r\n        <dxi-column dataField=\"hasAdvancedMilitary\" caption=\"Advanded Military\"></dxi-column>\r\n        <dxi-column dataField=\"hasEngineering\" caption=\"Engineering\"></dxi-column>\r\n        <dxi-column dataField=\"hasMetalWorking\" caption=\"Metal Working\"></dxi-column>\r\n        <dxi-column dataField=\"hasNavalWarfare\" caption=\"Naval Warfare\"></dxi-column>\r\n    </ng-container>\r\n\r\n\r\n</dx-data-grid>"
+module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showColumnLines]=\"true\"\r\n    [showRowLines]=\"false\" [showBorders]=\"true\" [rowAlternationEnabled]=\"true\" [focusedRowEnabled]=\"false\"\r\n    [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\">\r\n\r\n    <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n    <dxo-pager [showPageSizeSelector]=\"false\" [showInfo]=\"true\"></dxo-pager>\r\n    <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n    <dxo-editing [allowUpdating]=\"true\" mode=\"cell\"></dxo-editing>\r\n\r\n    <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\"></dxi-column>\r\n    <dxi-column dataField=\"civilizationName\" caption=\"Civilization\"></dxi-column>\r\n    <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n    <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n    <dxi-column dataField=\"isReady\" caption=\"Ready\"></dxi-column>\r\n    <dxi-column dataField=\"citiesOnBoard\" caption=\"Steden\"></dxi-column>\r\n    <dxi-column dataField=\"tokensOnBoard\" caption=\"units\"></dxi-column>\r\n    <dxi-column dataField=\"tokensInStock\" caption=\"stock\"></dxi-column>\r\n    <dxi-column dataField=\"tokensInTreasury\" caption=\"treasury\"></dxi-column>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 1\">\r\n        <dxi-column dataField=\"hasTaxRevolt\" caption=\"Tax Revolt\" cellTemplate=\"taxRevolt\"></dxi-column>\r\n        <dxi-column dataField=\"taxRate\" caption=\"taxRate\"></dxi-column>\r\n        <dxi-column dataField=\"hasMonarchy\" caption=\"Monarchy\"></dxi-column>\r\n        <dxi-column dataField=\"hasCoinage\" caption=\"Coinage\"></dxi-column>\r\n        <div *dxTemplate=\"let item of 'taxRevolt'\">\r\n            <div style=\"background-color: red; color: white\">\r\n                {{ item.data.hasTaxRevolt ? 'TAX REVOLT' : '' }}\r\n            </div>\r\n        </div>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 4\">\r\n        <dxi-column dataField=\"treasuryDifference\" caption=\"Treasury won\"></dxi-column>\r\n        <dxi-column dataField=\"hasAdvancedMilitary\" caption=\"Advanded Military\"></dxi-column>\r\n        <dxi-column dataField=\"hasEngineering\" caption=\"Engineering\"></dxi-column>\r\n        <dxi-column dataField=\"hasMetalWorking\" caption=\"Metal Working\"></dxi-column>\r\n        <dxi-column dataField=\"hasNavalWarfare\" caption=\"Naval Warfare\"></dxi-column>\r\n    </ng-container>\r\n\r\n\r\n</dx-data-grid>"
 
 /***/ }),
 
@@ -213,11 +202,6 @@ var navigation = [
         path: '/admin',
         icon: 'toolbox'
     },
-    {
-        text: 'Admin Overview',
-        path: '/admin-overview',
-        icon: 'globe'
-    },
 ];
 
 
@@ -247,9 +231,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pages_actions_actions_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/actions/actions.component */ "./src/app/pages/actions/actions.component.ts");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _pages_admin_admin_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/admin/admin.component */ "./src/app/pages/admin/admin.component.ts");
-/* harmony import */ var _pages_admin_overview_admin_overview_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/admin-overview/admin-overview.component */ "./src/app/pages/admin-overview/admin-overview.component.ts");
-/* harmony import */ var _pages_gamescreen_gamescreen_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/gamescreen/gamescreen.component */ "./src/app/pages/gamescreen/gamescreen.component.ts");
-
+/* harmony import */ var _pages_gamescreen_gamescreen_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/gamescreen/gamescreen.component */ "./src/app/pages/gamescreen/gamescreen.component.ts");
 
 
 
@@ -278,22 +260,18 @@ var routes = [
     },
     {
         path: 'gamescreen',
-        component: _pages_gamescreen_gamescreen_component__WEBPACK_IMPORTED_MODULE_13__["GamescreenComponent"],
+        component: _pages_gamescreen_gamescreen_component__WEBPACK_IMPORTED_MODULE_12__["GamescreenComponent"],
     },
     {
         path: 'admin',
         component: _pages_admin_admin_component__WEBPACK_IMPORTED_MODULE_11__["AdminComponent"],
     },
     {
-        path: 'admin-overview',
-        component: _pages_admin_overview_admin_overview_component__WEBPACK_IMPORTED_MODULE_12__["AdminOverviewComponent"],
-    },
-    {
         path: '**',
         redirectTo: 'home',
     }
 ];
-var config = { url: 'http://jantineislief.nl:8889', options: {} };
+var config = { url: 'http://localhost:8889', options: {} };
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
@@ -318,8 +296,7 @@ var AppRoutingModule = /** @class */ (function () {
                 _pages_actions_actions_component__WEBPACK_IMPORTED_MODULE_9__["ActionsComponent"],
                 _pages_overview_overview_component__WEBPACK_IMPORTED_MODULE_5__["OverviewComponent"],
                 _pages_admin_admin_component__WEBPACK_IMPORTED_MODULE_11__["AdminComponent"],
-                _pages_admin_overview_admin_overview_component__WEBPACK_IMPORTED_MODULE_12__["AdminOverviewComponent"],
-                _pages_gamescreen_gamescreen_component__WEBPACK_IMPORTED_MODULE_13__["GamescreenComponent"]
+                _pages_gamescreen_gamescreen_component__WEBPACK_IMPORTED_MODULE_12__["GamescreenComponent"]
             ]
         })
     ], AppRoutingModule);
@@ -726,7 +703,7 @@ var ActionsComponent = /** @class */ (function () {
         this.gameService = gameService;
     }
     ActionsComponent.prototype.taxRateChanged = function () {
-        this.gameService.taxCollectionCalculations();
+        this.gameService.taxCollectionCalculations(this.gameService.getCurrentPlayer());
     };
     ActionsComponent.prototype.unitsChanged = function () {
         this.gameService.getCurrentPlayer().tokensInStock =
@@ -750,41 +727,6 @@ var ActionsComponent = /** @class */ (function () {
         })
     ], ActionsComponent);
     return ActionsComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/pages/admin-overview/admin-overview.component.ts":
-/*!******************************************************************!*\
-  !*** ./src/app/pages/admin-overview/admin-overview.component.ts ***!
-  \******************************************************************/
-/*! exports provided: AdminOverviewComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdminOverviewComponent", function() { return AdminOverviewComponent; });
-/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var _shared_services_game_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../shared/services/game.service */ "./src/app/shared/services/game.service.ts");
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-
-
-
-var AdminOverviewComponent = /** @class */ (function () {
-    function AdminOverviewComponent(gameService) {
-        this.gameService = gameService;
-    }
-    AdminOverviewComponent.ctorParameters = function () { return [
-        { type: _shared_services_game_service__WEBPACK_IMPORTED_MODULE_1__["GameService"] }
-    ]; };
-    AdminOverviewComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
-            template: __webpack_require__(/*! raw-loader!./admin-overview.component.html */ "./node_modules/raw-loader/index.js!./src/app/pages/admin-overview/admin-overview.component.html")
-        })
-    ], AdminOverviewComponent);
-    return AdminOverviewComponent;
 }());
 
 
@@ -823,11 +765,16 @@ var AdminComponent = /** @class */ (function () {
         this.gameService = gameService;
     }
     AdminComponent.prototype.startGame = function () {
-        this.gameService.game.startGame();
-        this.gameService.sendToOtherPlayers();
+        this.gameService.startGame();
     };
     AdminComponent.prototype.resetGame = function () {
         this.gameService.resetGame();
+    };
+    AdminComponent.prototype.nextPhase = function () {
+        this.gameService.nextPhase();
+    };
+    AdminComponent.prototype.sendChanges = function () {
+        this.gameService.sendToOtherPlayers();
     };
     AdminComponent.ctorParameters = function () { return [
         { type: src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_2__["GameService"] }
@@ -1018,6 +965,7 @@ var FooterComponent = /** @class */ (function () {
         this.gameService.game.phase += difference;
     };
     FooterComponent.prototype.test = function () {
+        this.gameService.game.hasStarted = false;
         this.gameService.getCurrentPlayer().hasMilitary = true;
     };
     FooterComponent.ctorParameters = function () { return [
@@ -1556,17 +1504,13 @@ var Game = /** @class */ (function () {
         this.players.push(new _player__WEBPACK_IMPORTED_MODULE_0__["Player"]('Indus', 5, 8));
         this.players.push(new _player__WEBPACK_IMPORTED_MODULE_0__["Player"]('Egypt', 5, 8));
         this.players.push(new _player__WEBPACK_IMPORTED_MODULE_0__["Player"]('Parthia', 5, 9));
+        // set admin name
+        this.players[0].playerName = 'admin';
+        // set originalOrder (for sorting)
+        for (var i = 0; i < this.players.length; i++) {
+            this.players[i].originalOrder = i;
+        }
     }
-    Game.prototype.startGame = function () {
-        this.hasStarted = true;
-        this.turn = 1;
-        this.phase = 1;
-        this.players.forEach(function (player) {
-            if (player && !player.isActive) {
-                player = null;
-            }
-        });
-    };
     return Game;
 }());
 
@@ -1644,6 +1588,7 @@ var Player = /** @class */ (function () {
         this.hasEngineering = false;
         this.hasMetalWorking = false;
         this.hasNavalWarfare = false;
+        this.personalCountDown = 0;
         this.civilizationName = civilizationName;
         this.AstNextAgePoint1 = AstNextAgePoint1;
         this.AstNextAgePoint2 = AstNextAgePoint2;
@@ -1725,21 +1670,32 @@ var GameService = /** @class */ (function () {
         this.currentPhase = 0;
         this.maxUnits = 55;
         this.maxCities = 9;
-        this.subscription = this.gameObservable.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["startWith"])(this.game)).subscribe(function (data) {
+        this.gameSubscription = this.gameObservable.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["startWith"])(this.game)).subscribe(function (data) {
+            console.log('---------------- recieved data: ', data);
             if (data.hasStarted === undefined) {
                 data = new _model_game__WEBPACK_IMPORTED_MODULE_3__["Game"]();
             }
             Object.assign(_this.game, data);
-            console.log('---------------- recieved data: ', _this.game);
             if (_this.currentPhase !== _this.game.phase) {
-                _this.currentPhase = _this.game.phase;
-                _this.disableReadyButton = false;
-                _this.disableUnreadyButton = false;
                 _this.phaseHasChangedActions(_this.game.phase);
             }
             if (_this.game.countDown > 0) {
                 _this.startCountDown(_this.game.countDown);
                 _this.game.countDown = 0;
+            }
+            // count players in queue during phase 3
+            if (_this.game.phase === 3) {
+                var counter_1 = 0;
+                _this.getActivePlayers().forEach(function (player) {
+                    if (!player.isReady && player.censusOrder < _this.getCurrentPlayer().censusOrder) {
+                        counter_1 += 1;
+                    }
+                });
+                // Start the countdown if there were players in front of you but not anymore.
+                if (_this.playersInFrontOfCurrentPlayerInQueue > 0 && counter_1 === 0) {
+                    _this.startCountDown(_this.getCurrentPlayer().personalCountDown);
+                }
+                _this.playersInFrontOfCurrentPlayerInQueue = counter_1;
             }
         });
     }
@@ -1754,30 +1710,49 @@ var GameService = /** @class */ (function () {
         player.tokensInTreasury += player.treasuryDifference;
         player.treasuryDifference = 0;
         player.isReady = true;
-        this.checkIfEverybodyIsReadyAndProceedToNextPhaseIfSo();
-        this.sendToOtherPlayers();
+        if (this.everybodyIsReady() && this.game.hasStarted) {
+            this.nextPhase();
+        }
+        else {
+            this.sendToOtherPlayers();
+        }
     };
-    GameService.prototype.checkIfEverybodyIsReadyAndProceedToNextPhaseIfSo = function () {
-        var e_1, _a, e_2, _b;
+    GameService.prototype.everybodyIsReady = function () {
+        var e_1, _a;
         try {
-            for (var _c = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](this.game.players), _d = _c.next(); !_d.done; _d = _c.next()) {
-                var player = _d.value;
+            for (var _b = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](this.game.players), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var player = _c.value;
                 if (player.isActive && !player.isReady) {
-                    return; // Somebody is not yet ready
+                    return false; // Somebody is not yet ready
                 }
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
             }
             finally { if (e_1) throw e_1.error; }
         }
-        this.game.phase += this.game.phase === 13 ? -12 : 1;
+        return true;
+    };
+    GameService.prototype.nextPhase = function () {
+        var e_2, _a;
+        var _this = this;
+        if (!this.game.hasStarted) {
+            return;
+        }
+        if (this.game.phase >= 13) {
+            this.game.phase = 1;
+            this.game.turn += 1;
+        }
+        else {
+            this.game.phase += 1;
+        }
         try {
-            for (var _e = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](this.game.players), _f = _e.next(); !_f.done; _f = _e.next()) {
-                var player = _f.value;
+            // All players are set to unready
+            for (var _b = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](this.game.players), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var player = _c.value;
                 if (player.isActive) {
                     player.isReady = false;
                 }
@@ -1786,43 +1761,108 @@ var GameService = /** @class */ (function () {
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
         finally {
             try {
-                if (_f && !_f.done && (_b = _e.return)) _b.call(_e);
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
             }
             finally { if (e_2) throw e_2.error; }
         }
-        if (this.game.phase === 3) {
-            var sortedArray = this.game.players.sort(function (a, b) { return a.tokensOnBoard - b.tokensOnBoard; });
-            for (var i = 0; i < this.game.players.length; i++) {
-                sortedArray[i].censusOrder = sortedArray[i].hasMilitary ? i + this.game.players.length : i;
-            }
-            console.log(sortedArray);
+        // Calculations on phase change to determine readyness and other values
+        if (this.game.phase === 1) {
+            this.getActivePlayers().forEach(function (player) {
+                _this.taxCollectionCalculations(player);
+                // als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
+                if (!(player.hasMonarchy || player.hasCoinage)) {
+                    player.isReady = true;
+                }
+                // Automatisch door als iedereen ready is:
+                // if (this.everybodyIsReady()) {
+                //     this.nextPhase();
+                // }
+            });
         }
+        else if (this.game.phase === 2) {
+        }
+        else if (this.game.phase === 3) {
+            var playerList = this.getActivePlayers();
+            // Sorteer spelers op aantal token (en bij gelijk aantal op originele volgorde)
+            playerList.sort(function (a, b) {
+                return b.tokensOnBoard - a.tokensOnBoard === 0 ? a.originalOrder - b.originalOrder : b.tokensOnBoard - a.tokensOnBoard;
+            });
+            // Zet de spelers met Military achteraan de rij
+            for (var i = 0; i < playerList.length; i++) {
+                playerList[i].censusOrder = playerList[i].hasMilitary ? i + playerList.length : i;
+            }
+            // Sorteer spelers op censusVolgorde
+            playerList.sort(function (a, b) { return a.censusOrder - b.censusOrder; });
+            // Geef iedereen een volgnr (logischer leesbaar)
+            for (var i = 0; i < playerList.length; i++) {
+                playerList[i].censusOrder = i + 1;
+                if (i === 0) {
+                    playerList[i].personalCountDown = 150;
+                }
+                else if (i === 1) {
+                    playerList[i].personalCountDown = 120;
+                }
+                else {
+                    playerList[i].personalCountDown = 90;
+                }
+            }
+        }
+        else if (this.game.phase === 4) {
+        }
+        else if (this.game.phase === 5) {
+        }
+        else if (this.game.phase === 6) {
+        }
+        else if (this.game.phase === 7) {
+            this.game.countDown = 900;
+        }
+        else if (this.game.phase === 8) {
+        }
+        else if (this.game.phase === 9) {
+        }
+        else if (this.game.phase === 10) {
+        }
+        else if (this.game.phase === 11) {
+        }
+        else if (this.game.phase === 12) {
+        }
+        else if (this.game.phase === 13) {
+        }
+        this.sendToOtherPlayers();
     };
+    // Things that should happen when game arrives with changed phase
     GameService.prototype.phaseHasChangedActions = function (newPhase) {
-        if (newPhase === 1) {
-            this.taxCollectionCalculations();
-            // als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
-            if (!(this.getCurrentPlayer().hasMonarchy || this.getCurrentPlayer().hasCoinage)) {
-                this.getCurrentPlayer().isReady = true;
-                this.disableUnreadyButton = true;
-            }
+        // check to prevent error on first load
+        if (!this.getCurrentPlayer()) {
+            return;
         }
-    };
-    GameService.prototype.taxCollectionCalculations = function () {
-        this.getCurrentPlayer().collectedTax = this.getCurrentPlayer().citiesOnBoard * this.getCurrentPlayer().taxRate;
-        // check for tax revolt
-        if (this.getCurrentPlayer().tokensInStock < this.getCurrentPlayer().collectedTax) {
-            if (!this.getCurrentPlayer().hasDemocracy) {
-                this.getCurrentPlayer().hasTaxRevolt = true;
-            }
-            // collected tax can not be more than tokens in stock
-            this.getCurrentPlayer().collectedTax = this.getCurrentPlayer().tokensInStock;
+        this.currentPhase = this.game.phase;
+        this.disableReadyButton = false;
+        if (this.getCurrentPlayer().isReady) {
+            this.disableUnreadyButton = true;
         }
         else {
-            this.getCurrentPlayer().hasTaxRevolt = false;
+            this.disableUnreadyButton = false;
         }
-        this.getCurrentPlayer().tokensInTreasury += this.getCurrentPlayer().collectedTax;
-        this.getCurrentPlayer().tokensInStock -= this.getCurrentPlayer().collectedTax;
+        if (this.game.phase === 8 && this.countDownInterval) {
+            clearInterval(this.countDownInterval);
+        }
+    };
+    GameService.prototype.taxCollectionCalculations = function (player) {
+        player.collectedTax = player.citiesOnBoard * player.taxRate;
+        // check for tax revolt
+        if (player.tokensInStock < player.collectedTax) {
+            if (!player.hasDemocracy) {
+                player.hasTaxRevolt = true;
+            }
+            // collected tax can not be more than tokens in stock
+            player.collectedTax = player.tokensInStock;
+        }
+        else {
+            player.hasTaxRevolt = false;
+        }
+        player.tokensInTreasury += player.collectedTax;
+        player.tokensInStock -= player.collectedTax;
     };
     GameService.prototype.startCountDown = function (seconds) {
         var _this = this;
@@ -1832,12 +1872,18 @@ var GameService = /** @class */ (function () {
             var startTime_1 = Date.now();
             this.countDownInterval = setInterval(function () {
                 _this.countDown = seconds - Math.floor((Date.now() - startTime_1) / 1000);
+                _this.updateCountDownVisibleString();
                 if (_this.countDown < 1) {
                     clearInterval(_this.countDownInterval);
                     _this.countDown = 0;
                 }
-            }, 1000);
+            }, 999);
         }
+    };
+    GameService.prototype.updateCountDownVisibleString = function () {
+        var minutes = Math.floor(this.countDown / 60);
+        this.countDown = this.countDown - minutes * 60;
+        this.countDownVisibleString = minutes + ":" + (this.countDown < 10 ? 0 : '') + this.countDown;
     };
     GameService.prototype.getCurrentPlayer = function () {
         if (this.game.players[this.playerIndex]) {
@@ -1845,9 +1891,25 @@ var GameService = /** @class */ (function () {
         }
         return null;
     };
+    GameService.prototype.getActivePlayers = function () {
+        var output = [];
+        this.game.players.forEach(function (player) {
+            if (player.isActive) {
+                output.push(player);
+            }
+        });
+        return output;
+    };
     GameService.prototype.sendToOtherPlayers = function () {
         console.log('++++++++++++++++ send game: ', this.game);
         this.socket.emit('updateGame', this.game);
+    };
+    GameService.prototype.startGame = function () {
+        this.game.hasStarted = true;
+        this.game.turn = 1;
+        // Start game on phase 2 since nobody has cities yet.
+        this.game.phase = 1;
+        this.nextPhase();
     };
     GameService.prototype.resetGame = function () {
         console.log('||||||||||||||| reset game.');

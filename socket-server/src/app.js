@@ -9,7 +9,7 @@ var game = {};
 io.on('connection', socket => {
 
     socket.on('updateGame', incommingGame => {
-        console.log("Recieved game")
+        console.log("Recieved game from " + socket.id)
         game = incommingGame;
         // if (game.phase !== currentPhase) {
         //     history.push(game);

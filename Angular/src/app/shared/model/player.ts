@@ -34,7 +34,7 @@ export class Player {
     hasEngineering = false;
     hasMetalWorking = false;
     hasNavalWarfare = false;
-
+    personalCountDown = 0;
     constructor(civilizationName: string, AstNextAgePoint1: number, AstNextAgePoint2: number) {
         this.civilizationName = civilizationName;
         this.AstNextAgePoint1 = AstNextAgePoint1;
