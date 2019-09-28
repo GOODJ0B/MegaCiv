@@ -271,7 +271,7 @@ const routes = [
         redirectTo: 'home',
     }
 ];
-const config = { url: 'http://localhost:8889', options: {} };
+const config = { url: 'http://jantineislief.nl:8889', options: {} };
 let AppRoutingModule = class AppRoutingModule {
 };
 AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
