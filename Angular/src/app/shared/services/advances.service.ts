@@ -9,7 +9,7 @@ export class AdvancesService {
 
   private _availableAdvances: Advance[];
   get availableAdvances(): Advance[]{
-    if (!this._availableAdvances) {
+    if (!this._availableAdvances || this.gameService.getCurrentPlayer().ownedAdvances.length !== this._ownedAdvances.length) {
       this.fillLists();
     }
     return this._availableAdvances;
@@ -17,7 +17,7 @@ export class AdvancesService {
 
   private _ownedAdvances: Advance[];
   get ownedAdvances(): Advance[]{
-    if (!this._ownedAdvances) {
+    if (!this._ownedAdvances || this.gameService.getCurrentPlayer().ownedAdvances.length !== this._ownedAdvances.length) {
       this.fillLists();
     }
     return this._ownedAdvances;
