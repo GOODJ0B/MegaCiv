@@ -3,6 +3,7 @@ import {GameService} from './game.service';
 import {Advance} from '../model/advance.interface';
 import {advancesList} from '../model/advances-list';
 import {AdvanceTypes} from '../model/advance-types.enum';
+import {Player} from '../model/player';
 
 @Injectable({providedIn: 'root'})
 export class AdvancesService {
@@ -24,6 +25,14 @@ export class AdvancesService {
   }
 
   constructor(private readonly gameService: GameService) {
+  }
+
+  // player is optional, assumes current player if no player is provided
+  public playerHasAdvance(advanceType: AdvanceTypes, player?: Player): boolean {
+    if (!player) {
+      player = this.gameService.getCurrentPlayer();
+    }
+    return player.ownedAdvances.includes(advanceType);
   }
 
   private fillLists() {
