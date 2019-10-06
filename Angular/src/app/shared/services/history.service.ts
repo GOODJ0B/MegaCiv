@@ -9,7 +9,7 @@ import { Player } from '../model/player';
 import { phases } from '../model/phases';
 
 @Injectable({ providedIn: 'root' })
-export class GameService {
+export class HistoryService {
     historyObservable = this.socket.fromEvent<Game>('history');
     history: Game[];
     historySubscription: Subscription;
