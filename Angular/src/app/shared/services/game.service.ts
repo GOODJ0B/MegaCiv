@@ -7,6 +7,8 @@ import { Game } from '../model/game';
 import { startWith } from 'rxjs/operators';
 import { Player } from '../model/player';
 import { phases } from '../model/phases';
+import { Advance } from '../model/advance.interface';
+import { AdvanceTypes } from '../model/advance-types.enum';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
@@ -266,4 +268,8 @@ export class GameService {
         return phases[index ? index : this.game.phase];
     }
 
+    public getAdvancesInPlay() {
+        return this.game.advancesInPlay;
+    }
+    
 }

@@ -1,10 +1,13 @@
 import { Player } from './player';
+import { Advance } from './advance.interface';
+import { AdvanceTypes } from './advance-types.enum';
 
 export class Game {
     turn = 0;
     phase = 0;
     players: Player[] = [];
     hasStarted = false;
+    advancesInPlay: boolean[] = []
 
     countDown = 0;
 

@@ -23,7 +23,7 @@
         <dxi-column dataField="taxRate" [width]="80" caption="tax rate"></dxi-column>
         <dxi-column dataField="" [width]="80" caption="tax collected"></dxi-column>
         <dxi-column dataField="tokensInTreasury" [width]="80" caption="treasury"></dxi-column>
-        <dxi-column [visible]="true" dataField="hasMonarchy" [width]="170" caption="MONARCHY"></dxi-column>
+        <dxi-column *ngIf="false" dataField="hasMonarchy" [width]="170" caption="MONARCHY"></dxi-column>
         <dxi-column [visible]="true" dataField="hasCoinage" [width]="170" caption="COINAGE"></dxi-column>
         <div *dxTemplate="let item of 'taxRevolt'">
             <div style="background-color: red; color: white">
