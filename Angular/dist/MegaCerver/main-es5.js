@@ -34,6 +34,28 @@ module.exports = "<ng-container *ngIf=\"isAutorized(); else notAuthorized\">\r\n
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/layouts/advance-card/advance-card.component.html":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/layouts/advance-card/advance-card.component.html ***!
+  \********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"card\" style=\"margin: 20px; max-width: 600px\" (click)=\"openPopup()\">\r\n  <div class=\"container\">\r\n    <p></p>\r\n    <b style=\"font-size: 1.2em\">{{ advance.name }}</b>\r\n    <p>{{ advance.description }}</p>\r\n    <p>Cost: {{ advance.currentPrice }}</p>\r\n  </div>\r\n</div>\r\n<app-advance-popup [(visible)]=\"showPopup\" [advance]=\"advance\"></app-advance-popup>\r\n"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/layouts/advance-popup/advance-popup.component.html":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/layouts/advance-popup/advance-popup.component.html ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<dx-popup [(visible)]=\"visible\" width=\"auto\" height=\"auto\" maxWidth=\"600px\">\r\n<!--  <img src=\"img_avatar.png\" alt=\"Avatar\" style=\"width:100%\">-->\r\n  <div class=\"container\">\r\n    <p></p>\r\n    <b style=\"font-size: 1.1em\">{{ advance.name }}</b>\r\n    <p>{{ advance.description }}</p>\r\n    <p>Current oost: {{ advance.currentPrice }}</p>\r\n    <p>Original cost: {{ advance.cost }}</p>\r\n    <p>Victory points: {{ advance.points }}</p>\r\n    <p>Type: {{ advancesService.getAdvanceTypeName(advance.type1) }}</p>\r\n    <p *ngIf=\"advance.type2\">Secondary type: {{ advancesService.getAdvanceTypeName(advance.type2) }}</p>\r\n    <p *ngIf=\"advance.discountToCivics\">Discount To Civics: {{ advance.discountToCivics }}</p>\r\n    <p *ngIf=\"advance.discountToCrafts\">Discount To Crafts: {{ advance.discountToCrafts }}</p>\r\n    <p *ngIf=\"advance.discountToReligion\">Discount To Religion: {{ advance.discountToReligion }}</p>\r\n    <p *ngIf=\"advance.discountToScience\">Discount To Science: {{ advance.discountToScience }}</p>\r\n    <p *ngIf=\"advance.discountToArts\">Discount To Arts: {{ advance.discountToArts }}</p>\r\n    <p *ngIf=\"advance.discountFromCard\">Discount From Card: {{ advancesService.getAdvance(advance.discountFromCard).name }}</p>\r\n    <p *ngIf=\"advance.discountFromCardAmount\">Discount From Card Amount: {{ advance.discountFromCardAmount }}</p>\r\n    <p *ngIf=\"advance.discountToCard\">Discount To Card: {{ advancesService.getAdvance(advance.discountToCard).name }}</p>\r\n    <p *ngIf=\"advance.discountToCardAmount\">Discount To Card Amount: {{ advance.discountToCardAmount }}</p>\r\n  </div>\r\n  <dx-button type=\"default\" (onClick)=\"buyAdvance()\">KOPEN</dx-button>\r\n</dx-popup>\r\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/layouts/side-nav-inner-toolbar/side-nav-inner-toolbar.component.html":
 /*!****************************************************************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/layouts/side-nav-inner-toolbar/side-nav-inner-toolbar.component.html ***!
@@ -78,6 +100,17 @@ module.exports = "<ng-container *ngIf=\"gameService.playerIndex === 0 || true; e
 
 /***/ }),
 
+/***/ "./node_modules/raw-loader/index.js!./src/app/pages/advances/advances.component.html":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/pages/advances/advances.component.html ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h2 class=\"content-block\">Advances:</h2>\r\n<div class=\"content-block\">\r\n  <h6>Available: </h6>\r\n  <app-advance-card *ngFor=\"let advance of advancesService.availableAdvances\" [advance]=\"advance\"></app-advance-card>\r\n  <h6>Owned: </h6>\r\n  <app-advance-card *ngFor=\"let ownedAdvance of advancesService.ownedAdvances\" [advance]=\"ownedAdvance\"></app-advance-card>\r\n</div>\r\n"
+
+/***/ }),
+
 /***/ "./node_modules/raw-loader/index.js!./src/app/pages/gamescreen/gamescreen.component.html":
 /*!**************************************************************************************!*\
   !*** ./node_modules/raw-loader!./src/app/pages/gamescreen/gamescreen.component.html ***!
@@ -85,7 +118,7 @@ module.exports = "<ng-container *ngIf=\"gameService.playerIndex === 0 || true; e
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showColumnLines]=\"true\"\r\n    [showRowLines]=\"false\" [showBorders]=\"true\" [rowAlternationEnabled]=\"true\" [focusedRowEnabled]=\"false\"\r\n    [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\">\r\n\r\n    <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n    <dxo-pager [showPageSizeSelector]=\"false\" [showInfo]=\"true\"></dxo-pager>\r\n    <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n    <dxo-editing [allowUpdating]=\"true\" mode=\"cell\"></dxo-editing>\r\n\r\n    <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\"></dxi-column>\r\n    <dxi-column dataField=\"civilizationName\" caption=\"Civilization\"></dxi-column>\r\n    <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n    <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n    <dxi-column dataField=\"isReady\" caption=\"Ready\"></dxi-column>\r\n    <dxi-column dataField=\"citiesOnBoard\" caption=\"Steden\"></dxi-column>\r\n    <dxi-column dataField=\"tokensOnBoard\" caption=\"units\"></dxi-column>\r\n    <dxi-column dataField=\"tokensInStock\" caption=\"stock\"></dxi-column>\r\n    <dxi-column dataField=\"tokensInTreasury\" caption=\"treasury\"></dxi-column>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 1\">\r\n        <dxi-column dataField=\"hasTaxRevolt\" caption=\"Tax Revolt\" cellTemplate=\"taxRevolt\"></dxi-column>\r\n        <dxi-column dataField=\"taxRate\" caption=\"taxRate\"></dxi-column>\r\n        <dxi-column dataField=\"hasMonarchy\" caption=\"Monarchy\"></dxi-column>\r\n        <dxi-column dataField=\"hasCoinage\" caption=\"Coinage\"></dxi-column>\r\n        <div *dxTemplate=\"let item of 'taxRevolt'\">\r\n            <div style=\"background-color: red; color: white\">\r\n                {{ item.data.hasTaxRevolt ? 'TAX REVOLT' : '' }}\r\n            </div>\r\n        </div>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 4\">\r\n        <dxi-column dataField=\"treasuryDifference\" caption=\"Treasury won\"></dxi-column>\r\n        <dxi-column dataField=\"hasAdvancedMilitary\" caption=\"Advanded Military\"></dxi-column>\r\n        <dxi-column dataField=\"hasEngineering\" caption=\"Engineering\"></dxi-column>\r\n        <dxi-column dataField=\"hasMetalWorking\" caption=\"Metal Working\"></dxi-column>\r\n        <dxi-column dataField=\"hasNavalWarfare\" caption=\"Naval Warfare\"></dxi-column>\r\n    </ng-container>\r\n\r\n\r\n</dx-data-grid>"
+module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showColumnLines]=\"true\"\r\n    [showRowLines]=\"false\" [showBorders]=\"true\" [rowAlternationEnabled]=\"true\" [focusedRowEnabled]=\"false\"\r\n    [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\">\r\n\r\n    <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n    <dxo-pager [showPageSizeSelector]=\"false\" [showInfo]=\"true\"></dxo-pager>\r\n    <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n    <dxo-editing [allowUpdating]=\"true\" mode=\"cell\"></dxo-editing>\r\n    \r\n    <ng-container *ngIf=\"gameService.game.phase === 0\">\r\n        <dxi-column dataField=\"isReady\" caption=\"Ready\"></dxi-column>\r\n        <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\"></dxi-column>\r\n        <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n        <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 1\">\r\n        <dxi-column dataField=\"citiesOnBoard\" [width]=\"80\" caption=\"cities\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"hasTaxRevolt\" [width]=\"100\" caption=\"tax revolt\" cellTemplate=\"taxRevolt\"></dxi-column>\r\n        <dxi-column dataField=\"civilizationName\" [width]=\"200\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column dataField=\"taxRate\" [width]=\"80\" caption=\"tax rate\"></dxi-column>\r\n        <dxi-column dataField=\"\" [width]=\"80\" caption=\"tax collected\"></dxi-column>\r\n        <dxi-column dataField=\"tokensInTreasury\" [width]=\"80\" caption=\"treasury\"></dxi-column>\r\n        <dxi-column *ngIf=\"false\" dataField=\"hasMonarchy\" [width]=\"170\" caption=\"MONARCHY\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"hasCoinage\" [width]=\"170\" caption=\"COINAGE\"></dxi-column>\r\n        <div *dxTemplate=\"let item of 'taxRevolt'\">\r\n            <div style=\"background-color: red; color: white\">\r\n                {{ item.data.hasTaxRevolt ? 'TAX REVOLT' : '' }}\r\n            </div>\r\n        </div>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 2\">\r\n        <dxi-column dataField=\"civilizationName\" [width]=\"170\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column dataField=\"tokensOnBoard\" [width]=\"100\" caption=\"tokens\"></dxi-column>\r\n        <dxi-column dataField=\"tokensInStock\" [width]=\"100\" caption=\"stock\"></dxi-column>\r\n        <dxi-column dataField=\"tokensInTreasury\" [width]=\"100\" caption=\"treasury\"></dxi-column>\r\n        <dxi-column dataField=\"citiesOnBoard\" [width]=\"100\" caption=\"cities\"></dxi-column>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 3\">\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"180\" caption=\"MILITARY\"></dxi-column>\r\n        <dxi-column dataField=\"tokensOnBoard\" [width]=\"100\" caption=\"tokens\"></dxi-column>\r\n        <dxi-column dataField=\"civilizationName\" [width]=\"200\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column dataField=\"\" [width]=\"100\" caption=\"time\"></dxi-column>\r\n        <dxi-column dataField=\"\" [width]=\"100\" caption=\"treasury used\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"180\" caption=\"CLOTH MAKING\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"180\" caption=\"ASTRONAVIGATION\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"180\" caption=\"DIPLOMACY\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"180\" caption=\"NAVAL WARFARE\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"180\" caption=\"ROADBUILDING\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"180\" caption=\"CULTURAL ASCENDANCY\"></dxi-column>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 4\">\r\n        <dxi-column [visible]=\"true\" dataField=\"hasAdvancedMilitary\"  [width]=\"150\" caption=\"ADVANCED MILITARY\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"hasEngineering\" [width]=\"150\" caption=\"ENGINEERING\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"hasMetalWorking\" [width]=\"150\" caption=\"METAL WORKING\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"hasNavalWarfare\" [width]=\"150\" caption=\"NAVAL WARFARE\"></dxi-column>\r\n        <dxi-column dataField=\"civilizationName\" [width]=\"200\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column dataField=\"treasuryDifference\" [width]=\"100\" caption=\"treasury won\"></dxi-column>\r\n        <dxi-column dataField=\"treasuryDifference\" [width]=\"100\" caption=\"tradecards\"></dxi-column>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 5\">\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"150\" caption=\"CULTURAL ASCENDANCY\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"150\" caption=\"ARCHITECTURE\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"150\" caption=\"AGRICULTURE\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"150\" caption=\"PUBLIC WORKS\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"150\" caption=\"URBANISM\"></dxi-column>\r\n        <dxi-column dataField=\"civilizationName\" [width]=\"200\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column dataField=\"tokensOnBoard\" [width]=\"100\" caption=\"tokens\"></dxi-column>\r\n        <dxi-column dataField=\"tokensInStock\" [width]=\"100\" caption=\"stock\"></dxi-column>\r\n        <dxi-column dataField=\"tokensInTreasury\" [width]=\"100\" caption=\"treasury\"></dxi-column>\r\n        <dxi-column dataField=\"citiesOnBoard\" [width]=\"150\" caption=\"cities\"></dxi-column>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 6\">\r\n        <dxi-column dataField=\"\" [width]=\"100\" caption=\"block\"></dxi-column>\r\n        <dxi-column dataField=\"citiesOnBoard\" [width]=\"100\" caption=\"cities\"></dxi-column>\r\n        <dxi-column dataField=\"tokensInTreasury\" [width]=\"100\" caption=\"treasury\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"170\" caption=\"WONDER OF THE WORLD\"></dxi-column>\r\n        <dxi-column dataField=\"civilizationName\" [width]=\"200\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column dataField=\"\" [width]=\"150\" caption=\"tradecard lvl9 (15)\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"150\" caption=\"tradecard lvl8 (13)\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"150\" caption=\"tradecard lvl7 (13)\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"150\" caption=\"tradecard lvl6 (13)\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"150\" caption=\"tradecard lvl3 (9)\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" [width]=\"150\"  caption=\"tradecard lvl2 (5)\"></dxi-column>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 7\">\r\n        <dxi-column dataField=\"\" caption=\"block\"></dxi-column>\r\n        <dxi-column dataField=\"civilizationName\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"tradecards\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"time left\"></dxi-column>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 8\">\r\n        <dxi-column dataField=\"civilizationName\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"calamities\"></dxi-column>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 9\">\r\n        <dxi-column dataField=\"\" caption=\"calamity\"></dxi-column>\r\n        <dxi-column dataField=\"civilizationName\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"effect\"></dxi-column>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 10\">\r\n        <dxi-column dataField=\"\" caption=\"A.S.T.\"></dxi-column>\r\n        <dxi-column dataField=\"civilizationName\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"DIASPORA\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"FUNDAMENTALISM\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"MONOTHEISM\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"POLITICS\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"PROVINCIAL EMPIRE\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"TRADE ROUTES\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"UNIVERSAL DOCTRINE\"></dxi-column>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 11\">\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"CULTURAL ASCENDANCY\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"ARCHITECTURE\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"PUBLIC WORKS\"></dxi-column>\r\n        <dxi-column dataField=\"civilizationName\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column dataField=\"tokensOnBoard\" caption=\"tokens\"></dxi-column>\r\n        <dxi-column dataField=\"tokensInStock\" caption=\"stock\"></dxi-column>\r\n        <dxi-column dataField=\"tokensInTreasury\" caption=\"treasury\"></dxi-column>\r\n        <dxi-column dataField=\"citiesOnBoard\" caption=\"cities\"></dxi-column>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"gameService.game.phase === 12\">\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"MINING\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"ROADBUILDING\"></dxi-column>\r\n        <dxi-column [visible]=\"true\" dataField=\"\" caption=\"TRADE EMPIRE\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"civics\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"crafts\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"religion\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"science\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"arts\"></dxi-column>\r\n        <dxi-column dataField=\"civilizationName\" caption=\"civilization\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"gold used\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"advances bought\"></dxi-column>\r\n        <dxi-column dataField=\"tokensInTreasury\" caption=\"treasury\"></dxi-column>\r\n        <dxi-column dataField=\"\" caption=\"tradecards\"></dxi-column>\r\n    </ng-container>\r\n</dx-data-grid>"
 
 /***/ }),
 
@@ -202,6 +235,11 @@ var navigation = [
         path: '/admin',
         icon: 'toolbox'
     },
+    {
+        text: 'Advances',
+        path: '/advances',
+        icon: 'fontsize'
+    },
 ];
 
 
@@ -218,20 +256,24 @@ var navigation = [
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppRoutingModule", function() { return AppRoutingModule; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
-/* harmony import */ var devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! devextreme-angular/ui/button */ "./node_modules/devextreme-angular/ui/button.js");
-/* harmony import */ var devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _pages_home_home_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./pages/home/home.component */ "./src/app/pages/home/home.component.ts");
-/* harmony import */ var _pages_overview_overview_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/overview/overview.component */ "./src/app/pages/overview/overview.component.ts");
-/* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! devextreme-angular */ "./node_modules/devextreme-angular/index.js");
-/* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! devextreme-angular */ "./node_modules/devextreme-angular/index.js");
+/* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! devextreme-angular/ui/button */ "./node_modules/devextreme-angular/ui/button.js");
+/* harmony import */ var devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var ngx_socket_io__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-socket-io */ "./node_modules/ngx-socket-io/index.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _layouts_advance_card_advance_card_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./layouts/advance-card/advance-card.component */ "./src/app/layouts/advance-card/advance-card.component.ts");
 /* harmony import */ var _pages_actions_actions_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./pages/actions/actions.component */ "./src/app/pages/actions/actions.component.ts");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var _pages_admin_admin_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/admin/admin.component */ "./src/app/pages/admin/admin.component.ts");
+/* harmony import */ var _pages_admin_admin_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./pages/admin/admin.component */ "./src/app/pages/admin/admin.component.ts");
+/* harmony import */ var _pages_advances_advances_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./pages/advances/advances.component */ "./src/app/pages/advances/advances.component.ts");
 /* harmony import */ var _pages_gamescreen_gamescreen_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./pages/gamescreen/gamescreen.component */ "./src/app/pages/gamescreen/gamescreen.component.ts");
+/* harmony import */ var _pages_home_home_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./pages/home/home.component */ "./src/app/pages/home/home.component.ts");
+/* harmony import */ var _pages_overview_overview_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./pages/overview/overview.component */ "./src/app/pages/overview/overview.component.ts");
+
+
 
 
 
@@ -248,7 +290,7 @@ __webpack_require__.r(__webpack_exports__);
 var routes = [
     {
         path: 'overview',
-        component: _pages_overview_overview_component__WEBPACK_IMPORTED_MODULE_5__["OverviewComponent"],
+        component: _pages_overview_overview_component__WEBPACK_IMPORTED_MODULE_14__["OverviewComponent"],
     },
     {
         path: 'actions',
@@ -256,7 +298,7 @@ var routes = [
     },
     {
         path: 'home',
-        component: _pages_home_home_component__WEBPACK_IMPORTED_MODULE_4__["HomeComponent"],
+        component: _pages_home_home_component__WEBPACK_IMPORTED_MODULE_13__["HomeComponent"],
     },
     {
         path: 'gamescreen',
@@ -264,7 +306,11 @@ var routes = [
     },
     {
         path: 'admin',
-        component: _pages_admin_admin_component__WEBPACK_IMPORTED_MODULE_11__["AdminComponent"],
+        component: _pages_admin_admin_component__WEBPACK_IMPORTED_MODULE_10__["AdminComponent"],
+    },
+    {
+        path: 'advances',
+        component: _pages_advances_advances_component__WEBPACK_IMPORTED_MODULE_11__["AdvancesComponent"],
     },
     {
         path: '**',
@@ -278,25 +324,27 @@ var AppRoutingModule = /** @class */ (function () {
     AppRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             imports: [
-                _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouterModule"].forRoot(routes),
-                devextreme_angular__WEBPACK_IMPORTED_MODULE_6__["DxDataGridModule"],
-                devextreme_angular__WEBPACK_IMPORTED_MODULE_6__["DxFormModule"],
-                devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_1__["DxButtonModule"],
+                _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterModule"].forRoot(routes),
+                devextreme_angular__WEBPACK_IMPORTED_MODULE_5__["DxDataGridModule"],
+                devextreme_angular__WEBPACK_IMPORTED_MODULE_5__["DxFormModule"],
+                devextreme_angular_ui_button__WEBPACK_IMPORTED_MODULE_6__["DxButtonModule"],
                 ngx_socket_io__WEBPACK_IMPORTED_MODULE_7__["SocketIoModule"].forRoot(config),
-                _angular_forms__WEBPACK_IMPORTED_MODULE_8__["FormsModule"],
-                _angular_common__WEBPACK_IMPORTED_MODULE_10__["CommonModule"],
-                devextreme_angular__WEBPACK_IMPORTED_MODULE_6__["DxNumberBoxModule"]
+                _angular_forms__WEBPACK_IMPORTED_MODULE_3__["FormsModule"],
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                devextreme_angular__WEBPACK_IMPORTED_MODULE_5__["DxNumberBoxModule"],
+                _layouts_advance_card_advance_card_component__WEBPACK_IMPORTED_MODULE_8__["AdvanceCardModule"]
             ],
             providers: [],
             exports: [
-                _angular_router__WEBPACK_IMPORTED_MODULE_3__["RouterModule"]
+                _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterModule"]
             ],
             declarations: [
-                _pages_home_home_component__WEBPACK_IMPORTED_MODULE_4__["HomeComponent"],
+                _pages_home_home_component__WEBPACK_IMPORTED_MODULE_13__["HomeComponent"],
                 _pages_actions_actions_component__WEBPACK_IMPORTED_MODULE_9__["ActionsComponent"],
-                _pages_overview_overview_component__WEBPACK_IMPORTED_MODULE_5__["OverviewComponent"],
-                _pages_admin_admin_component__WEBPACK_IMPORTED_MODULE_11__["AdminComponent"],
-                _pages_gamescreen_gamescreen_component__WEBPACK_IMPORTED_MODULE_12__["GamescreenComponent"]
+                _pages_overview_overview_component__WEBPACK_IMPORTED_MODULE_14__["OverviewComponent"],
+                _pages_admin_admin_component__WEBPACK_IMPORTED_MODULE_10__["AdminComponent"],
+                _pages_gamescreen_gamescreen_component__WEBPACK_IMPORTED_MODULE_12__["GamescreenComponent"],
+                _pages_advances_advances_component__WEBPACK_IMPORTED_MODULE_11__["AdvancesComponent"],
             ]
         })
     ], AppRoutingModule);
@@ -424,6 +472,170 @@ var AppModule = /** @class */ (function () {
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/layouts/advance-card/advance-card.component.scss":
+/*!******************************************************************!*\
+  !*** ./src/app/layouts/advance-card/advance-card.component.scss ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".card {\n  /* Add shadows to create the \"card\" effect */\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);\n  transition: 0.3s; }\n\n/* On mouse-over, add a deeper shadow */\n\n.card:hover {\n  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); }\n\n/* Add some padding inside the card container */\n\n.container {\n  padding: 2px 16px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbGF5b3V0cy9hZHZhbmNlLWNhcmQvQzpcXFVzZXJzXFxqb2JcXERvY3VtZW50c1xcTWVnYUNlcnZlclxcQW5ndWxhci9zcmNcXGFwcFxcbGF5b3V0c1xcYWR2YW5jZS1jYXJkXFxhZHZhbmNlLWNhcmQuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSw0Q0FBQTtFQUNBLDBDQUF1QztFQUN2QyxnQkFBZ0IsRUFBQTs7QUFHbEIsdUNBQUE7O0FBQ0E7RUFDRSwyQ0FBd0MsRUFBQTs7QUFHMUMsK0NBQUE7O0FBQ0E7RUFDRSxpQkFBaUIsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2xheW91dHMvYWR2YW5jZS1jYXJkL2FkdmFuY2UtY2FyZC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jYXJkIHtcclxuICAvKiBBZGQgc2hhZG93cyB0byBjcmVhdGUgdGhlIFwiY2FyZFwiIGVmZmVjdCAqL1xyXG4gIGJveC1zaGFkb3c6IDAgNHB4IDhweCAwIHJnYmEoMCwwLDAsMC4yKTtcclxuICB0cmFuc2l0aW9uOiAwLjNzO1xyXG59XHJcblxyXG4vKiBPbiBtb3VzZS1vdmVyLCBhZGQgYSBkZWVwZXIgc2hhZG93ICovXHJcbi5jYXJkOmhvdmVyIHtcclxuICBib3gtc2hhZG93OiAwIDhweCAxNnB4IDAgcmdiYSgwLDAsMCwwLjIpO1xyXG59XHJcblxyXG4vKiBBZGQgc29tZSBwYWRkaW5nIGluc2lkZSB0aGUgY2FyZCBjb250YWluZXIgKi9cclxuLmNvbnRhaW5lciB7XHJcbiAgcGFkZGluZzogMnB4IDE2cHg7XHJcbn1cclxuIl19 */"
+
+/***/ }),
+
+/***/ "./src/app/layouts/advance-card/advance-card.component.ts":
+/*!****************************************************************!*\
+  !*** ./src/app/layouts/advance-card/advance-card.component.ts ***!
+  \****************************************************************/
+/*! exports provided: AdvanceCardComponent, AdvanceCardModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdvanceCardComponent", function() { return AdvanceCardComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdvanceCardModule", function() { return AdvanceCardModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var devextreme_angular_ui_scroll_view__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! devextreme-angular/ui/scroll-view */ "./node_modules/devextreme-angular/ui/scroll-view.js");
+/* harmony import */ var devextreme_angular_ui_scroll_view__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_scroll_view__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _advance_popup_advance_popup_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../advance-popup/advance-popup.component */ "./src/app/layouts/advance-popup/advance-popup.component.ts");
+
+
+
+
+
+var AdvanceCardComponent = /** @class */ (function () {
+    function AdvanceCardComponent() {
+    }
+    AdvanceCardComponent.prototype.openPopup = function () {
+        this.showPopup = true;
+    };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+    ], AdvanceCardComponent.prototype, "advance", void 0);
+    AdvanceCardComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-advance-card',
+            template: __webpack_require__(/*! raw-loader!./advance-card.component.html */ "./node_modules/raw-loader/index.js!./src/app/layouts/advance-card/advance-card.component.html"),
+            styles: [__webpack_require__(/*! ./advance-card.component.scss */ "./src/app/layouts/advance-card/advance-card.component.scss")]
+        })
+    ], AdvanceCardComponent);
+    return AdvanceCardComponent;
+}());
+
+var AdvanceCardModule = /** @class */ (function () {
+    function AdvanceCardModule() {
+    }
+    AdvanceCardModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            imports: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"], devextreme_angular_ui_scroll_view__WEBPACK_IMPORTED_MODULE_3__["DxScrollViewModule"], _advance_popup_advance_popup_component__WEBPACK_IMPORTED_MODULE_4__["AdvancePopupModule"]],
+            exports: [AdvanceCardComponent],
+            declarations: [AdvanceCardComponent]
+        })
+    ], AdvanceCardModule);
+    return AdvanceCardModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/layouts/advance-popup/advance-popup.component.scss":
+/*!********************************************************************!*\
+  !*** ./src/app/layouts/advance-popup/advance-popup.component.scss ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".card {\n  /* Add shadows to create the \"card\" effect */\n  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);\n  transition: 0.3s; }\n\n/* On mouse-over, add a deeper shadow */\n\n.card:hover {\n  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2); }\n\n/* Add some padding inside the card container */\n\n.container {\n  padding: 2px 16px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbGF5b3V0cy9hZHZhbmNlLXBvcHVwL0M6XFxVc2Vyc1xcam9iXFxEb2N1bWVudHNcXE1lZ2FDZXJ2ZXJcXEFuZ3VsYXIvc3JjXFxhcHBcXGxheW91dHNcXGFkdmFuY2UtcG9wdXBcXGFkdmFuY2UtcG9wdXAuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSw0Q0FBQTtFQUNBLDBDQUF1QztFQUN2QyxnQkFBZ0IsRUFBQTs7QUFHbEIsdUNBQUE7O0FBQ0E7RUFDRSwyQ0FBd0MsRUFBQTs7QUFHMUMsK0NBQUE7O0FBQ0E7RUFDRSxpQkFBaUIsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2xheW91dHMvYWR2YW5jZS1wb3B1cC9hZHZhbmNlLXBvcHVwLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNhcmQge1xyXG4gIC8qIEFkZCBzaGFkb3dzIHRvIGNyZWF0ZSB0aGUgXCJjYXJkXCIgZWZmZWN0ICovXHJcbiAgYm94LXNoYWRvdzogMCA0cHggOHB4IDAgcmdiYSgwLDAsMCwwLjIpO1xyXG4gIHRyYW5zaXRpb246IDAuM3M7XHJcbn1cclxuXHJcbi8qIE9uIG1vdXNlLW92ZXIsIGFkZCBhIGRlZXBlciBzaGFkb3cgKi9cclxuLmNhcmQ6aG92ZXIge1xyXG4gIGJveC1zaGFkb3c6IDAgOHB4IDE2cHggMCByZ2JhKDAsMCwwLDAuMik7XHJcbn1cclxuXHJcbi8qIEFkZCBzb21lIHBhZGRpbmcgaW5zaWRlIHRoZSBjYXJkIGNvbnRhaW5lciAqL1xyXG4uY29udGFpbmVyIHtcclxuICBwYWRkaW5nOiAycHggMTZweDtcclxufVxyXG4iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/layouts/advance-popup/advance-popup.component.ts":
+/*!******************************************************************!*\
+  !*** ./src/app/layouts/advance-popup/advance-popup.component.ts ***!
+  \******************************************************************/
+/*! exports provided: AdvancePopupComponent, AdvancePopupModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdvancePopupComponent", function() { return AdvancePopupComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdvancePopupModule", function() { return AdvancePopupModule; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var devextreme_angular_ui_scroll_view__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! devextreme-angular/ui/scroll-view */ "./node_modules/devextreme-angular/ui/scroll-view.js");
+/* harmony import */ var devextreme_angular_ui_scroll_view__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_scroll_view__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! devextreme-angular */ "./node_modules/devextreme-angular/index.js");
+/* harmony import */ var devextreme_angular__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _shared_services_advances_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../shared/services/advances.service */ "./src/app/shared/services/advances.service.ts");
+
+
+
+
+
+
+var AdvancePopupComponent = /** @class */ (function () {
+    function AdvancePopupComponent(advancesService) {
+        this.advancesService = advancesService;
+        this.visibleChange = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
+    }
+    Object.defineProperty(AdvancePopupComponent.prototype, "visible", {
+        get: function () {
+            return this._visible;
+        },
+        set: function (value) {
+            this._visible = value;
+            this.visibleChange.emit(value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    AdvancePopupComponent.prototype.buyAdvance = function () {
+        this.advancesService.buyAdvance(this.advance);
+        this.visible = false;
+    };
+    AdvancePopupComponent.ctorParameters = function () { return [
+        { type: _shared_services_advances_service__WEBPACK_IMPORTED_MODULE_5__["AdvancesService"] }
+    ]; };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+    ], AdvancePopupComponent.prototype, "advance", void 0);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Input"])()
+    ], AdvancePopupComponent.prototype, "visible", null);
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Output"])()
+    ], AdvancePopupComponent.prototype, "visibleChange", void 0);
+    AdvancePopupComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-advance-popup',
+            template: __webpack_require__(/*! raw-loader!./advance-popup.component.html */ "./node_modules/raw-loader/index.js!./src/app/layouts/advance-popup/advance-popup.component.html"),
+            styles: [__webpack_require__(/*! ./advance-popup.component.scss */ "./src/app/layouts/advance-popup/advance-popup.component.scss")]
+        })
+    ], AdvancePopupComponent);
+    return AdvancePopupComponent;
+}());
+
+var AdvancePopupModule = /** @class */ (function () {
+    function AdvancePopupModule() {
+    }
+    AdvancePopupModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            imports: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"], devextreme_angular_ui_scroll_view__WEBPACK_IMPORTED_MODULE_3__["DxScrollViewModule"], devextreme_angular__WEBPACK_IMPORTED_MODULE_4__["DxPopupModule"], devextreme_angular__WEBPACK_IMPORTED_MODULE_4__["DxButtonModule"]],
+            exports: [AdvancePopupComponent],
+            declarations: [AdvancePopupComponent]
+        })
+    ], AdvancePopupModule);
+    return AdvancePopupModule;
 }());
 
 
@@ -786,6 +998,57 @@ var AdminComponent = /** @class */ (function () {
         })
     ], AdminComponent);
     return AdminComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/pages/advances/advances.component.scss":
+/*!********************************************************!*\
+  !*** ./src/app/pages/advances/advances.component.scss ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL2FkdmFuY2VzL2FkdmFuY2VzLmNvbXBvbmVudC5zY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/pages/advances/advances.component.ts":
+/*!******************************************************!*\
+  !*** ./src/app/pages/advances/advances.component.ts ***!
+  \******************************************************/
+/*! exports provided: AdvancesComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdvancesComponent", function() { return AdvancesComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/shared/services/game.service */ "./src/app/shared/services/game.service.ts");
+/* harmony import */ var _shared_services_advances_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../shared/services/advances.service */ "./src/app/shared/services/advances.service.ts");
+
+
+
+
+var AdvancesComponent = /** @class */ (function () {
+    function AdvancesComponent(gameService, advancesService) {
+        this.gameService = gameService;
+        this.advancesService = advancesService;
+    }
+    AdvancesComponent.ctorParameters = function () { return [
+        { type: src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_2__["GameService"] },
+        { type: _shared_services_advances_service__WEBPACK_IMPORTED_MODULE_3__["AdvancesService"] }
+    ]; };
+    AdvancesComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            template: __webpack_require__(/*! raw-loader!./advances.component.html */ "./node_modules/raw-loader/index.js!./src/app/pages/advances/advances.component.html"),
+            styles: [__webpack_require__(/*! ./advances.component.scss */ "./src/app/pages/advances/advances.component.scss")]
+        })
+    ], AdvancesComponent);
+    return AdvancesComponent;
 }());
 
 
@@ -1466,6 +1729,966 @@ var UserPanelModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/shared/model/advance-types.enum.ts":
+/*!****************************************************!*\
+  !*** ./src/app/shared/model/advance-types.enum.ts ***!
+  \****************************************************/
+/*! exports provided: AdvanceTypes */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdvanceTypes", function() { return AdvanceTypes; });
+var AdvanceTypes;
+(function (AdvanceTypes) {
+    AdvanceTypes[AdvanceTypes["NONE"] = 0] = "NONE";
+    AdvanceTypes[AdvanceTypes["CIVICS"] = 1] = "CIVICS";
+    AdvanceTypes[AdvanceTypes["CRAFTS"] = 2] = "CRAFTS";
+    AdvanceTypes[AdvanceTypes["RELIGION"] = 3] = "RELIGION";
+    AdvanceTypes[AdvanceTypes["SCIENCE"] = 4] = "SCIENCE";
+    AdvanceTypes[AdvanceTypes["ARTS"] = 5] = "ARTS";
+})(AdvanceTypes || (AdvanceTypes = {}));
+
+
+/***/ }),
+
+/***/ "./src/app/shared/model/advances-list.ts":
+/*!***********************************************!*\
+  !*** ./src/app/shared/model/advances-list.ts ***!
+  \***********************************************/
+/*! exports provided: advancesList */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "advancesList", function() { return advancesList; });
+/* harmony import */ var _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./advance-types.enum */ "./src/app/shared/model/advance-types.enum.ts");
+
+var advancesList = [
+    {
+        id: 1,
+        name: 'ADVANCED MILITARY',
+        description: 'In conflicts, you may choose to remove tokens from areas adjacent by land. After each round of token removal a new check for token majority must be made. You may decide to wait for other token conflicts to be resolved first.  You are allowed to cause conflict in areas containing units belonging to players holding CULTURAL ASCENDANCY.  Disadvantage with CIVIL DISORDER: Reduce 1 additional city.',
+        cost: 240,
+        currentPrice: 240,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 20,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 5,
+        discountToArts: 0,
+        discountFromCard: 27,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 2,
+        name: 'AGRICULTURE',
+        description: 'The population limit of \'0\', \'1\' and \'2\' areas on the board is increased by 1 for you as long as these areas do not contain any other player\'s units or barbarian tokens.  Disadvantage with FAMINE: If you are the primary victim, take 5 aditional damage.',
+        cost: 120,
+        currentPrice: 120,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 10,
+        discountToReligion: 0,
+        discountToScience: 5,
+        discountToArts: 0,
+        discountFromCard: 38,
+        discountFromCardAmount: 10,
+        discountToCard: 12,
+        discountToCardAmount: 20,
+    }, {
+        id: 3,
+        name: 'ANATOMY',
+        description: 'Upon purchase, you may choose to acquire a science card with an undiscounted cost price of less than 100 for free. Advantage with EPIDEMIC: If you are a secondary victim, prevent 5 damage.',
+        cost: 270,
+        currentPrice: 270,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 5,
+        discountToReligion: 0,
+        discountToScience: 20,
+        discountToArts: 0,
+        discountFromCard: 25,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 4,
+        name: 'ARCHITECTURE',
+        description: 'Once per turn, when constructing a city, you may choose to pay up to half of the required number of tokens from treasury.',
+        cost: 140,
+        currentPrice: 140,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 5,
+        discountToArts: 10,
+        discountFromCard: 43,
+        discountFromCardAmount: 10,
+        discountToCard: 28,
+        discountToCardAmount: 20,
+    }, {
+        id: 5,
+        name: 'ASTRONAVIGATION',
+        description: 'Your ships are allowed to move through open sea areas.',
+        cost: 80,
+        currentPrice: 80,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 5,
+        discountToScience: 10,
+        discountToArts: 0,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 6,
+        discountToCardAmount: 10,
+    }, {
+        id: 6,
+        name: 'CALENDAR',
+        description: 'Advantage with FAMINE: Prevent 5 damage.  Advantage with CYCLONE: Reduce 2 less selected cities.',
+        cost: 180,
+        currentPrice: 180,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 5,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 10,
+        discountToArts: 0,
+        discountFromCard: 5,
+        discountFromCardAmount: 10,
+        discountToCard: 40,
+        discountToCardAmount: 20,
+    }, {
+        id: 7,
+        name: 'CARTOGRAPHY',
+        description: 'During the Trade Cards Acquisition phase, you may acquire additional trade cards form stack 2 for 5 treasury and/or form stack 7 for 13 treasury tokens per card.  Disadvantage with PIRACY: If you are the primary victim, the beneficiary selects and replaces 1 additional coastal city.',
+        cost: 160,
+        currentPrice: 160,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 10,
+        discountToArts: 5,
+        discountFromCard: 51,
+        discountFromCardAmount: 10,
+        discountToCard: 21,
+        discountToCardAmount: 20,
+    }, {
+        id: 8,
+        name: 'CLOTH MAKING',
+        description: 'Your ships are allowed to move 5 steps.',
+        cost: 50,
+        currentPrice: 50,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 10,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 5,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 35,
+        discountToCardAmount: 10,
+    }, {
+        id: 9,
+        name: 'COINAGE',
+        description: 'You may choose to increase or decrease your tax rate by 1.  Disadvantage with CORRUPTION: Discard 5 additional points of face value.',
+        cost: 90,
+        currentPrice: 90,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 5,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 10,
+        discountToArts: 0,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 47,
+        discountToCardAmount: 10,
+    }, {
+        id: 10,
+        name: 'CULTURAL ASCENDANCY',
+        description: 'Players are not allowed to cause conflict in areas containing your units, except for areas where a conflict situation already occurs. This does not count for players holding CULTURAL ASCENDANCY or ADVANCED MILITARY.  Your units are protected against the effect of POLITICS.  Your default city support rate is increased by 1.',
+        cost: 280,
+        currentPrice: 280,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 5,
+        discountToScience: 0,
+        discountToArts: 20,
+        discountFromCard: 20,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 11,
+        name: 'DEISM',
+        description: 'Advantage with SUPERSTITION: Reduce 1 less city.',
+        cost: 70,
+        currentPrice: 70,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 5,
+        discountToReligion: 10,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 19,
+        discountToCardAmount: 10,
+    }, {
+        id: 12,
+        name: 'DEMOCRACY',
+        description: 'During the Tax Collection phase you collect tax as usual but your sities do not revolt as a result of a shortage in tax collection.  Advantage with CIVIL WAR: Select 10 less unit points.  Advantage with CIVIL DISORDER: Reduce 1 less city.',
+        cost: 220,
+        currentPrice: 220,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 20,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 5,
+        discountFromCard: 2,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 13,
+        name: 'DIASPORA',
+        description: 'SPECIAL ABILITY: You may choose to take up to 5 of your tokens from the board and place them anywhere else on the board, providing that no population limits are exceeded.',
+        cost: 270,
+        currentPrice: 270,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 20,
+        discountToScience: 0,
+        discountToArts: 5,
+        discountFromCard: 35,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 14,
+        name: 'DIPLOMACY',
+        description: 'Players are not allowed to move tokens into areas containing your cities, except for areas where a conflict situation already occurs. This does not count for players holding DIPLOMACY or MILITARY.  Disadvantage with TREACHERY: The beneficiary selects and annexes 1 additional city.',
+        cost: 160,
+        currentPrice: 160,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 5,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 10,
+        discountFromCard: 49,
+        discountFromCardAmount: 10,
+        discountToCard: 39,
+        discountToCardAmount: 20,
+    }, {
+        id: 15,
+        name: 'DRAMA AND POETRY',
+        description: 'Advantage with CIVIL WAR: Select 5 less unit points.  Advantage with CIVIL DISORDER: Reduce 1 less city.',
+        cost: 80,
+        currentPrice: 80,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 5,
+        discountToScience: 0,
+        discountToArts: 10,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 41,
+        discountToCardAmount: 10,
+    }, {
+        id: 16,
+        name: 'EMPIRICISM',
+        description: '0',
+        cost: 60,
+        currentPrice: 60,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 5,
+        discountToCrafts: 5,
+        discountToReligion: 5,
+        discountToScience: 10,
+        discountToArts: 5,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 25,
+        discountToCardAmount: 10,
+    }, {
+        id: 17,
+        name: 'ENGINEERING',
+        description: 'Other players or barbarians require 8 tokens to succesfully attack your cities. Your cities are then replaced by 7 tokens. This does not apply when the attacking player also holds ENGINEERING.  You require 6 tokens to succesfully attack other player\'s cities of pirate cities. Their cities are then replaced by 5 tokens. This does not apply when the defending player also holds ENGINEERING.  Advantage with EARTHQUAKE: Your city is reduced instead of destroyed.  Advantage with FLOOD: Prevent 5 damage.',
+        cost: 160,
+        currentPrice: 160,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        discountToCivics: 0,
+        discountToCrafts: 10,
+        discountToReligion: 0,
+        discountToScience: 10,
+        discountToArts: 0,
+        discountFromCard: 23,
+        discountFromCardAmount: 10,
+        discountToCard: 42,
+        discountToCardAmount: 20,
+    }, {
+        id: 18,
+        name: 'ENLIGHTENMENT',
+        description: 'Advantage with SUPERSTITION: Reduce 1 less city.  Advantage with SLAVE REVOLT: Your city support rate is decreased by 1 during the resolution of SLAVE REVOLT.  Advantage with EPIDEMIC: If you are the primary victim, prevent 5 damage.  Advantage with REGRESSION: For each step backward, you may choose to prevent the effect by destroying 2 of your cities (if possible non0coastal).',
+        cost: 160,
+        currentPrice: 160,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 5,
+        discountToReligion: 10,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 32,
+        discountFromCardAmount: 10,
+        discountToCard: 36,
+        discountToCardAmount: 20,
+    }, {
+        id: 19,
+        name: 'FUNDAMENTALISM',
+        description: 'SPECIAL ABILITY: You may choose to destroy all units in an area adjacent to your units by land. Barbarian tokens, pirate cities and units belonging to players holding FUNDAMENTALISM or PHILOSOPHY are unaffected.  Disadvantage with REGRESSION: Your marker is moved backward 1 additional step.',
+        cost: 150,
+        currentPrice: 150,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 10,
+        discountToScience: 0,
+        discountToArts: 5,
+        discountFromCard: 11,
+        discountFromCardAmount: 10,
+        discountToCard: 30,
+        discountToCardAmount: 20,
+    }, {
+        id: 20,
+        name: 'LAW',
+        description: 'Advantage with TYRANNY: The beneficiary selects and annexes 5 less unit points.  Advantage with CIVIL DISORDER: Reduce 1 less city.  Advantage with CORRUPTION: Discard 5 less points of face value.',
+        cost: 150,
+        currentPrice: 150,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 10,
+        discountToCrafts: 0,
+        discountToReligion: 5,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 29,
+        discountFromCardAmount: 10,
+        discountToCard: 10,
+        discountToCardAmount: 20,
+    }, {
+        id: 21,
+        name: 'LIBRARY',
+        description: 'You may discount the cost of 1 others Civilization Advance that you purchase in the same turn as LIBRARY by 40 points.  Advantage with REGRESSION: Your marker is moved backward 1 step less.',
+        cost: 220,
+        currentPrice: 220,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 20,
+        discountToArts: 5,
+        discountFromCard: 7,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 22,
+        name: 'LITERACY',
+        description: '0',
+        cost: 110,
+        currentPrice: 110,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        discountToCivics: 10,
+        discountToCrafts: 5,
+        discountToReligion: 5,
+        discountToScience: 5,
+        discountToArts: 10,
+        discountFromCard: 34,
+        discountFromCardAmount: 10,
+        discountToCard: 24,
+        discountToCardAmount: 20,
+    }, {
+        id: 23,
+        name: 'MASONRY',
+        description: 'Advantage with CYCLONE: Reduce 1 less of your selected cities.',
+        cost: 60,
+        currentPrice: 60,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 10,
+        discountToReligion: 0,
+        discountToScience: 5,
+        discountToArts: 0,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 17,
+        discountToCardAmount: 10,
+    }, {
+        id: 24,
+        name: 'MATHEMATICS',
+        description: '0',
+        cost: 250,
+        currentPrice: 250,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        discountToCivics: 10,
+        discountToCrafts: 10,
+        discountToReligion: 10,
+        discountToScience: 20,
+        discountToArts: 20,
+        discountFromCard: 22,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 25,
+        name: 'MEDICINE',
+        description: 'Advantage with EPIDEMIC: Prevent 5 damage.',
+        cost: 140,
+        currentPrice: 140,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 5,
+        discountToReligion: 0,
+        discountToScience: 10,
+        discountToArts: 0,
+        discountFromCard: 16,
+        discountFromCardAmount: 10,
+        discountToCard: 3,
+        discountToCardAmount: 20,
+    }, {
+        id: 26,
+        name: 'METALWORKING',
+        description: 'In conflicts, for each round of token removal all other players not holding METALWORKING must remove their token first.',
+        cost: 90,
+        currentPrice: 90,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 5,
+        discountToCrafts: 10,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 27,
+        discountToCardAmount: 10,
+    }, {
+        id: 27,
+        name: 'MILITARY',
+        description: 'Your movement phase is after all other players not holding MILITARY have moved.  You are allowed tot move tokens into areas containing cities belonging to players holding DIPLOMACY.  Disadvantage with CIVIL WAR: select 5 additional unit points.',
+        cost: 170,
+        currentPrice: 170,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 10,
+        discountToCrafts: 5,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 26,
+        discountFromCardAmount: 10,
+        discountToCard: 1,
+        discountToCardAmount: 20,
+    }, {
+        id: 28,
+        name: 'MINING',
+        description: 'During the Trade Cards Acquisition phase, you may acquire additional trade cards form stack 6 and/or form stack 8 for 13 treasury tokens per card.  Treasury tokens are worth 2 points when purchasing Civilization Advances. When using treasury tokens to purchase Civilization Advances you may exceed the purchase price by exactly 1 this way.  Disadvantage with SLAVE REVOLT: Your city support rate is increased by 1 during the resolution of SLAVE REVOLT.',
+        cost: 230,
+        currentPrice: 230,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 20,
+        discountToReligion: 0,
+        discountToScience: 5,
+        discountToArts: 0,
+        discountFromCard: 4,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 29,
+        name: 'MONARCHY',
+        description: 'You may choose to increase your tax rate by 1.  Advantage with BARBARIAN HORDES: 5 less barbarian tokens are used.  Disadvantage with TYRANNY: The beneficiary selects and annexes 5 additional unit points.',
+        cost: 60,
+        currentPrice: 60,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 10,
+        discountToCrafts: 0,
+        discountToReligion: 5,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 20,
+        discountToCardAmount: 10,
+    }, {
+        id: 30,
+        name: 'MONOTHEISM',
+        description: 'SPECIAL ABILITY: You may choose to annex all units in an area adjacent to your units by land. Barbarian tokens, pirate cities and units belonging to players holding MONOTHEISM or THEOLOGY are unaffected.  Disadavantage with ICONOCLASM AND HERESY: Reduce 1 additional city.',
+        cost: 240,
+        currentPrice: 240,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 5,
+        discountToCrafts: 0,
+        discountToReligion: 20,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 19,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 31,
+        name: 'MONUMENT',
+        description: 'Acquire 20 additional points of credit tokens in any combination of colors.',
+        cost: 180,
+        currentPrice: 180,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        discountToCivics: 0,
+        discountToCrafts: 10,
+        discountToReligion: 10,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 33,
+        discountFromCardAmount: 10,
+        discountToCard: 50,
+        discountToCardAmount: 20,
+    }, {
+        id: 32,
+        name: 'MUSIC',
+        description: 'Advantage with CIVIL WAR: Select 5 less unit points.  Advantage with CIVIL DISORDER: Reduce 1 less city.',
+        cost: 80,
+        currentPrice: 80,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 5,
+        discountToScience: 0,
+        discountToArts: 10,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 18,
+        discountToCardAmount: 10,
+    }, {
+        id: 33,
+        name: 'MYSTICISM',
+        description: 'Advantage with SUPERSTITION: Reduce 1 less city.',
+        cost: 50,
+        currentPrice: 50,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 5,
+        discountToScience: 0,
+        discountToArts: 5,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 31,
+        discountToCardAmount: 10,
+    }, {
+        id: 34,
+        name: 'MYTHOLOGY',
+        description: 'Advantage with SLAVE REVOLT: Your city support rate is decreased by 1 during the resolution of SLAVE REVOLT.',
+        cost: 60,
+        currentPrice: 60,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 10,
+        discountToScience: 0,
+        discountToArts: 5,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 22,
+        discountToCardAmount: 10,
+    }, {
+        id: 35,
+        name: 'NAVAL WARFARE',
+        description: 'Your ships are allowed to carry 6 tokens.  In conflicts, you may choose to remove ships from the conflict area instead of tokens. After each round of token removal a new check for token majority must be made.  Advantage with PIRACY: If you are the primary victim, the beneficiary selects and replaces 1 less coastal city. You may not be selected as a secondary victim.  Disadvantage with CIVIL DISORDER: Reduce 1 additional city.',
+        cost: 160,
+        currentPrice: 160,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 10,
+        discountToCrafts: 5,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 8,
+        discountFromCardAmount: 10,
+        discountToCard: 13,
+        discountToCardAmount: 20,
+    }, {
+        id: 36,
+        name: 'PHILOSOPHY',
+        description: 'Advanatage with ICONOCLASM AND HERESY: Reduce 2 cities less.  Disadvantage with CIVIL WAR: Select 5 additional unit points.',
+        cost: 220,
+        currentPrice: 220,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 20,
+        discountToScience: 20,
+        discountToArts: 0,
+        discountFromCard: 18,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 37,
+        name: 'POLITICS',
+        description: 'SPECIAL ABILITY: You may choose 1 of 2 options: 1) Gain up to 5 treasury tokens from stock. 2) Annex all units in an area adjacent by land to your units. Pay treasury tokens equal to the number of unit points annexed, or the effect is canceled. Barbarian tokens, pirate cities and units belonging to players holding POLITICS or CULTURAL ASCENDANCY are unaffected.  Disadvantage with BARBARIAN HORDES: 5 additional barbarian tokens are used.',
+        cost: 230,
+        currentPrice: 230,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 0,
+        discountToReligion: 5,
+        discountToScience: 0,
+        discountToArts: 20,
+        discountFromCard: 41,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 38,
+        name: 'POTTERY',
+        description: 'Advantage with FAMINE: Prevent 5 damage.',
+        cost: 60,
+        currentPrice: 60,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 10,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 5,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 2,
+        discountToCardAmount: 10,
+    }, {
+        id: 39,
+        name: 'PROVINCIAL EMPIRE',
+        description: 'SPECIAL ABILITY: You may choose to select up to 5 players that have units adjacent by land or water to your units. These players must choose and give you a Trade Card with a face value of at least 2. Players holding PROVINCIAL EMPIRE or PUBLIC WORKS may not be selected.  Disadvantage with BARBARIAN HORDES: 5 additional barbarian tokens are used.  Disadvantage with TRYANNY: The beneficiary selects and annexes 5 additional unit points.',
+        cost: 260,
+        currentPrice: 260,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 20,
+        discountToCrafts: 0,
+        discountToReligion: 5,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 14,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 40,
+        name: 'PUBLIC WORKS',
+        description: 'Areas containing your cities may also contain 1 of your tokens.  You are protected against the effect of PROVINCIAL EMPIRE.',
+        cost: 230,
+        currentPrice: 230,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 20,
+        discountToCrafts: 5,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 6,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 41,
+        name: 'RHETORIC',
+        description: 'During the Trade Cards Acquisition phase, you may acquire additional trade cards from stack 3 for 9 treasury tokens per card.',
+        cost: 130,
+        currentPrice: 130,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 5,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 10,
+        discountFromCard: 16,
+        discountFromCardAmount: 10,
+        discountToCard: 37,
+        discountToCardAmount: 20,
+    }, {
+        id: 42,
+        name: 'ROADBUILDING',
+        description: 'When moving over land, your tokens may move 2 areas. Tokens that are in a conflict situation after 1 step are not allowed to move any further.  Your hand limit of trade cards is increased by 1.  Disadvantage with EPIDEMIC: If you are the primary victim, take 5 additional damage.',
+        cost: 220,
+        currentPrice: 220,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 20,
+        discountToReligion: 0,
+        discountToScience: 5,
+        discountToArts: 0,
+        discountFromCard: 17,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 43,
+        name: 'SCULPTURE',
+        description: 'Advantage with TYRANNY: The beneficiary selects and annexes 5 less unit points.',
+        cost: 50,
+        currentPrice: 50,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 5,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 10,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 4,
+        discountToCardAmount: 10,
+    }, {
+        id: 44,
+        name: 'THEOCRACY',
+        description: 'Advantage with ICONOCLASM AND HERESY: You may choose and discard 2 Trade Cards to prevent the city reduction effect for you.',
+        cost: 80,
+        currentPrice: 80,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        discountToCivics: 5,
+        discountToCrafts: 0,
+        discountToReligion: 5,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 48,
+        discountToCardAmount: 10,
+    }, {
+        id: 45,
+        name: 'THEOLOGY',
+        description: 'Advantage with ICONOCLASM AND HERESY: Reduce 3 cities less.  Your units are protected against the effect of MONOTHEISM.',
+        cost: 250,
+        currentPrice: 250,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 20,
+        discountToReligion: 0,
+        discountToScience: 5,
+        discountToArts: 0,
+        discountFromCard: 48,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 46,
+        name: 'TRADE EMPIRE',
+        description: 'Once per turn, you may choose to use 1 substitute Trade Card of at least the same face value when turning in an incomplete set of commodity cards.  Disadvantage with CYCLONE: Select and reduce 1 additional city adjacent to the open sea area.  Disadvantage with EPIDEMIC: If you are the primary victim, take 5 additional damage.',
+        cost: 260,
+        currentPrice: 260,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 5,
+        discountToCrafts: 20,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 47,
+        discountFromCardAmount: 20,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 47,
+        name: 'TRADE ROUTES',
+        description: 'SPECIAL ABILITY: You may choose to discard any number of Trade Cards to gain treasury tokens at twice the face value of the Trade Cards discarded this way.',
+        cost: 180,
+        currentPrice: 180,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 0,
+        discountToCrafts: 10,
+        discountToReligion: 5,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 9,
+        discountFromCardAmount: 10,
+        discountToCard: 46,
+        discountToCardAmount: 20,
+    }, {
+        id: 48,
+        name: 'UNIVERSAL DOCTRINE',
+        description: 'SPECAIL ABILITY: You may choose to annex 1 pirate city of up to 5 barbarian tokens anywhere on the board.  Disadvantage with SUPERSTITION: Reduce 1 additional city.',
+        cost: 160,
+        currentPrice: 160,
+        points: 3,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 5,
+        discountToCrafts: 0,
+        discountToReligion: 10,
+        discountToScience: 0,
+        discountToArts: 0,
+        discountFromCard: 44,
+        discountFromCardAmount: 10,
+        discountToCard: 45,
+        discountToCardAmount: 20,
+    }, {
+        id: 49,
+        name: 'URBANISM',
+        description: 'Once per turn, when constructing a wilderness city you may choose to use up to 4 tokens from areas adjacent by land.',
+        cost: 50,
+        currentPrice: 50,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
+        discountToCivics: 10,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 5,
+        discountToArts: 0,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 14,
+        discountToCardAmount: 10,
+    }, {
+        id: 50,
+        name: 'WONDER OF THE WORLD',
+        description: 'During the Trade Cards Acquisition phase, you may acquire 1 additional Trade Card for free from a stack number that is highter than your number of cities in play.  WONDER OF THE WORLD counts as a city during the A.S.T. alteration phase.  Disadvantage with CORRUPTION: Discard 5 additional points of face value.',
+        cost: 290,
+        currentPrice: 290,
+        points: 6,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        discountToCivics: 0,
+        discountToCrafts: 20,
+        discountToReligion: 0,
+        discountToScience: 0,
+        discountToArts: 20,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
+        discountToCard: 0,
+        discountToCardAmount: 0,
+    }, {
+        id: 51,
+        name: 'WRITTEN RECORD',
+        description: 'Acquire 10 additional points of credit tokens in any combination of colors.',
+        cost: 60,
+        currentPrice: 60,
+        points: 1,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].SCIENCE,
+        discountToCivics: 5,
+        discountToCrafts: 0,
+        discountToReligion: 0,
+        discountToScience: 5,
+        discountToArts: 0,
+        discountFromCard: 31,
+        discountFromCardAmount: 20,
+        discountToCard: 7,
+        discountToCardAmount: 10,
+    }
+];
+
+
+/***/ }),
+
 /***/ "./src/app/shared/model/game.ts":
 /*!**************************************!*\
   !*** ./src/app/shared/model/game.ts ***!
@@ -1484,6 +2707,7 @@ var Game = /** @class */ (function () {
         this.phase = 0;
         this.players = [];
         this.hasStarted = false;
+        this.advancesInPlay = [];
         this.countDown = 0;
         this.players.push(new _player__WEBPACK_IMPORTED_MODULE_0__["Player"]('Admin', 0, 0));
         this.players.push(new _player__WEBPACK_IMPORTED_MODULE_0__["Player"]('Minoa', 6, 9));
@@ -1578,6 +2802,7 @@ var Player = /** @class */ (function () {
         this.collectedTax = 0;
         this.hasTaxRevolt = false;
         this.hasTimeLeft = 0;
+        this.ownedAdvances = [];
         // Advances:
         this.hasMilitary = false;
         this.hasCulturalAscendancy = false;
@@ -1599,6 +2824,149 @@ var Player = /** @class */ (function () {
         { type: Number }
     ]; };
     return Player;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/shared/services/advances.service.ts":
+/*!*****************************************************!*\
+  !*** ./src/app/shared/services/advances.service.ts ***!
+  \*****************************************************/
+/*! exports provided: AdvancesService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdvancesService", function() { return AdvancesService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _game_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./game.service */ "./src/app/shared/services/game.service.ts");
+/* harmony import */ var _model_advances_list__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../model/advances-list */ "./src/app/shared/model/advances-list.ts");
+/* harmony import */ var _model_advance_types_enum__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../model/advance-types.enum */ "./src/app/shared/model/advance-types.enum.ts");
+
+
+
+
+
+var AdvancesService = /** @class */ (function () {
+    function AdvancesService(gameService) {
+        this.gameService = gameService;
+    }
+    Object.defineProperty(AdvancesService.prototype, "availableAdvances", {
+        get: function () {
+            if (!this._availableAdvances || this.gameService.getCurrentPlayer().ownedAdvances.length !== this._ownedAdvances.length) {
+                this.fillLists();
+            }
+            return this._availableAdvances;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AdvancesService.prototype, "ownedAdvances", {
+        get: function () {
+            if (!this._ownedAdvances || this.gameService.getCurrentPlayer().ownedAdvances.length !== this._ownedAdvances.length) {
+                this.fillLists();
+            }
+            return this._ownedAdvances;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    // player is optional, assumes current player if no player is provided
+    AdvancesService.prototype.playerHasAdvance = function (advanceType, player) {
+        if (!player) {
+            player = this.gameService.getCurrentPlayer();
+        }
+        return player.ownedAdvances.includes(advanceType);
+    };
+    AdvancesService.prototype.fillLists = function () {
+        var e_1, _a, e_2, _b;
+        this._availableAdvances = [];
+        this._ownedAdvances = [];
+        try {
+            for (var _c = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](this.gameService.getCurrentPlayer().ownedAdvances), _d = _c.next(); !_d.done; _d = _c.next()) {
+                var advanceType = _d.value;
+                this._ownedAdvances.push(_model_advances_list__WEBPACK_IMPORTED_MODULE_3__["advancesList"][advanceType - 1]);
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (_d && !_d.done && (_a = _c.return)) _a.call(_c);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
+        try {
+            for (var advancesList_1 = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](_model_advances_list__WEBPACK_IMPORTED_MODULE_3__["advancesList"]), advancesList_1_1 = advancesList_1.next(); !advancesList_1_1.done; advancesList_1_1 = advancesList_1.next()) {
+                var advance = advancesList_1_1.value;
+                if (!this._ownedAdvances.includes(advance)) {
+                    this.calculatePrice(advance);
+                    this._availableAdvances.push(advance);
+                }
+            }
+        }
+        catch (e_2_1) { e_2 = { error: e_2_1 }; }
+        finally {
+            try {
+                if (advancesList_1_1 && !advancesList_1_1.done && (_b = advancesList_1.return)) _b.call(advancesList_1);
+            }
+            finally { if (e_2) throw e_2.error; }
+        }
+    };
+    AdvancesService.prototype.calculatePrice = function (advance) {
+        var e_3, _a;
+        var price = advance.cost;
+        try {
+            for (var _b = tslib__WEBPACK_IMPORTED_MODULE_0__["__values"](this._ownedAdvances), _c = _b.next(); !_c.done; _c = _b.next()) {
+                var ownedAdvance = _c.value;
+                if (advance.type1 === _model_advance_types_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceTypes"].ARTS) {
+                    price -= ownedAdvance.discountToArts;
+                }
+                else if (advance.type1 === _model_advance_types_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceTypes"].CIVICS) {
+                    price -= ownedAdvance.discountToCivics;
+                }
+                else if (advance.type1 === _model_advance_types_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceTypes"].CRAFTS) {
+                    price -= ownedAdvance.discountToCrafts;
+                }
+                else if (advance.type1 === _model_advance_types_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceTypes"].RELIGION) {
+                    price -= ownedAdvance.discountToReligion;
+                }
+                else if (advance.type1 === _model_advance_types_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceTypes"].SCIENCE) {
+                    price -= ownedAdvance.discountToScience;
+                }
+                if (advance.discountFromCard === ownedAdvance.id) {
+                    price -= advance.discountFromCardAmount;
+                }
+            }
+        }
+        catch (e_3_1) { e_3 = { error: e_3_1 }; }
+        finally {
+            try {
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
+            }
+            finally { if (e_3) throw e_3.error; }
+        }
+        advance.currentPrice = price;
+    };
+    AdvancesService.prototype.buyAdvance = function (advance) {
+        this.gameService.getCurrentPlayer().ownedAdvances.push(advance.id);
+        this.gameService.sendToOtherPlayers();
+    };
+    AdvancesService.prototype.getAdvance = function (advanceID) {
+        return _model_advances_list__WEBPACK_IMPORTED_MODULE_3__["advancesList"][advanceID - 1];
+    };
+    AdvancesService.prototype.getAdvanceTypeName = function (type) {
+        return _model_advance_types_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceTypes"][type];
+    };
+    AdvancesService.ctorParameters = function () { return [
+        { type: _game_service__WEBPACK_IMPORTED_MODULE_2__["GameService"] }
+    ]; };
+    AdvancesService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({ providedIn: 'root' })
+    ], AdvancesService);
+    return AdvancesService;
 }());
 
 
@@ -1917,6 +3285,9 @@ var GameService = /** @class */ (function () {
     };
     GameService.prototype.getPhaseName = function (index) {
         return _model_phases__WEBPACK_IMPORTED_MODULE_5__["phases"][index ? index : this.game.phase];
+    };
+    GameService.prototype.getAdvancesInPlay = function () {
+        return this.game.advancesInPlay;
     };
     GameService.ctorParameters = function () { return [
         { type: ngx_socket_io__WEBPACK_IMPORTED_MODULE_2__["Socket"] }
