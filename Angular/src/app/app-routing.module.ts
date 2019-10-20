@@ -1,16 +1,17 @@
-import { DxTextBoxModule } from 'devextreme-angular/ui/text-box';
-import { DxButtonModule } from 'devextreme-angular/ui/button';
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { OverviewComponent } from './pages/overview/overview.component';
-import { DxDataGridModule, DxFormModule, DxButtonComponent, DxNumberBoxModule } from 'devextreme-angular';
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { FormsModule } from '@angular/forms';
-import { ActionsComponent } from './pages/actions/actions.component';
-import { CommonModule } from '@angular/common';
-import { AdminComponent } from './pages/admin/admin.component';
-import { GamescreenComponent } from './pages/gamescreen/gamescreen.component';
+import {DxButtonModule} from 'devextreme-angular/ui/button';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {HomeComponent} from './pages/home/home.component';
+import {OverviewComponent} from './pages/overview/overview.component';
+import {DxDataGridModule, DxFormModule, DxNumberBoxModule} from 'devextreme-angular';
+import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+import {FormsModule} from '@angular/forms';
+import {ActionsComponent} from './pages/actions/actions.component';
+import {CommonModule} from '@angular/common';
+import {AdminComponent} from './pages/admin/admin.component';
+import {GamescreenComponent} from './pages/gamescreen/gamescreen.component';
+import {AdvancesComponent} from './pages/advances/advances.component';
+import {AdvanceCardModule} from './layouts/advance-card/advance-card.component';
 
 const routes: Routes = [
   {
@@ -34,12 +35,17 @@ const routes: Routes = [
     component: AdminComponent,
   },
   {
+    path: 'advances',
+    component: AdvancesComponent,
+  },
+  {
     path: '**',
     redirectTo: 'home',
   }
 ];
 
-const config: SocketIoConfig = { url: 'http://jantineislief.nl:8889', options: {} };
+const config: SocketIoConfig = {url: 'http://localhost:8889', options: {}};
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes),
@@ -49,7 +55,8 @@ const config: SocketIoConfig = { url: 'http://jantineislief.nl:8889', options: {
     SocketIoModule.forRoot(config),
     FormsModule,
     CommonModule,
-    DxNumberBoxModule
+    DxNumberBoxModule,
+    AdvanceCardModule
   ],
   providers: [],
   exports: [
@@ -60,6 +67,9 @@ const config: SocketIoConfig = { url: 'http://jantineislief.nl:8889', options: {
     ActionsComponent,
     OverviewComponent,
     AdminComponent,
-    GamescreenComponent]
+    GamescreenComponent,
+    AdvancesComponent,
+  ]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

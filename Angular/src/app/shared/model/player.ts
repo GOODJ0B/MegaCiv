@@ -25,7 +25,7 @@ export class Player {
   collectedTax = 0;
   hasTaxRevolt = false;
   hasTimeLeft = 0;
-  ownedAdvances: AdvanceTypes[];
+  ownedAdvances: AdvanceTypes[] = [];
 
   // Advances:
   hasMilitary = false;

@@ -1,7 +1,8 @@
 import {AdvanceTypes} from './advance-types.enum';
 import {Advance} from './advance.interface';
 
-export const advancesList = [{
+export const advancesList = [
+  {
   id: 1,
   name: 'ADVANCED MILITARY',
   description: 'In conflicts, you may choose to remove tokens from areas adjacent by land. After each round of token removal a new check for token majority must be made. You may decide to wait for other token conflicts to be resolved first.  You are allowed to cause conflict in areas containing units belonging to players holding CULTURAL ASCENDANCY.  Disadvantage with CIVIL DISORDER: Reduce 1 additional city.',

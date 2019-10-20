@@ -1,0 +1,7 @@
+<h2 class="content-block">Advances:</h2>
+<div class="content-block">
+  <h6>Available: </h6>
+  <app-advance-card *ngFor="let advance of advancesService.availableAdvances" [advance]="advance"></app-advance-card>
+  <h6>Owned: </h6>
+  <app-advance-card *ngFor="let ownedAdvance of advancesService.ownedAdvances" [advance]="ownedAdvance"></app-advance-card>
+</div>

@@ -4,6 +4,7 @@ import {Advance} from '../model/advance.interface';
 import {advancesList} from '../model/advances-list';
 import {AdvanceTypes} from '../model/advance-types.enum';
 import {Player} from '../model/player';
+import {Advances} from '../model/advances.enum';
 
 @Injectable({providedIn: 'root'})
 export class AdvancesService {
@@ -39,7 +40,7 @@ export class AdvancesService {
     this._availableAdvances = [];
     this._ownedAdvances = [];
     for (const advanceType of this.gameService.getCurrentPlayer().ownedAdvances) {
-      this._ownedAdvances.push(advancesList[advanceType]);
+      this._ownedAdvances.push(advancesList[advanceType - 1]);
     }
     for (const advance of advancesList) {
       if (!this._ownedAdvances.includes(advance)) {
@@ -69,5 +70,18 @@ export class AdvancesService {
       }
     }
     advance.currentPrice = price;
+  }
+
+  public buyAdvance(advance: Advance): void {
+    this.gameService.getCurrentPlayer().ownedAdvances.push(advance.id);
+    this.gameService.sendToOtherPlayers();
+  }
+
+  public getAdvance(advanceID: number): Advance {
+    return advancesList[advanceID - 1];
+  }
+
+  public getAdvanceTypeName(type: AdvanceTypes): string {
+    return AdvanceTypes[type];
   }
 }

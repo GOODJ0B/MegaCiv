@@ -24,6 +24,11 @@ export const navigation = [
     path: '/admin',
     icon: 'toolbox'
   },
+  {
+    text: 'Advances',
+    path: '/advances',
+    icon: 'fontsize'
+  },
 
   // {
   //   text: 'Examples',
