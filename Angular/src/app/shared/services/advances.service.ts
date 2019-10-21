@@ -74,6 +74,7 @@ export class AdvancesService {
 
   public buyAdvance(advance: Advance): void {
     this.gameService.getCurrentPlayer().ownedAdvances.push(advance.id);
+    this.gameService.game.advancesInPlay[advance.id] = true;
     this.gameService.sendToOtherPlayers();
   }
 

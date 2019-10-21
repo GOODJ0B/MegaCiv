@@ -7,7 +7,12 @@ export class Game {
     phase = 0;
     players: Player[] = [];
     hasStarted = false;
-    advancesInPlay: boolean[] = []
+    advancesInPlay: boolean[] = [false, false, 
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false, false,
+        false, false, false, false, false, false, false, false, false, false]
 
     countDown = 0;
 

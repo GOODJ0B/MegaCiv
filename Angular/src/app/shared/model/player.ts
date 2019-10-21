@@ -28,15 +28,6 @@ export class Player {
   ownedAdvances: AdvanceTypes[] = [];
 
   // Advances:
-  hasMilitary = false;
-  hasCulturalAscendancy = false;
-  hasCoinage = false;
-  hasMonarchy = false;
-  hasDemocracy = false;
-  hasAdvancedMilitary = false;
-  hasEngineering = false;
-  hasMetalWorking = false;
-  hasNavalWarfare = false;
   personalCountDown = 0;
 
   constructor(civilizationName: string, AstNextAgePoint1: number, AstNextAgePoint2: number) {

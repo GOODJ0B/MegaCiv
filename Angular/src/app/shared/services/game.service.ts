@@ -267,9 +267,5 @@ export class GameService {
     getPhaseName(index?: number): string {
         return phases[index ? index : this.game.phase];
     }
-
-    public getAdvancesInPlay() {
-        return this.game.advancesInPlay;
-    }
     
 }
