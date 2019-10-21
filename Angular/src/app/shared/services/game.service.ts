@@ -9,6 +9,7 @@ import { Player } from '../model/player';
 import { phases } from '../model/phases';
 import { Advance } from '../model/advance.interface';
 import { AdvanceTypes } from '../model/advance-types.enum';
+import { AdvanceNumber } from '../model/advances.enum';
 
 @Injectable({ providedIn: 'root' })
 export class GameService {
@@ -114,7 +115,7 @@ export class GameService {
             this.getActivePlayers().forEach(player => {
                 this.taxCollectionCalculations(player);
                 // als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
-                if (!(player.hasMonarchy || player.hasCoinage)) {
+                if (!(player.ownedAdvances.includes(AdvanceNumber.MONARCHY) || player.ownedAdvances.includes(AdvanceNumber.COINAGE))) {
                     player.isReady = true;
                 }
                 // Automatisch door als iedereen ready is:
@@ -132,7 +133,7 @@ export class GameService {
             );
             // Zet de spelers met Military achteraan de rij
             for (let i = 0; i < playerList.length; i++) {
-                playerList[i].censusOrder = playerList[i].hasMilitary ? i + playerList.length : i;
+                playerList[i].censusOrder = playerList[i].ownedAdvances.includes(AdvanceNumber.MILITARY) ? i + playerList.length : i;
             }
             // Sorteer spelers op censusVolgorde
             playerList.sort((a: Player, b: Player) => a.censusOrder - b.censusOrder);
@@ -196,7 +197,7 @@ export class GameService {
         player.collectedTax = player.citiesOnBoard * player.taxRate;
         // check for tax revolt
         if (player.tokensInStock < player.collectedTax) {
-            if (!player.hasDemocracy) {
+            if (!player.ownedAdvances.includes(AdvanceNumber.DEMOCRACY)) {
                 player.hasTaxRevolt = true;
             }
             // collected tax can not be more than tokens in stock

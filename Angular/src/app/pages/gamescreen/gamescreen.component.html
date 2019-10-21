@@ -23,8 +23,8 @@
         <dxi-column caption="tax rate"              dataField="taxRate"             alignment="center" ></dxi-column>
         <dxi-column caption="tax collected"         dataField=""                    alignment="center" ></dxi-column>
         <dxi-column caption="treasury"              dataField="tokensInTreasury"    alignment="center" ></dxi-column>
-        <dxi-column caption="MONARCHY"              dataField="hasMonarchy"         alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="COINAGE"               dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
+        <dxi-column caption="MONARCHY"              dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[AdvanceNumber.MONARCHY]" ></dxi-column>
+        <dxi-column caption="COINAGE"               dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[AdvanceNumber.COINAGE]" ></dxi-column>
         <div *dxTemplate="let item of 'taxRevolt'">
             <div style="background-color: red; color: white">
                 {{ item.data.hasTaxRevolt ? 'TAX REVOLT' : '' }}
@@ -55,13 +55,13 @@
     </ng-container>
 
     <ng-container *ngIf="gameService.game.phase === 4">
-        <dxi-column caption="ADVANCED MILITARY"     dataField="hasAdvancedMilitary" alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="ENGINEERING"           dataField="hasEngineering"      alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="METAL WORKING"         dataField="hasMetalWorking"     alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="NAVAL WARFARE"         dataField="hasNavalWarfare"     alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
+        <dxi-column caption="ADVANCED MILITARY"     dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
+        <dxi-column caption="ENGINEERING"           dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
+        <dxi-column caption="METAL WORKING"         dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
+        <dxi-column caption="NAVAL WARFARE"         dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
         <dxi-column caption="civilization"          dataField="civilizationName" ></dxi-column>
         <dxi-column caption="treasury won"          dataField="treasuryDifference"  alignment="center" ></dxi-column>
-        <dxi-column caption="tradecards"            dataField=""  alignment="center" ></dxi-column>
+        <dxi-column caption="tradecards"            dataField=""                    alignment="center" ></dxi-column>
     </ng-container>
 
     <ng-container *ngIf="gameService.game.phase === 5">

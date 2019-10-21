@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DxButtonModule } from 'devextreme-angular/ui/button';
 import { GameService } from 'src/app/shared/services/game.service';
 import { Component, NgModule } from '@angular/core';
+import { AdvanceNumber } from '../../model/advances.enum';
 
 @Component({
   selector: 'app-footer',
@@ -28,7 +29,6 @@ export class FooterComponent {
 
   test() {
     this.gameService.game.hasStarted = false;
-    this.gameService.getCurrentPlayer().hasMilitary = true;
   }
 }
 

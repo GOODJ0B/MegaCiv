@@ -1,4 +1,4 @@
-export enum Advances {
+export enum AdvanceNumber {
     NONE = 0,
     ADVANCED_MILITARY = 1,
     AGRICULTURE = 2,

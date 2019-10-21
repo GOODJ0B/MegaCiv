@@ -1,4 +1,4 @@
-import {AdvanceTypes} from './advance-types.enum';
+import { AdvanceNumber } from './advances.enum';
 
 export class Player {
   originalOrder: number;
@@ -25,7 +25,7 @@ export class Player {
   collectedTax = 0;
   hasTaxRevolt = false;
   hasTimeLeft = 0;
-  ownedAdvances: AdvanceTypes[] = [];
+  ownedAdvances: AdvanceNumber[] = [];
 
   // Advances:
   personalCountDown = 0;
