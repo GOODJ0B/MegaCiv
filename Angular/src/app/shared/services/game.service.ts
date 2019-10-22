@@ -205,7 +205,6 @@ export class GameService {
             player.collectedTax = player.tokensInStock;
         } else {
             player.hasTaxRevolt = false;
-            this.game.taxRevoltInPlay = false;
         }
         player.tokensInTreasury += player.collectedTax;
         player.tokensInStock -= player.collectedTax;

@@ -5,10 +5,10 @@
         Cities on board: <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard" [readOnly]="true"
             [max]="9" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
         Tax rate: <dx-number-box [(value)]="gameService.getCurrentPlayer().taxRate" (onValueChanged)="taxRateChanged();"
-            [readOnly]="gameService.getCurrentPlayer().isReady || !(gameService.getCurrentPlayer().hasCoinage || gameService.getCurrentPlayer().hasMonarchy)"
-            [max]="gameService.getCurrentPlayer().hasCoinage || gameService.getCurrentPlayer().hasMonarchy ?
-             gameService.getCurrentPlayer().hasCoinage && gameService.getCurrentPlayer().hasMonarchy ? 4 : 3 : 2"
-            [min]="gameService.getCurrentPlayer().hasCoinage ? 1 : 2" [showSpinButtons]="true" width="50px">
+            [readOnly]="gameService.getCurrentPlayer().isReady || !(gameService.getCurrentPlayer().ownedAdvances.includes(9) || gameService.getCurrentPlayer().ownedAdvances.includes(29))"
+            [max]="gameService.getCurrentPlayer().ownedAdvances.includes(9) || gameService.getCurrentPlayer().ownedAdvances.includes(29) ?
+             gameService.getCurrentPlayer().ownedAdvances.includes(9) && gameService.getCurrentPlayer().ownedAdvances.includes(29) ? 4 : 3 : 2"
+            [min]="gameService.getCurrentPlayer().ownedAdvances.includes(9) ? 1 : 2" [showSpinButtons]="true" width="50px">
         </dx-number-box><br>
         Tax collected: <dx-number-box [(value)]="gameService.getCurrentPlayer().collectedTax" [readOnly]="true"
             [max]="18" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
@@ -18,6 +18,7 @@
             TAX REVOLT!
         </div>
     </div>
+
     <div *ngIf="gameService.game.phase === 2 || gameService.game.phase === 5 || gameService.game.phase === 11">
         Tokens on board: <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensOnBoard"
             (onValueChanged)="unitsChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55" [min]="0"
@@ -37,6 +38,7 @@
             Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!
         </div>
     </div>
+    
     <div *ngIf="gameService.game.phase === 3">
         Your place in queue: {{ gameService.getCurrentPlayer().censusOrder }}
         <br>
