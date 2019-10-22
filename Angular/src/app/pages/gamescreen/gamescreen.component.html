@@ -27,12 +27,12 @@
         <dxi-column                                 dataField=""                    alignment="center"  cellTemplate="taxRevolt"    [visible]="true" ></dxi-column>
             
         <div *dxTemplate="let item of 'hasMONARCHY'">
-            <div style="background-color: green; color: white">
+            <div style="background-color: yellowgreen; color: black">
                 {{ item.data.ownedAdvances.includes(29) ? 'MONARCHY' : '' }}
             </div>
         </div>
         <div *dxTemplate="let item of 'hasCOINAGE'">
-            <div style="background-color: green; color: white">
+            <div style="background-color: yellowgreen; color: black">
                 {{ item.data.ownedAdvances.includes(9) ? 'COINAGE' : '' }}
             </div>
         </div>

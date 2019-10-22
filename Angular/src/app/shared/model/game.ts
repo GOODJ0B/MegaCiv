@@ -12,7 +12,8 @@ export class Game {
         false, false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false, false,
-        false, false, false, false, false, false, false, false, false, false]
+        false, false, false, false, false, false, false, false, false, false];
+    taxRevoltInPlay = true;
 
     countDown = 0;
 

@@ -199,11 +199,13 @@ export class GameService {
         if (player.tokensInStock < player.collectedTax) {
             if (!player.ownedAdvances.includes(AdvanceNumber.DEMOCRACY)) {
                 player.hasTaxRevolt = true;
+                this.game.taxRevoltInPlay = true;
             }
             // collected tax can not be more than tokens in stock
             player.collectedTax = player.tokensInStock;
         } else {
             player.hasTaxRevolt = false;
+            this.game.taxRevoltInPlay = false;
         }
         player.tokensInTreasury += player.collectedTax;
         player.tokensInStock -= player.collectedTax;
