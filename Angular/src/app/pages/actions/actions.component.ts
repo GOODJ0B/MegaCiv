@@ -29,4 +29,13 @@ export class ActionsComponent {
     this.gameService.getCurrentPlayer().citiesInStock = 
       this.gameService.maxCities - this.gameService.getCurrentPlayer().citiesOnBoard;
   }
+
+  citiesInStockChanged() {
+    this.gameService.getCurrentPlayer().citiesOnBoard = 
+      this.gameService.maxCities - this.gameService.getCurrentPlayer().citiesInStock;
+  }
+
+  treasuryUsed() { // heeft nog een reset nodig!
+    this.gameService.getCurrentPlayer().tokensInTreasury += this.gameService.getCurrentPlayer().treasuryDifference;
+  }
 }

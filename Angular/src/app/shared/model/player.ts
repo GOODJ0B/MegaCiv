@@ -24,6 +24,7 @@ export class Player {
   taxRate = 2;
   collectedTax = 0;
   hasTaxRevolt = false;
+  taxCollected = false;
   hasTimeLeft = 0;
   ownedAdvances: AdvanceNumber[] = [];
 

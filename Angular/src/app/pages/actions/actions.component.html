@@ -2,6 +2,12 @@
 
 <div class="content-block dx-card responsive-paddings">
     <div *ngIf="gameService.game.phase === 1">
+        <div style="background-color: yellowgreen; color: black" *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(9)">
+            Je kunt gebruik maken van COINAGE (taxrate +1 / -1)
+        </div>
+        <div style="background-color: yellowgreen; color: black" *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(29)">
+            Je kunt gebruik maken van MONARCHY (taxrate +1)
+        </div>
         Cities on board: <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard" [readOnly]="true"
             [max]="9" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
         Tax rate: <dx-number-box [(value)]="gameService.getCurrentPlayer().taxRate" (onValueChanged)="taxRateChanged();"
@@ -14,7 +20,7 @@
             [max]="18" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
         Treasury: <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
             [max]="55" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
-        <div style="color: red" *ngIf="gameService.getCurrentPlayer().hasTaxRevolt">
+        <div style="background-color: red; color: white" *ngIf="gameService.getCurrentPlayer().hasTaxRevolt">
             TAX REVOLT!
         </div>
     </div>
@@ -31,8 +37,9 @@
         Cities on board: <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard"
             (onValueChanged)="citiesOnBoardChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="9"
             [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
-        Cities in stock: <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesInStock" [readOnly]="true"
-            [max]="9" [min]="0" width="50px"></dx-number-box><br>
+        Cities in stock: <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesInStock"
+            (onValueChanged)="citiesInStockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="9"
+            [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box><br>
         <div style="color: red"
             *ngIf="!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))">
             Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!
@@ -50,7 +57,7 @@
         Ships on board: <dx-number-box [(value)]="gameService.getCurrentPlayer().shipsOnBoard"
             [readOnly]="gameService.getCurrentPlayer().isReady" [max]="4" [min]="0" [showSpinButtons]="true"
             width="50px"></dx-number-box><br>
-        Treasury difference: <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference"
+        Treasury used: <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference" (onValueChanged)="treasuryUsed();"
             [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().shipsOnBoard === 0"
             [max]="0" [min]="-1 * gameService.getCurrentPlayer().tokensInTreasury" [showSpinButtons]="true"
             width="50px"></dx-number-box><br>

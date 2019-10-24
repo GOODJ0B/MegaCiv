@@ -124,7 +124,11 @@ export class GameService {
                 // }
             });
         } else if (this.game.phase === 2) {
-
+            // reset de taxRate en berekeningen van fase1
+            this.game.players.forEach(player => {
+                player.taxCollected = false;
+                player.taxRate = 2;
+            });
         } else if (this.game.phase === 3) {
             const playerList = this.getActivePlayers();
             // Sorteer spelers op aantal token (en bij gelijk aantal op originele volgorde)
@@ -194,6 +198,11 @@ export class GameService {
     }
 
     taxCollectionCalculations(player: Player): void {
+        // als Treasury en Stock al eens aangepast zijn met deze functie, deze aanpassing terugdraaien
+        if (player.taxCollected) { 
+            player.tokensInTreasury -= player.collectedTax;
+            player.tokensInStock += player.collectedTax;
+        }
         player.collectedTax = player.citiesOnBoard * player.taxRate;
         // check for tax revolt
         if (player.tokensInStock < player.collectedTax) {
@@ -208,6 +217,7 @@ export class GameService {
         }
         player.tokensInTreasury += player.collectedTax;
         player.tokensInStock -= player.collectedTax;
+        player.taxCollected = true;
     }
 
     public startCountDown(seconds: number) {
