@@ -87,7 +87,7 @@ export class GameService {
         return false; // Somebody is not yet ready
       }
     }
-    return true;
+    return this.game.players[0].isReady;
   }
 
   nextPhase() {
@@ -169,7 +169,7 @@ export class GameService {
     } else if (this.game.phase === 12) {
 
     } else if (this.game.phase === 13) {
-
+      this.game.players.forEach(player => player.selectedAdvances = []);
     }
 
     this.sendToOtherPlayers();
