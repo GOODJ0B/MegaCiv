@@ -1,4 +1,4 @@
-import { AdvanceNumber } from './advances.enum';
+import {AdvanceNumber} from './advances.enum';
 
 export class Player {
   originalOrder: number;
@@ -27,6 +27,12 @@ export class Player {
   taxCollected = false;
   hasTimeLeft = 0;
   ownedAdvances: AdvanceNumber[] = [];
+  discountToCivics: number;
+  discountToCrafts: number;
+  discountToReligion: number;
+  discountToScience: number;
+  discountToArts: number;
+
 
   // Advances:
   personalCountDown = 0;

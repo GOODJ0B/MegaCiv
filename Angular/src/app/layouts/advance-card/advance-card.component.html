@@ -1,9 +1,15 @@
 <div class="card" style="margin: 20px; max-width: 600px" (click)="openPopup()">
-  <div class="container">
+  <div class="container" [ngClass]="{'civics': advance.type1 === 1, 'crafts': advance.type1 === 2, 'religion': advance.type1 === 3,
+  'science': advance.type1 === 4, 'arts': advance.type1 === 5}">
     <p></p>
     <b style="font-size: 1.2em">{{ advance.name }}</b>
     <p>{{ advance.description }}</p>
-    <p *ngIf="!hideCost">Cost: {{ advance.currentPrice }}</p>
+    <p *ngIf="!hideCost">Cost: {{ advance.currentPrice }} / {{ advance.cost }}</p>
+    <div class="civics" style="margin: 2px; display: inline">{{advance.discountToCivics}}</div>&nbsp;&nbsp;
+    <div class="crafts" style="margin: 2px; display: inline">{{advance.discountToCrafts}}</div>&nbsp;&nbsp;
+    <div class="religion" style="margin: 2px; display: inline">{{advance.discountToReligion}}</div>&nbsp;&nbsp;
+    <div class="science" style="margin: 2px; display: inline">{{advance.discountToScience}}</div>&nbsp;&nbsp;
+    <div class="arts" style="margin: 2px; display: inline">{{advance.discountToArts}}</div>
   </div>
 </div>
 <app-advance-popup [(visible)]="showPopup" [advance]="advance" [hideCost]="hideCost"></app-advance-popup>

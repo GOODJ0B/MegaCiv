@@ -48,6 +48,8 @@ export class AdvancesService {
         this._availableAdvances.push(advance);
       }
     }
+    this._availableAdvances.sort((a: Advance, b: Advance) => a.currentPrice - b.currentPrice);
+    this._ownedAdvances.sort((a: Advance, b: Advance) => a.cost - b.cost);
   }
 
   private calculatePrice(advance: Advance) {

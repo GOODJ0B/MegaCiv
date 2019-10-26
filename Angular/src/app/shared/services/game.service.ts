@@ -265,9 +265,39 @@ export class GameService {
   startGame() {
     this.game.hasStarted = true;
     this.game.turn = 1;
+
+    let counter = 0;
+    this.game.players.forEach(player => {
+      if (player.isActive) {
+        counter++;
+      }
+    });
+    this.applyDiscountToAdvances(counter);
+    this.createBlock(counter);
+
     // Start game on phase 2 since nobody has cities yet.
     this.game.phase = 1;
     this.nextPhase();
+  }
+
+  applyDiscountToAdvances(numberOfPlayers: number) {
+    let discount = 0;
+    if (numberOfPlayers === 5) {
+      discount = 10;
+    } else if (numberOfPlayers === 6 || numberOfPlayers === 12) {
+      discount = 5;
+    }
+    this.game.players.forEach(player => {
+      player.discountToArts += discount;
+      player.discountToCivics += discount;
+      player.discountToCrafts += discount;
+      player.discountToReligion += discount;
+      player.discountToScience += discount;
+    });
+  }
+
+  createBlock(numberOfPlayers: number) {
+
   }
 
   resetGame(): void {
