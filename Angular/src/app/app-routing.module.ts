@@ -49,7 +49,7 @@ const routes: Routes = [
   }
 ];
 
-const config: SocketIoConfig = {url: 'http://localhost:8889', options: {}};
+const config: SocketIoConfig = {url: 'http://jantineislief.nl:8889', options: {}};
 
 @NgModule({
   imports: [
