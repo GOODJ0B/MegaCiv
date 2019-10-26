@@ -128,8 +128,10 @@ export class ActionsComponent {
     } else {
       this.errorMessage = '';
       this.showBuyAdvancePopup = false;
-      this.gameService.getCurrentPlayer().selectedAdvances.forEach(
-        advanceNumber => this.gameService.getCurrentPlayer().ownedAdvances.push(advanceNumber));
+      this.gameService.getCurrentPlayer().selectedAdvances.forEach(advanceNumber => {
+        this.gameService.getCurrentPlayer().ownedAdvances.push(advanceNumber);
+        this.gameService.game.advancesInPlay[advanceNumber] = true;
+      });
       this.gameService.getCurrentPlayer().tokensInTreasury -= this.gameService.getCurrentPlayer().treasuryDifference;
       this.gameService.getCurrentPlayer().treasuryDifference = 0;
       this.gameService.getCurrentPlayer().discountToScience += this.monumentDiscountToScience + this.writenRecordDiscountToScience;

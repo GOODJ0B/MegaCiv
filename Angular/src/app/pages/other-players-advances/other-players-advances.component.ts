@@ -18,9 +18,7 @@ export class OtherPlayersAdvancesComponent {
   }
 
   showPopup(player: Player) {
-    console.log('++++++++++++', player);
     this.selectedPlayer = player;
     this.showAdvancesPopup = true;
   }
-
 }

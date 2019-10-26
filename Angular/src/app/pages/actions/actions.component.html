@@ -12,7 +12,7 @@
     </div>
     Cities on board:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard" [readOnly]="true"
-                   [max]="9" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box>
+                   [max]="9" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     Tax rate:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().taxRate" (onValueChanged)="taxRateChanged();"
@@ -20,16 +20,16 @@
                    [max]="gameService.getCurrentPlayer().ownedAdvances.includes(9) || gameService.getCurrentPlayer().ownedAdvances.includes(29) ?
              gameService.getCurrentPlayer().ownedAdvances.includes(9) && gameService.getCurrentPlayer().ownedAdvances.includes(29) ? 4 : 3 : 2"
                    [min]="gameService.getCurrentPlayer().ownedAdvances.includes(9) ? 1 : 2" [showSpinButtons]="true"
-                   width="50px">
+                   width="100px">
     </dx-number-box>
     <br>
     Tax collected:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().collectedTax" [readOnly]="true"
-                   [max]="18" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box>
+                   [max]="18" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     Treasury:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
-                   [max]="55" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box>
+                   [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     <div style="background-color: red; color: white" *ngIf="gameService.getCurrentPlayer().hasTaxRevolt">
       TAX REVOLT!
@@ -41,29 +41,29 @@
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensOnBoard"
                    (onValueChanged)="unitsChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
                    [min]="0"
-                   [showSpinButtons]="true" width="50px"></dx-number-box>
+                   [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     Tokens in stock:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInStock"
                    (onValueChanged)="stockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
                    [min]="0"
-                   [showSpinButtons]="true" width="50px"></dx-number-box>
+                   [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     Treasury:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
-                   [max]="55" [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box>
+                   [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     Cities on board:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard"
                    (onValueChanged)="citiesOnBoardChanged();" [readOnly]="gameService.getCurrentPlayer().isReady"
                    [max]="9"
-                   [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box>
+                   [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     Cities in stock:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesInStock"
                    (onValueChanged)="citiesInStockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady"
                    [max]="9"
-                   [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box>
+                   [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     <div style="color: red"
          *ngIf="!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))">
@@ -82,17 +82,17 @@
     Ships on board:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().shipsOnBoard"
                    [readOnly]="gameService.getCurrentPlayer().isReady" [max]="4" [min]="0" [showSpinButtons]="true"
-                   width="50px"></dx-number-box>
+                   width="100px"></dx-number-box>
     <br>
     Treasury used:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference" (onValueChanged)="treasuryUsed();"
                    [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().shipsOnBoard === 0"
                    [max]="0" [min]="-1 * gameService.getCurrentPlayer().tokensInTreasury" [showSpinButtons]="true"
-                   width="50px"></dx-number-box>
+                   width="100px"></dx-number-box>
     <br>
     Treasury:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
-                   [max]="55" [min]="0" width="50px"></dx-number-box>
+                   [max]="55" [min]="0" width="100px"></dx-number-box>
     <br>
   </div>
   <div *ngIf="gameService.game.phase === 4">
@@ -100,11 +100,11 @@
     <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference"
                    [readOnly]="gameService.getCurrentPlayer().isReady"
                    [max]="gameService.getCurrentPlayer().tokensInStock"
-                   [min]="0" [showSpinButtons]="true" width="50px"></dx-number-box>
+                   [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     Tokens in stock:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInStock" [readOnly]="true"
-                   [max]="55" [min]="0" width="50px"></dx-number-box>
+                   [max]="55" [min]="0" width="100px"></dx-number-box>
     <br>
   </div>
   <!-- Fase 5 zit bij 2 -->
@@ -135,41 +135,41 @@
     <dx-popup *ngIf="showBuyAdvancePopup" [(visible)]="showBuyAdvancePopup" height="auto">
       Tradecard value used:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().tradeCardValueUsed" [min]="0" [showSpinButtons]="true"
-                     width="50px">
+                     width="100px">
       </dx-number-box>
       <br>
       Treasury used:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference" [showSpinButtons]="true"
                      [max]="gameService.getCurrentPlayer().tokensInTreasury" [min]="0"
-                     width="50px">
+                     width="100px">
       </dx-number-box>
       Tradecards left:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().numberOfTradeCards"
                      [min]="0" [showSpinButtons]="true"
-                     width="50px">
+                     width="100px">
       </dx-number-box>
       {{errorMessage}}<br><br>
       <div *ngIf="gameService.getCurrentPlayer().selectedAdvances.includes(31)">
         Kies je korting voor MONUMENT (samen 20):<br>
         Civics:
         <dx-number-box #monument [(value)]="monumentDiscountToCivics" [min]="0" step="5" [showSpinButtons]="true"
-                       (valueChange)="monumentCalculations()" width="50px">
+                       (valueChange)="monumentCalculations()" width="100px">
         </dx-number-box>
         Crafts:
         <dx-number-box #monument [(value)]="monumentDiscountToCrafts" [min]="0" step="5" [showSpinButtons]="true"
-                       (valueChange)="monumentCalculations()" width="50px">
+                       (valueChange)="monumentCalculations()" width="100px">
         </dx-number-box>
         Religion:
         <dx-number-box #monument [(value)]="monumentDiscountToReligion" [min]="0" step="5" [showSpinButtons]="true"
-                       (valueChange)="monumentCalculations()" width="50px">
+                       (valueChange)="monumentCalculations()" width="100px">
         </dx-number-box>
         Science:
         <dx-number-box #monument [(value)]="monumentDiscountToScience" [min]="0" step="5" [showSpinButtons]="true"
-                       (valueChange)="monumentCalculations()" width="50px">
+                       (valueChange)="monumentCalculations()" width="100px">
         </dx-number-box>
         Arts:
         <dx-number-box #monument [(value)]="monumentDiscountToArts" [min]="0" step="5" [showSpinButtons]="true"
-                       (valueChange)="monumentCalculations()" width="50px">
+                       (valueChange)="monumentCalculations()" width="100px">
         </dx-number-box>
         <br>
       </div>
@@ -177,23 +177,23 @@
         Kies je korting voor WRITEN RECORD (samen 10):<br>
         Civics:
         <dx-number-box #monument [(value)]="writenRecordDiscountToCivics" [min]="0" step="5" [showSpinButtons]="true"
-                       (valueChange)="monumentCalculations()" width="50px">
+                       (valueChange)="monumentCalculations()" width="100px">
         </dx-number-box>
         Crafts:
         <dx-number-box #monument [(value)]="writenRecordDiscountToCrafts" [min]="0" step="5" [showSpinButtons]="true"
-                       (valueChange)="monumentCalculations()" width="50px">
+                       (valueChange)="monumentCalculations()" width="100px">
         </dx-number-box>
         Religion:
         <dx-number-box #monument [(value)]="writenRecordDiscountToReligion" [min]="0" step="5" [showSpinButtons]="true"
-                       (valueChange)="monumentCalculations()" width="50px">
+                       (valueChange)="monumentCalculations()" width="100px">
         </dx-number-box>
         Science:
         <dx-number-box #monument [(value)]="writenRecordDiscountToScience" [min]="0" step="5" [showSpinButtons]="true"
-                       (valueChange)="monumentCalculations()" width="50px">
+                       (valueChange)="monumentCalculations()" width="100px">
         </dx-number-box>
         Arts:
         <dx-number-box #monument [(value)]="writenRecordDiscountToArts" [min]="0" step="5" [showSpinButtons]="true"
-                       (valueChange)="monumentCalculations()" width="50px">
+                       (valueChange)="monumentCalculations()" width="100px">
         </dx-number-box>
         <br>
       </div>
