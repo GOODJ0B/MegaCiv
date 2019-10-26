@@ -1,15 +1,20 @@
-<div class="card" style="margin: 20px; max-width: 600px" (click)="openPopup()">
+<div class="card" style="margin: 20px; max-width: 600px" (click)="selectAdvance()">
   <div class="container" [ngClass]="{'civics': advance.type1 === 1, 'crafts': advance.type1 === 2, 'religion': advance.type1 === 3,
   'science': advance.type1 === 4, 'arts': advance.type1 === 5}">
     <p></p>
-    <b style="font-size: 1.2em">{{ advance.name }}</b>
+    <dx-check-box *ngIf="selectable" [value]="advance.isSelected"></dx-check-box> &nbsp;&nbsp;
+    <b style="font-size: 1.2em">{{ advance.name }} ({{advance.points}})</b>
+    <div *ngIf="advance.discountFromCard">{{advance.discountFromCardAmount}} discount
+      from {{advancesService.getAdvance(advance.discountFromCard).name}}</div>
     <p>{{ advance.description }}</p>
     <p *ngIf="!hideCost">Cost: {{ advance.currentPrice }} / {{ advance.cost }}</p>
-    <div class="civics" style="margin: 2px; display: inline">{{advance.discountToCivics}}</div>&nbsp;&nbsp;
-    <div class="crafts" style="margin: 2px; display: inline">{{advance.discountToCrafts}}</div>&nbsp;&nbsp;
-    <div class="religion" style="margin: 2px; display: inline">{{advance.discountToReligion}}</div>&nbsp;&nbsp;
-    <div class="science" style="margin: 2px; display: inline">{{advance.discountToScience}}</div>&nbsp;&nbsp;
-    <div class="arts" style="margin: 2px; display: inline">{{advance.discountToArts}}</div>
+    <div class="civics" style="display: inline">{{advance.discountToCivics}}</div>&nbsp;&nbsp;
+    <div class="crafts" style="display: inline">{{advance.discountToCrafts}}</div>&nbsp;&nbsp;
+    <div class="religion" style="display: inline">{{advance.discountToReligion}}</div>&nbsp;&nbsp;
+    <div class="science" style="display: inline">{{advance.discountToScience}}</div>&nbsp;&nbsp;
+    <div class="arts" style="display: inline">{{advance.discountToArts}}</div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div style="display: inline" *ngIf="advance.discountToCard">{{advance.discountToCardAmount}} discount
+      to {{advancesService.getAdvance(advance.discountToCard).name}}</div>
   </div>
 </div>
 <app-advance-popup [(visible)]="showPopup" [advance]="advance" [hideCost]="hideCost"></app-advance-popup>

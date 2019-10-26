@@ -10,15 +10,16 @@ import {AdvanceNumber} from '../model/advances.enum';
 export class AdvancesService {
 
   private _availableAdvances: Advance[];
-  get availableAdvances(): Advance[]{
+  get availableAdvances(): Advance[] {
     if (!this._availableAdvances || this.gameService.getCurrentPlayer().ownedAdvances.length !== this._ownedAdvances.length) {
       this.fillLists();
     }
     return this._availableAdvances;
   }
 
+
   private _ownedAdvances: Advance[];
-  get ownedAdvances(): Advance[]{
+  get ownedAdvances(): Advance[] {
     if (!this._ownedAdvances || this.gameService.getCurrentPlayer().ownedAdvances.length !== this._ownedAdvances.length) {
       this.fillLists();
     }
@@ -44,7 +45,13 @@ export class AdvancesService {
     }
     for (const advance of advancesList) {
       if (!this._ownedAdvances.includes(advance)) {
-        this.calculatePrice(advance);
+        if (advance.type2) {
+          const cost1 = this.calculatePrice(advance, advance.type1);
+          const cost2 = this.calculatePrice(advance, advance.type2);
+          advance.currentPrice = cost1 < cost2 ? cost1 : cost2;
+        } else {
+          advance.currentPrice = this.calculatePrice(advance, advance.type1);
+        }
         this._availableAdvances.push(advance);
       }
     }
@@ -52,26 +59,36 @@ export class AdvancesService {
     this._ownedAdvances.sort((a: Advance, b: Advance) => a.cost - b.cost);
   }
 
-  private calculatePrice(advance: Advance) {
+  private calculatePrice(advance: Advance, type: AdvanceTypes): number {
     let price = advance.cost;
-
+    if (type === AdvanceTypes.ARTS) {
+      price -= this.gameService.getCurrentPlayer().discountToArts;
+    } else if (type === AdvanceTypes.CIVICS) {
+      price -= this.gameService.getCurrentPlayer().discountToCivics;
+    } else if (type === AdvanceTypes.CRAFTS) {
+      price -= this.gameService.getCurrentPlayer().discountToCrafts;
+    } else if (type === AdvanceTypes.RELIGION) {
+      price -= this.gameService.getCurrentPlayer().discountToReligion;
+    } else if (type === AdvanceTypes.SCIENCE) {
+      price -= this.gameService.getCurrentPlayer().discountToScience;
+    }
     for (const ownedAdvance of this._ownedAdvances) {
-      if (advance.type1 === AdvanceTypes.ARTS) {
+      if (type === AdvanceTypes.ARTS) {
         price -= ownedAdvance.discountToArts;
-      } else if (advance.type1 === AdvanceTypes.CIVICS) {
+      } else if (type === AdvanceTypes.CIVICS) {
         price -= ownedAdvance.discountToCivics;
-      } else if (advance.type1 === AdvanceTypes.CRAFTS) {
+      } else if (type === AdvanceTypes.CRAFTS) {
         price -= ownedAdvance.discountToCrafts;
-      } else if (advance.type1 === AdvanceTypes.RELIGION) {
+      } else if (type === AdvanceTypes.RELIGION) {
         price -= ownedAdvance.discountToReligion;
-      } else if (advance.type1 === AdvanceTypes.SCIENCE) {
+      } else if (type === AdvanceTypes.SCIENCE) {
         price -= ownedAdvance.discountToScience;
       }
       if (advance.discountFromCard === ownedAdvance.id) {
         price -= advance.discountFromCardAmount;
       }
     }
-    advance.currentPrice = price;
+    return price;
   }
 
   public buyAdvance(advance: Advance): void {
@@ -82,6 +99,10 @@ export class AdvancesService {
 
   public getAdvance(advanceID: number): Advance {
     return advancesList[advanceID - 1];
+  }
+
+  public getAdvanceName(advance: AdvanceNumber): string {
+    return advancesList[advance].name;
   }
 
   public getAdvanceTypeName(type: AdvanceTypes): string {

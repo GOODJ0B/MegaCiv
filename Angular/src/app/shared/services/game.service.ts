@@ -274,7 +274,7 @@ export class GameService {
     });
     this.applyDiscountToAdvances(counter);
     this.createBlock(counter);
-
+    this.maxTradeCards(counter);
     // Start game on phase 2 since nobody has cities yet.
     this.game.phase = 1;
     this.nextPhase();
@@ -294,6 +294,14 @@ export class GameService {
       player.discountToReligion += discount;
       player.discountToScience += discount;
     });
+  }
+
+  maxTradeCards(numberOfPlayers: number) {
+    if (numberOfPlayers < 12) {
+      this.game.maxTradecards = 8;
+    } else {
+      this.game.maxTradecards = 9;
+    }
   }
 
   createBlock(numberOfPlayers: number) {

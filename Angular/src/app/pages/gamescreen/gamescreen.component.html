@@ -177,10 +177,16 @@
     <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
     <dxi-column caption="GOLD USED" dataField="" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY USED" dataField="" alignment="center"></dxi-column>
-    <dxi-column caption="ADVANCES BOUGHT" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="ADVANCES BOUGHT" dataField="" cellTemplate="selectedAdvances" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
     <dxi-column caption="TRADECARDS" dataField="" alignment="center"></dxi-column>
   </ng-container>
+
+  <div *dxTemplate="let item of 'selectedAdvances'">
+    <div *ngFor="let advance of item.data.selectedAdvances"
+         style="display: inline">{{advancesService.getAdvanceName(advance)}},
+    </div>
+  </div>
 
   <div *dxTemplate="let item of 'taxRevolt'">
     <div style="background-color: red; color: white">

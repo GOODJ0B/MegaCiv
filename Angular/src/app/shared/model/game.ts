@@ -1,19 +1,18 @@
-import { Player } from './player';
-import { Advance } from './advance.interface';
-import { AdvanceTypes } from './advance-types.enum';
+import {Player} from './player';
 
 export class Game {
     turn = 0;
     phase = 0;
     players: Player[] = [];
     hasStarted = false;
-    advancesInPlay: boolean[] = [true, false, 
+  advancesInPlay: boolean[] = [true, false,
         false, false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false, false];
     taxRevoltInPlay = true;
+  maxTradecards = 0;
 
     countDown = 0;
 

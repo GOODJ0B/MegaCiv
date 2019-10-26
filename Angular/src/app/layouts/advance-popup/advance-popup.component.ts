@@ -28,10 +28,7 @@ export class AdvancePopupComponent {
   constructor(public readonly advancesService: AdvancesService) {
   }
 
-  buyAdvance() {
-    this.advancesService.buyAdvance(this.advance);
-    this.visible = false;
-  }
+
 }
 
 @NgModule({

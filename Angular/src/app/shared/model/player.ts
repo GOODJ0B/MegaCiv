@@ -26,12 +26,15 @@ export class Player {
   hasTaxRevolt = false;
   taxCollected = false;
   hasTimeLeft = 0;
+  discountToCivics = 0;
+  discountToCrafts = 0;
+  discountToReligion = 0;
+  discountToScience = 0;
+  discountToArts = 0;
+  numberOfTradeCards = 0;
+  tradeCardValueUsed = 0;
+  selectedAdvances: AdvanceNumber[] = [];
   ownedAdvances: AdvanceNumber[] = [];
-  discountToCivics: number;
-  discountToCrafts: number;
-  discountToReligion: number;
-  discountToScience: number;
-  discountToArts: number;
 
 
   // Advances:
