@@ -128,9 +128,10 @@
     Totale kosten: {{ getTotalCost() }}<br>
     <dx-button type="default" (onClick)="showAdvancesPopup()">Advances kopen</dx-button>
     <h6>Geselecteerde advances:</h6>
-    <div *ngFor="let advance of advancesService.availableAdvances">
-      <app-advance-card *ngIf="advance.isSelected" [advance]="advance" [selectable]="true"></app-advance-card>
+    <div *ngFor="let advance of advancesService.selectedAdvances">
+      <app-advance-card [advance]="advance" [selectable]="true"></app-advance-card>
     </div>
+
     <dx-popup *ngIf="showBuyAdvancePopup" [(visible)]="showBuyAdvancePopup" height="auto">
       Tradecard value used:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().tradeCardValueUsed" [min]="0" [showSpinButtons]="true"
@@ -148,7 +149,56 @@
                      width="50px">
       </dx-number-box>
       {{errorMessage}}<br><br>
-      <dx-button type="default" (onClick)="buyAdvances()">Opslaan</dx-button>
+      <div *ngIf="gameService.getCurrentPlayer().selectedAdvances.includes(31)">
+        Kies je korting voor MONUMENT (samen 20):<br>
+        Civics:
+        <dx-number-box #monument [(value)]="monumentDiscountToCivics" [min]="0" step="5" [showSpinButtons]="true"
+                       (valueChange)="monumentCalculations()" width="50px">
+        </dx-number-box>
+        Crafts:
+        <dx-number-box #monument [(value)]="monumentDiscountToCrafts" [min]="0" step="5" [showSpinButtons]="true"
+                       (valueChange)="monumentCalculations()" width="50px">
+        </dx-number-box>
+        Religion:
+        <dx-number-box #monument [(value)]="monumentDiscountToReligion" [min]="0" step="5" [showSpinButtons]="true"
+                       (valueChange)="monumentCalculations()" width="50px">
+        </dx-number-box>
+        Science:
+        <dx-number-box #monument [(value)]="monumentDiscountToScience" [min]="0" step="5" [showSpinButtons]="true"
+                       (valueChange)="monumentCalculations()" width="50px">
+        </dx-number-box>
+        Arts:
+        <dx-number-box #monument [(value)]="monumentDiscountToArts" [min]="0" step="5" [showSpinButtons]="true"
+                       (valueChange)="monumentCalculations()" width="50px">
+        </dx-number-box>
+        <br>
+      </div>
+      <div *ngIf="gameService.getCurrentPlayer().selectedAdvances.includes(51)">
+        Kies je korting voor WRITEN RECORD (samen 10):<br>
+        Civics:
+        <dx-number-box #monument [(value)]="writenRecordDiscountToCivics" [min]="0" step="5" [showSpinButtons]="true"
+                       (valueChange)="monumentCalculations()" width="50px">
+        </dx-number-box>
+        Crafts:
+        <dx-number-box #monument [(value)]="writenRecordDiscountToCrafts" [min]="0" step="5" [showSpinButtons]="true"
+                       (valueChange)="monumentCalculations()" width="50px">
+        </dx-number-box>
+        Religion:
+        <dx-number-box #monument [(value)]="writenRecordDiscountToReligion" [min]="0" step="5" [showSpinButtons]="true"
+                       (valueChange)="monumentCalculations()" width="50px">
+        </dx-number-box>
+        Science:
+        <dx-number-box #monument [(value)]="writenRecordDiscountToScience" [min]="0" step="5" [showSpinButtons]="true"
+                       (valueChange)="monumentCalculations()" width="50px">
+        </dx-number-box>
+        Arts:
+        <dx-number-box #monument [(value)]="writenRecordDiscountToArts" [min]="0" step="5" [showSpinButtons]="true"
+                       (valueChange)="monumentCalculations()" width="50px">
+        </dx-number-box>
+        <br>
+      </div>
+      <br><br>
+      <dx-button type="default" (onClick)="buyAdvances()" [disabled]="disableSave">Opslaan</dx-button>
 
     </dx-popup>
   </div>

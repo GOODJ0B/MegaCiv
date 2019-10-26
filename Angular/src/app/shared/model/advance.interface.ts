@@ -19,5 +19,4 @@ export interface Advance {
   discountFromCardAmount: number;
   discountToCard: AdvanceTypes;
   discountToCardAmount: number;
-  isSelected: boolean;
 }

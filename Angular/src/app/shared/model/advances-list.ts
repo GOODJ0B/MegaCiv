@@ -20,7 +20,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 2,
     name: 'AGRICULTURE',
@@ -39,7 +38,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 12,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 3,
     name: 'ANATOMY',
@@ -58,7 +56,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 4,
     name: 'ARCHITECTURE',
@@ -77,7 +74,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 28,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 5,
     name: 'ASTRONAVIGATION',
@@ -96,7 +92,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 6,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 6,
     name: 'CALENDAR',
@@ -115,7 +110,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 40,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 7,
     name: 'CARTOGRAPHY',
@@ -134,7 +128,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 21,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 8,
     name: 'CLOTH MAKING',
@@ -153,7 +146,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 35,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 9,
     name: 'COINAGE',
@@ -172,7 +164,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 47,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 10,
     name: 'CULTURAL ASCENDANCY',
@@ -191,7 +182,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 11,
     name: 'DEISM',
@@ -210,7 +200,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 19,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 12,
     name: 'DEMOCRACY',
@@ -229,7 +218,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 13,
     name: 'DIASPORA',
@@ -248,7 +236,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 14,
     name: 'DIPLOMACY',
@@ -267,7 +254,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 39,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 15,
     name: 'DRAMA AND POETRY',
@@ -286,7 +272,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 41,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 16,
     name: 'EMPIRICISM',
@@ -305,7 +290,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 25,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 17,
     name: 'ENGINEERING',
@@ -324,7 +308,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 42,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 18,
     name: 'ENLIGHTENMENT',
@@ -343,7 +326,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 36,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 19,
     name: 'FUNDAMENTALISM',
@@ -362,7 +344,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 30,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 20,
     name: 'LAW',
@@ -381,7 +362,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 10,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 21,
     name: 'LIBRARY',
@@ -400,7 +380,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 22,
     name: 'LITERACY',
@@ -419,7 +398,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 24,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 23,
     name: 'MASONRY',
@@ -438,7 +416,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 17,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 24,
     name: 'MATHEMATICS',
@@ -457,7 +434,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 25,
     name: 'MEDICINE',
@@ -476,7 +452,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 3,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 26,
     name: 'METALWORKING',
@@ -495,7 +470,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 27,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 27,
     name: 'MILITARY',
@@ -514,7 +488,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 1,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 28,
     name: 'MINING',
@@ -533,7 +506,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 29,
     name: 'MONARCHY',
@@ -552,7 +524,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 20,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 30,
     name: 'MONOTHEISM',
@@ -571,7 +542,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 31,
     name: 'MONUMENT',
@@ -590,7 +560,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 50,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 32,
     name: 'MUSIC',
@@ -609,7 +578,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 18,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 33,
     name: 'MYSTICISM',
@@ -628,7 +596,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 31,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 34,
     name: 'MYTHOLOGY',
@@ -647,7 +614,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 22,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 35,
     name: 'NAVAL WARFARE',
@@ -666,7 +632,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 13,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 36,
     name: 'PHILOSOPHY',
@@ -685,7 +650,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 37,
     name: 'POLITICS',
@@ -704,7 +668,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 38,
     name: 'POTTERY',
@@ -723,7 +686,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 2,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 39,
     name: 'PROVINCIAL EMPIRE',
@@ -742,7 +704,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 40,
     name: 'PUBLIC WORKS',
@@ -761,7 +722,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 41,
     name: 'RHETORIC',
@@ -780,7 +740,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 37,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 42,
     name: 'ROADBUILDING',
@@ -799,7 +758,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 43,
     name: 'SCULPTURE',
@@ -818,7 +776,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 4,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 44,
     name: 'THEOCRACY',
@@ -837,7 +794,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 48,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 45,
     name: 'THEOLOGY',
@@ -856,7 +812,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 46,
     name: 'TRADE EMPIRE',
@@ -875,7 +830,6 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 47,
     name: 'TRADE ROUTES',
@@ -894,7 +848,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 46,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 48,
     name: 'UNIVERSAL DOCTRINE',
@@ -913,7 +866,6 @@ export const advancesList = [
     discountFromCardAmount: 10,
     discountToCard: 45,
     discountToCardAmount: 20,
-    isSelected: false,
   } as Advance, {
     id: 49,
     name: 'URBANISM',
@@ -932,7 +884,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 14,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance, {
     id: 50,
     name: 'WONDER OF THE WORLD',
@@ -951,7 +902,6 @@ export const advancesList = [
     discountFromCardAmount: 0,
     discountToCard: 0,
     discountToCardAmount: 0,
-    isSelected: false,
   } as Advance, {
     id: 51,
     name: 'WRITTEN RECORD',
@@ -970,6 +920,5 @@ export const advancesList = [
     discountFromCardAmount: 20,
     discountToCard: 7,
     discountToCardAmount: 10,
-    isSelected: false,
   } as Advance
 ];

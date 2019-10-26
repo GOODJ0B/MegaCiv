@@ -17,7 +17,6 @@ export class AdvancesService {
     return this._availableAdvances;
   }
 
-
   private _ownedAdvances: Advance[];
   get ownedAdvances(): Advance[] {
     if (!this._ownedAdvances || this.gameService.getCurrentPlayer().ownedAdvances.length !== this._ownedAdvances.length) {
@@ -27,6 +26,14 @@ export class AdvancesService {
   }
 
   constructor(private readonly gameService: GameService) {
+  }
+
+  private _selectedAdvances: Advance[];
+  get selectedAdvances(): Advance[] {
+    if (!this._selectedAdvances || this.gameService.getCurrentPlayer().selectedAdvances.length !== this._selectedAdvances.length) {
+      this.fillSelectedAdvancesList();
+    }
+    return this._selectedAdvances;
   }
 
   // player is optional, assumes current player if no player is provided
@@ -59,6 +66,22 @@ export class AdvancesService {
     this._ownedAdvances.sort((a: Advance, b: Advance) => a.cost - b.cost);
   }
 
+  private fillSelectedAdvancesList() {
+    this._selectedAdvances = [];
+    for (const advance of advancesList) {
+      if (this.gameService.getCurrentPlayer().selectedAdvances.includes(advance.id)) {
+        if (advance.type2) {
+          const cost1 = this.calculatePrice(advance, advance.type1);
+          const cost2 = this.calculatePrice(advance, advance.type2);
+          advance.currentPrice = cost1 < cost2 ? cost1 : cost2;
+        } else {
+          advance.currentPrice = this.calculatePrice(advance, advance.type1);
+        }
+        this._selectedAdvances.push(advance);
+      }
+    }
+  }
+
   private calculatePrice(advance: Advance, type: AdvanceTypes): number {
     let price = advance.cost;
     if (type === AdvanceTypes.ARTS) {
@@ -72,7 +95,7 @@ export class AdvancesService {
     } else if (type === AdvanceTypes.SCIENCE) {
       price -= this.gameService.getCurrentPlayer().discountToScience;
     }
-    for (const ownedAdvance of this._ownedAdvances) {
+    for (const ownedAdvance of this.ownedAdvances) {
       if (type === AdvanceTypes.ARTS) {
         price -= ownedAdvance.discountToArts;
       } else if (type === AdvanceTypes.CIVICS) {

@@ -25,8 +25,7 @@ export class AdvanceCardComponent {
 
   selectAdvance() {
     if (this.selectable) {
-      if (this.advance.isSelected) {
-        this.advance.isSelected = false;
+      if (this.gameService.getCurrentPlayer().selectedAdvances.includes(this.advance.id)) {
         const newSelectedAdvances = [];
         this.gameService.getCurrentPlayer().selectedAdvances.forEach(advance => {
           if (advance !== this.advance.id) {
@@ -35,9 +34,9 @@ export class AdvanceCardComponent {
         });
         this.gameService.getCurrentPlayer().selectedAdvances = newSelectedAdvances;
       } else {
-        this.advance.isSelected = true;
         this.gameService.getCurrentPlayer().selectedAdvances.push(this.advance.id);
       }
+      this.gameService.sendToOtherPlayers();
     }
   }
 }

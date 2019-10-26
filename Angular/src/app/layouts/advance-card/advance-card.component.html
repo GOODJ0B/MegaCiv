@@ -2,7 +2,9 @@
   <div class="container" [ngClass]="{'civics': advance.type1 === 1, 'crafts': advance.type1 === 2, 'religion': advance.type1 === 3,
   'science': advance.type1 === 4, 'arts': advance.type1 === 5}">
     <p></p>
-    <dx-check-box *ngIf="selectable" [value]="advance.isSelected"></dx-check-box> &nbsp;&nbsp;
+    <dx-check-box *ngIf="selectable"
+                  [value]="this.gameService.getCurrentPlayer().selectedAdvances.includes(advance.id)"></dx-check-box>
+    &nbsp;&nbsp;
     <b style="font-size: 1.2em">{{ advance.name }} ({{advance.points}})</b>
     <div *ngIf="advance.discountFromCard">{{advance.discountFromCardAmount}} discount
       from {{advancesService.getAdvance(advance.discountFromCard).name}}</div>
