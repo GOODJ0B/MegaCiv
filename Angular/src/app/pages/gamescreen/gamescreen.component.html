@@ -18,11 +18,11 @@
 
   <ng-container *ngIf="gameService.game.phase === 1">
     <dxi-column cellTemplate="hasMONARCHY" alignment="center"
-                [visible]="gameService.game.advancesInPlay[29]"></dxi-column>
+                [visible]="gameService.game.advancesInPlay[advanceNumber.MONARCHY]"></dxi-column>
     <dxi-column cellTemplate="hasCOINAGE" alignment="center"
-                [visible]="gameService.game.advancesInPlay[9]"></dxi-column>
+                [visible]="gameService.game.advancesInPlay[advanceNumber.COINAGE]"></dxi-column>
     <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TAX RATE" dataField="taxRate" alignment="center"></dxi-column>
     <dxi-column caption="TAX COLLECTED" dataField="collectedTax" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
@@ -31,7 +31,7 @@
 
   <ng-container *ngIf="gameService.game.phase === 2">
     <dxi-column caption="STOCK" dataField="tokensInStock" alignment="center"></dxi-column>
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TOKENS" dataField="tokensOnBoard" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
     <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
@@ -41,7 +41,7 @@
     <dxi-column cellTemplate="hasMILITARY" alignment="center"
                 [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
     <dxi-column caption="TOKENS" dataField="tokensOnBoard" alignment="center"></dxi-column>
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TIME" dataField="" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY USED" dataField="" alignment="center"></dxi-column>
     <dxi-column cellTemplate="hasCLOTH MAKING" alignment="center"
@@ -67,7 +67,7 @@
                 [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
     <dxi-column cellTemplate="hasNAVAL WARFARE" alignment="center"
                 [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TREASURY WON" dataField="treasuryDifference" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
     <dxi-column caption="TRADECARDS WON" dataField="" alignment="center"></dxi-column>
@@ -85,7 +85,7 @@
                 [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
     <dxi-column cellTemplate="hasURBANISM" alignment="center"
                 [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TOKENS" dataField="tokensOnBoard" alignment="center"></dxi-column>
     <dxi-column caption="STOCK" dataField="tokensInStock" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
@@ -97,8 +97,8 @@
     <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
     <dxi-column caption="WONDER OF THE WORLD" dataField="" alignment="center"
-                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+                [visible]="gameService.game.advancesInPlay[advanceNumber.WONDER_OF_THE_WORLD]"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="tradecard lvl9 (15)" dataField="" alignment="center"></dxi-column>
     <dxi-column caption="tradecard lvl8 (13)" dataField="" alignment="center"
                 [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
@@ -114,25 +114,25 @@
 
   <ng-container *ngIf="gameService.game.phase === 7">
     <dxi-column caption="BLOCK" dataField="" alignment="center"></dxi-column>
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TRADECARDS" dataField="" alignment="center"></dxi-column>
     <dxi-column caption="TIME" dataField=""></dxi-column>
   </ng-container>
 
   <ng-container *ngIf="gameService.game.phase === 8">
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="CALAMITIES" dataField="" alignment="center"></dxi-column>
   </ng-container>
 
   <ng-container *ngIf="gameService.game.phase === 9">
     <dxi-column caption="CALAMITY" dataField="" alignment="center"></dxi-column>
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="EFFECT" dataField="" alignment="center"></dxi-column>
   </ng-container>
 
   <ng-container *ngIf="gameService.game.phase === 10">
     <dxi-column caption="A.S.T." dataField="" alignment="center"></dxi-column>
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column cellTemplate="hasDIASPORA" alignment="center"
                 [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
     <dxi-column cellTemplate="hasFUNDAMENTALISM" alignment="center"
@@ -157,7 +157,7 @@
     <dxi-column cellTemplate="hasPUBLIC WORKS" alignment="center"
                 [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
     <dxi-column caption="STOCK" dataField="tokensInStock" alignment="center"></dxi-column>
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TOKENS" dataField="tokensOnBoard" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
     <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
@@ -174,7 +174,7 @@
     <dxi-column caption="RELIGION" dataField="" alignment="center"></dxi-column>
     <dxi-column caption="SCIENCE" dataField="" alignment="center"></dxi-column>
     <dxi-column caption="ARTS" dataField="" alignment="center"></dxi-column>
-    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="GOLD USED" dataField="" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY USED" dataField="" alignment="center"></dxi-column>
     <dxi-column caption="ADVANCES BOUGHT" dataField="" cellTemplate="selectedAdvances" alignment="center"></dxi-column>
@@ -186,6 +186,9 @@
     <div *ngFor="let advance of item.data.selectedAdvances"
          style="display: inline">{{advancesService.getAdvanceName(advance)}},
     </div>
+  </div>
+  <div *dxTemplate="let item of 'displayName'">
+    {{item.data.civilizationName}} ({{item.data.playerName}})
   </div>
 
   <div *dxTemplate="let item of 'taxRevolt'">

@@ -45,4 +45,5 @@ export class Player {
     this.AstNextAgePoint1 = AstNextAgePoint1;
     this.AstNextAgePoint2 = AstNextAgePoint2;
   }
+
 }
