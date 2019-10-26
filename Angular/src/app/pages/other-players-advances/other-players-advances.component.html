@@ -1,0 +1,15 @@
+<h2 class="content-block">Advances van andere spelers:</h2>
+<div class="content-block">
+  <div *ngFor="let player of gameService.game.players">
+    <div *ngIf="player.isActive" style="margin: 5px">
+      <dx-button type="default" (onClick)="showPopup(player)">{{ player.civilizationName }} ({{ player.playerName }})
+      </dx-button>
+    </div>
+  </div>
+
+  <dx-popup *ngIf="showAdvancesPopup" [(visible)]="showAdvancesPopup">
+    <app-advance-card *ngFor="let ownedAdvance of advancesService.getOwnedAdvancesOfPlayer(selectedPlayer)"
+                      [advance]="ownedAdvance" [hideCost]="true"></app-advance-card>
+  </dx-popup>
+
+</div>

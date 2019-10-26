@@ -27,7 +27,14 @@ export const navigation = [
   {
     text: 'Advances',
     path: '/advances',
-    icon: 'fontsize'
+    icon: 'fontsize',
+    items: [
+      {
+        text: 'Andere spelers',
+        path: '/otherPlayersAdvances'
+      },
+    ]
+
   },
 
   // {

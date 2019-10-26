@@ -11,6 +11,7 @@ import {AdvancePopupModule} from '../advance-popup/advance-popup.component';
 })
 export class AdvanceCardComponent {
 
+  @Input() hideCost: boolean;
   @Input() advance: Advance;
   public showPopup: boolean;
 

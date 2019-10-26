@@ -3,9 +3,7 @@ import {CommonModule} from '@angular/common';
 import {DxScrollViewModule} from 'devextreme-angular/ui/scroll-view';
 import {Advance} from '../../shared/model/advance.interface';
 import {DxButtonModule, DxPopupModule} from 'devextreme-angular';
-import {advancesList} from '../../shared/model/advances-list';
 import {AdvancesService} from '../../shared/services/advances.service';
-import {AdvanceTypes} from '../../shared/model/advance-types.enum';
 
 @Component({
   selector: 'app-advance-popup',
@@ -13,7 +11,7 @@ import {AdvanceTypes} from '../../shared/model/advance-types.enum';
   styleUrls: ['./advance-popup.component.scss']
 })
 export class AdvancePopupComponent {
-
+  @Input() hideCost: boolean;
   @Input() advance: Advance;
   private _visible: boolean;
   @Input() set visible(value: boolean) {

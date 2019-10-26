@@ -85,4 +85,12 @@ export class AdvancesService {
   public getAdvanceTypeName(type: AdvanceTypes): string {
     return AdvanceTypes[type];
   }
+
+  public getOwnedAdvancesOfPlayer(player: Player): Advance[] {
+    const output: Advance[] = [];
+    for (const advanceType of player.ownedAdvances) {
+      output.push(advancesList[advanceType - 1]);
+    }
+    return output;
+  }
 }

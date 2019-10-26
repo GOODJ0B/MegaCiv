@@ -1,280 +1,316 @@
 <h2 class="content-block"></h2>
 
 <dx-data-grid class="dx-card wide-card" [dataSource]="gameService.game.players" [showColumnLines]="true"
-    [showRowLines]="false" [showBorders]="true" [rowAlternationEnabled]="true" [focusedRowEnabled]="false"
-    [columnAutoWidth]="true" [columnHidingEnabled]="false">
+              [showRowLines]="false" [showBorders]="true" [rowAlternationEnabled]="true" [focusedRowEnabled]="false"
+              [columnAutoWidth]="true" [columnHidingEnabled]="false" (onCellPrepared)="setCellStyling($event)">
 
-    <dxo-paging [pageSize]="20"></dxo-paging>
-    <dxo-pager [showPageSizeSelector]="false" [showInfo]="true"></dxo-pager>
-    <dxo-filter-row [visible]="false"></dxo-filter-row>
-    <dxo-editing [allowUpdating]="true" mode="cell"></dxo-editing>
-    
-    <ng-container *ngIf="gameService.game.phase === 0">
-        <dxi-column dataField="isReady" caption="Ready"></dxi-column>
-        <dxi-column dataField="isActive" [width]="0" [selectedFilterOperation]="'='" [filterValue]="true"></dxi-column>
-        <dxi-column dataField="playerName" caption="Speler"></dxi-column>
-        <dxi-column dataField="score" caption="score"></dxi-column>
-    </ng-container>
+  <dxo-paging [pageSize]="20"></dxo-paging>
+  <dxo-pager [showPageSizeSelector]="false" [showInfo]="true"></dxo-pager>
+  <dxo-filter-row [visible]="false"></dxo-filter-row>
+  <dxo-editing [allowUpdating]="true" mode="cell"></dxo-editing>
 
-    <ng-container *ngIf="gameService.game.phase === 1">
-        <dxi-column cellTemplate="hasMONARCHY"              alignment="center"  [visible]="gameService.game.advancesInPlay[29]" ></dxi-column>
-        <dxi-column cellTemplate="hasCOINAGE"               alignment="center"  [visible]="gameService.game.advancesInPlay[9]" ></dxi-column>
-        <dxi-column caption="CITIES"                dataField="citiesOnBoard"       alignment="center" ></dxi-column>
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column caption="TAX RATE"              dataField="taxRate"             alignment="center" ></dxi-column>
-        <dxi-column caption="TAX COLLECTED"         dataField="collectedTax"        alignment="center" ></dxi-column>
-        <dxi-column caption="TREASURY"              dataField="tokensInTreasury"    alignment="center" ></dxi-column>
-        <dxi-column cellTemplate="taxRevolt"                alignment="center"  [visible]="true" ></dxi-column>
-    </ng-container>
+  <dxi-column dataField="isActive" [width]="0" [selectedFilterOperation]="'='" [filterValue]="true"></dxi-column>
+  <ng-container *ngIf="gameService.game.phase === 0">
+    <dxi-column dataField="isReady" caption="Ready"></dxi-column>
+    <dxi-column dataField="playerName" caption="Speler"></dxi-column>
+    <dxi-column dataField="score" caption="score"></dxi-column>
+  </ng-container>
 
-    <ng-container *ngIf="gameService.game.phase === 2">
-        <dxi-column caption="STOCK"                 dataField="tokensInStock"       alignment="center" ></dxi-column>
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column caption="TOKENS"                dataField="tokensOnBoard"       alignment="center" ></dxi-column>
-        <dxi-column caption="TREASURY"              dataField="tokensInTreasury"    alignment="center" ></dxi-column>
-        <dxi-column caption="CITIES"                dataField="citiesOnBoard"       alignment="center" ></dxi-column>
-    </ng-container>
+  <ng-container *ngIf="gameService.game.phase === 1">
+    <dxi-column cellTemplate="hasMONARCHY" alignment="center"
+                [visible]="gameService.game.advancesInPlay[29]"></dxi-column>
+    <dxi-column cellTemplate="hasCOINAGE" alignment="center"
+                [visible]="gameService.game.advancesInPlay[9]"></dxi-column>
+    <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="TAX RATE" dataField="taxRate" alignment="center"></dxi-column>
+    <dxi-column caption="TAX COLLECTED" dataField="collectedTax" alignment="center"></dxi-column>
+    <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
+    <dxi-column cellTemplate="taxRevolt" alignment="center" [visible]="true"></dxi-column>
+  </ng-container>
 
-    <ng-container *ngIf="gameService.game.phase === 3">
-        <dxi-column cellTemplate="hasMILITARY"              alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="TOKENS"                dataField="tokensOnBoard"       alignment="center" ></dxi-column>
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column caption="TIME"                  dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="TREASURY USED"         dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column cellTemplate="hasCLOTH MAKING"          alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasASTRONAVIGATION"       alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasDIPLOMACY"             alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasNAVAL WARFARE"         alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasROADBUILDING"          alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasCULTURAL ASCENDANCY"   alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-    </ng-container>
+  <ng-container *ngIf="gameService.game.phase === 2">
+    <dxi-column caption="STOCK" dataField="tokensInStock" alignment="center"></dxi-column>
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="TOKENS" dataField="tokensOnBoard" alignment="center"></dxi-column>
+    <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
+    <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
+  </ng-container>
 
-    <ng-container *ngIf="gameService.game.phase === 4">
-        <dxi-column cellTemplate="hasADVANCED MILITARY"     alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasENGINEERING"           alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasMETAL WORKING"         alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasNAVAL WARFARE"         alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column caption="TREASURY WON"          dataField="treasuryDifference"  alignment="center" ></dxi-column>
-        <dxi-column caption="TREASURY"              dataField="tokensInTreasury"    alignment="center" ></dxi-column>
-        <dxi-column caption="TRADECARDS WON"        dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="TRADECARDS"            dataField=""                    alignment="center" ></dxi-column>
-    </ng-container>
+  <ng-container *ngIf="gameService.game.phase === 3">
+    <dxi-column cellTemplate="hasMILITARY" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column caption="TOKENS" dataField="tokensOnBoard" alignment="center"></dxi-column>
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="TIME" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="TREASURY USED" dataField="" alignment="center"></dxi-column>
+    <dxi-column cellTemplate="hasCLOTH MAKING" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasASTRONAVIGATION" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasDIPLOMACY" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasNAVAL WARFARE" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasROADBUILDING" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasCULTURAL ASCENDANCY" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+  </ng-container>
 
-    <ng-container *ngIf="gameService.game.phase === 5">
-        <dxi-column cellTemplate="hasCULTURAL ASCENDANCY"   alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasARCHITECTURE"          alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasAGRICULTURE"           alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasPUBLIC WORKS"          alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasURBANISM"              alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column caption="TOKENS"                dataField="tokensOnBoard"       alignment="center" ></dxi-column>
-        <dxi-column caption="STOCK"                 dataField="tokensInStock"       alignment="center" ></dxi-column>
-        <dxi-column caption="TREASURY"              dataField="tokensInTreasury"    alignment="center" ></dxi-column>
-        <dxi-column caption="CITIES"                dataField="citiesOnBoard"       alignment="center" ></dxi-column>
-    </ng-container>
+  <ng-container *ngIf="gameService.game.phase === 4">
+    <dxi-column cellTemplate="hasADVANCED MILITARY" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasENGINEERING" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasMETAL WORKING" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasNAVAL WARFARE" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="TREASURY WON" dataField="treasuryDifference" alignment="center"></dxi-column>
+    <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
+    <dxi-column caption="TRADECARDS WON" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="TRADECARDS" dataField="" alignment="center"></dxi-column>
+  </ng-container>
 
-    <ng-container *ngIf="gameService.game.phase === 6">
-        <dxi-column caption="BLOCK"                 dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="CITIES"                dataField="citiesOnBoard"       alignment="center" ></dxi-column>
-        <dxi-column caption="TREASURY"              dataField="tokensInTreasury"    alignment="center" ></dxi-column>
-        <dxi-column caption="WONDER OF THE WORLD"   dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column caption="tradecard lvl9 (15)"   dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="tradecard lvl8 (13)"   dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="tradecard lvl7 (13)"   dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="tradecard lvl6 (13)"   dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="tradecard lvl3 (9)"    dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="tradecard lvl2 (5)"    dataField=""                    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-    </ng-container>
+  <ng-container *ngIf="gameService.game.phase === 5">
+    <dxi-column cellTemplate="hasCULTURAL ASCENDANCY" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasARCHITECTURE" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasAGRICULTURE" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasPUBLIC WORKS" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasURBANISM" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="TOKENS" dataField="tokensOnBoard" alignment="center"></dxi-column>
+    <dxi-column caption="STOCK" dataField="tokensInStock" alignment="center"></dxi-column>
+    <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
+    <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
+  </ng-container>
 
-    <ng-container *ngIf="gameService.game.phase === 7">
-        <dxi-column caption="BLOCK"                 dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column caption="TRADECARDS"            dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="TIME"                  dataField="" ></dxi-column>
-    </ng-container>
+  <ng-container *ngIf="gameService.game.phase === 6">
+    <dxi-column caption="BLOCK" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
+    <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
+    <dxi-column caption="WONDER OF THE WORLD" dataField="" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="tradecard lvl9 (15)" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="tradecard lvl8 (13)" dataField="" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column caption="tradecard lvl7 (13)" dataField="" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column caption="tradecard lvl6 (13)" dataField="" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column caption="tradecard lvl3 (9)" dataField="" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column caption="tradecard lvl2 (5)" dataField="" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+  </ng-container>
 
-    <ng-container *ngIf="gameService.game.phase === 8">
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column caption="CALAMITIES"            dataField=""                    alignment="center" ></dxi-column>
-    </ng-container>
+  <ng-container *ngIf="gameService.game.phase === 7">
+    <dxi-column caption="BLOCK" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="TRADECARDS" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="TIME" dataField=""></dxi-column>
+  </ng-container>
 
-    <ng-container *ngIf="gameService.game.phase === 9">
-        <dxi-column caption="CALAMITY"              dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column caption="EFFECT"                dataField=""                    alignment="center" ></dxi-column>
-    </ng-container>
+  <ng-container *ngIf="gameService.game.phase === 8">
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="CALAMITIES" dataField="" alignment="center"></dxi-column>
+  </ng-container>
 
-    <ng-container *ngIf="gameService.game.phase === 10">
-        <dxi-column caption="A.S.T."                dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column cellTemplate="hasDIASPORA"              alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasFUNDAMENTALISM"        alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasMONOTHEISM"            alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasPOLITICS"              alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasPROVINCIAL EMPIRE"     alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasTRADE ROUTES"          alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasUNIVERSAL DOCTRINE"    alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-    </ng-container>
+  <ng-container *ngIf="gameService.game.phase === 9">
+    <dxi-column caption="CALAMITY" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="EFFECT" dataField="" alignment="center"></dxi-column>
+  </ng-container>
 
-    <ng-container *ngIf="gameService.game.phase === 11">
-        <dxi-column cellTemplate="hasCULTURAL ASCENDANCY"   alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasARCHITECTURE"          alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasPUBLIC WORKS"          alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="STOCK"                 dataField="tokensInStock"       alignment="center" ></dxi-column>
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column caption="TOKENS"                dataField="tokensOnBoard"       alignment="center" ></dxi-column>
-        <dxi-column caption="TREASURY"              dataField="tokensInTreasury"    alignment="center" ></dxi-column>
-        <dxi-column caption="CITIES"                dataField="citiesOnBoard"       alignment="center" ></dxi-column>
-    </ng-container>
+  <ng-container *ngIf="gameService.game.phase === 10">
+    <dxi-column caption="A.S.T." dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column cellTemplate="hasDIASPORA" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasFUNDAMENTALISM" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasMONOTHEISM" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasPOLITICS" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasPROVINCIAL EMPIRE" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasTRADE ROUTES" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasUNIVERSAL DOCTRINE" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+  </ng-container>
 
-    <ng-container *ngIf="gameService.game.phase === 12">
-        <dxi-column cellTemplate="hasMINING"                alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasROADBUILDING"          alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column cellTemplate="hasTRADE EMPIRE"          alignment="center"  [visible]="gameService.game.advancesInPlay[0]" ></dxi-column>
-        <dxi-column caption="CIVICS"                dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="CRAFST"                dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="RELIGION"              dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="SCIENCE"               dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="ARTS"                  dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="CIVILIZATION"          dataField="civilizationName" ></dxi-column>
-        <dxi-column caption="GOLD USED"             dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="TREASURY USED"         dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="ADVANCES BOUGHT"       dataField=""                    alignment="center" ></dxi-column>
-        <dxi-column caption="TREASURY"              dataField="tokensInTreasury"    alignment="center" ></dxi-column>
-        <dxi-column caption="TRADECARDS"            dataField=""                    alignment="center" ></dxi-column>
-    </ng-container>
+  <ng-container *ngIf="gameService.game.phase === 11">
+    <dxi-column cellTemplate="hasCULTURAL ASCENDANCY" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasARCHITECTURE" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasPUBLIC WORKS" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column caption="STOCK" dataField="tokensInStock" alignment="center"></dxi-column>
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="TOKENS" dataField="tokensOnBoard" alignment="center"></dxi-column>
+    <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
+    <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
+  </ng-container>
 
-    <div *dxTemplate="let item of 'taxRevolt'">
-        <div style="background-color: red; color: white">
-            {{ item.data.hasTaxRevolt ? 'TAX REVOLT' : '' }}
-        </div>
+  <ng-container *ngIf="gameService.game.phase === 12">
+    <dxi-column cellTemplate="hasMINING" alignment="center" [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasROADBUILDING" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column cellTemplate="hasTRADE EMPIRE" alignment="center"
+                [visible]="gameService.game.advancesInPlay[0]"></dxi-column>
+    <dxi-column caption="CIVICS" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="CRAFST" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="RELIGION" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="SCIENCE" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="ARTS" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="CIVILIZATION" dataField="civilizationName"></dxi-column>
+    <dxi-column caption="GOLD USED" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="TREASURY USED" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="ADVANCES BOUGHT" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="TREASURY" dataField="tokensInTreasury" alignment="center"></dxi-column>
+    <dxi-column caption="TRADECARDS" dataField="" alignment="center"></dxi-column>
+  </ng-container>
+
+  <div *dxTemplate="let item of 'taxRevolt'">
+    <div style="background-color: red; color: white">
+      {{ item.data.hasTaxRevolt ? 'TAX REVOLT' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasMONARCHY'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(29) ? 'MONARCHY' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasMONARCHY'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(29) ? 'MONARCHY' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasCOINAGE'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(9) ? 'COINAGE' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasCOINAGE'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(9) ? 'COINAGE' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasMILITARY'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'MILITARY' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasMILITARY'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'MILITARY' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasCLOTH MAKING'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'CLOTH MAKING' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasCLOTH MAKING'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'CLOTH MAKING' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasASTRONAVIGATION'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'ASTRONAVIGATION' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasASTRONAVIGATION'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'ASTRONAVIGATION' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasDIPLOMACY'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'DIPLOMACY' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasDIPLOMACY'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'DIPLOMACY' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasNAVAL WARFARE'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'NAVAL WARFARE' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasNAVAL WARFARE'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'NAVAL WARFARE' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasROADBUILDING'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'ROADBUILDING' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasROADBUILDING'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'ROADBUILDING' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasCULTURAL ASCENDANCY'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'CULTURAL ASCENDANCY' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasCULTURAL ASCENDANCY'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'CULTURAL ASCENDANCY' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasADVANCED MILITARY'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'ADVANCED MILITARY' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasADVANCED MILITARY'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'ADVANCED MILITARY' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasENGINEERING'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'ENGINEERING' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasENGINEERING'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'ENGINEERING' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasMETAL WORKING'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'METAL WORKING' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasMETAL WORKING'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'METAL WORKING' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasARCHITECTURE'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'ARCHITECTURE' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasARCHITECTURE'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'ARCHITECTURE' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasAGRICULTURE'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'AGRICULTURE' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasAGRICULTURE'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'AGRICULTURE' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasPUBLIC WORKS'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'PUBLIC WORKS' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasPUBLIC WORKS'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'PUBLIC WORKS' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasURBANISM'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'URBANISM' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasURBANISM'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'URBANISM' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasDIASPORA'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'DIASPORA' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasDIASPORA'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'DIASPORA' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasFUNDAMENTALISM'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'FUNDAMENTALISM' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasFUNDAMENTALISM'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'FUNDAMENTALISM' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasMONOTHEISM'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'MONOTHEISM' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasMONOTHEISM'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'MONOTHEISM' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasPOLITICS'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'POLITICS' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasPOLITICS'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'POLITICS' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasPROVINCIAL EMPIRE'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'PROVINCIAL EMPIRE' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasPROVINCIAL EMPIRE'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'PROVINCIAL EMPIRE' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasTRADE ROUTES'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'TRADE ROUTES' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasTRADE ROUTES'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'TRADE ROUTES' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasUNIVERSAL DOCTRINE'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'UNIVERSAL DOCTRINE' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasUNIVERSAL DOCTRINE'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'UNIVERSAL DOCTRINE' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasMINING'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'MINING' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasMINING'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'MINING' : '' }}
     </div>
-    <div *dxTemplate="let item of 'hasTRADE EMPIRE'">
-        <div style="background-color: yellowgreen; color: black">
-            {{ item.data.ownedAdvances.includes(0) ? 'TRADE EMPIRE' : '' }}
-        </div>
+  </div>
+  <div *dxTemplate="let item of 'hasTRADE EMPIRE'">
+    <div style="background-color: yellowgreen; color: black">
+      {{ item.data.ownedAdvances.includes(0) ? 'TRADE EMPIRE' : '' }}
     </div>
-    
+  </div>
+
 </dx-data-grid>

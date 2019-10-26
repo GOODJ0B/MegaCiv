@@ -3,7 +3,7 @@
     <p></p>
     <b style="font-size: 1.2em">{{ advance.name }}</b>
     <p>{{ advance.description }}</p>
-    <p>Cost: {{ advance.currentPrice }}</p>
+    <p *ngIf="!hideCost">Cost: {{ advance.currentPrice }}</p>
   </div>
 </div>
-<app-advance-popup [(visible)]="showPopup" [advance]="advance"></app-advance-popup>
+<app-advance-popup [(visible)]="showPopup" [advance]="advance" [hideCost]="hideCost"></app-advance-popup>
