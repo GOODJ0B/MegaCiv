@@ -5,13 +5,13 @@ export class Game {
     phase = 0;
     players: Player[] = [];
     hasStarted = false;
-  advancesInPlay: boolean[] = [true, false,
+  advancesInPlay: boolean[] = [false, false,
         false, false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false, false,
         false, false, false, false, false, false, false, false, false, false];
-    taxRevoltInPlay = true;
+    taxRevoltInPlay = false;
   maxTradecards = 0;
 
     countDown = 0;

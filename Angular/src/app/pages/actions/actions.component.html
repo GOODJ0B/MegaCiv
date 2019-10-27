@@ -3,13 +3,18 @@
 <div class="content-block dx-card responsive-paddings">
   <div *ngIf="gameService.game.phase === 1">
     <div style="background-color: yellowgreen; color: black"
-         *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(9)">
-      Je kunt gebruik maken van COINAGE (taxrate +1 / -1)
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.COINAGE)">
+      COINAGE: optioneel: taxrate +1 of -1
     </div>
     <div style="background-color: yellowgreen; color: black"
-         *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(29)">
-      Je kunt gebruik maken van MONARCHY (taxrate +1)
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MONARCHY)">
+      MONARCHY: optioneel: taxrate +1
     </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MONARCHY)">
+      DEMOCRACY: geen TAXREVOLT
+    </div>
+    <br><br>
     Cities on board:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard" [readOnly]="true"
                    [max]="9" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
@@ -36,7 +41,7 @@
     </div>
   </div>
 
-  <div *ngIf="gameService.game.phase === 2 || gameService.game.phase === 5 || gameService.game.phase === 11">
+  <div *ngIf="gameService.game.phase === 2">
     Tokens on board:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensOnBoard"
                    (onValueChanged)="unitsChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
@@ -64,21 +69,53 @@
                    (onValueChanged)="citiesInStockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady"
                    [max]="9"
                    [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
-    <br>
-    <div style="color: red"
-         *ngIf="!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))">
-      Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!
-    </div>
   </div>
 
   <div *ngIf="gameService.game.phase === 3">
+    <div style="background-color: yellowgreen; color: black"
+    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MILITARY)">
+    toegepast: MILITARY: iedereen zonder MILITARY moet de beurt vóór jou afronden
+    </div>
+    <br><br>
     Your place in queue: {{ gameService.getCurrentPlayer().censusOrder }}
     <br>
     Players left in front of you: {{ gameService.playersInFrontOfCurrentPlayerInQueue }}
     <br>
     Countdown: {{ gameService.countDownVisibleString }}
     <br><br>
-
+    <div style="background-color: yellowgreen; color: black"
+    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CLOTH_MAKING)">
+      CLOTH MAKING: shipmovement +1
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ASTRONAVIGATION)">
+      ASTRONAVIGATION: schepen mogen door open zee
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.DIPLOMACY)">
+      DIPLOMACY: spelers mogen geen van jouw steden aanvallen, behalve met DIPLOMACY of MILITARY
+    </div>
+    <div style="background-color: grey; color: white"
+    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MILITARY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.DIPLOMACY)">
+      MILITARY: je mag steden van spelers met DIPLOMACY wél aanvallen
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.NAVAL_WARFARE)">
+      NAVAL WARFARE: shipload +1
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ROADBUILDING)">
+      ROADBUILDING: tokenmovement +1, behalve in conflict
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY)">
+      CULTURAL ASCENDANCY: spelers mogen geen van jouw gebieden aanvallen, behalve met CULTURAL ASCENDANCY of ADVANCED MILITARY
+    </div>
+    <div style="background-color: grey; color: white"
+    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ADVANCED_MILITARY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY)">
+      ADVANCED MILITARY: je mag spelers met CULTURAL ASCENDANCY wél aanvallen
+    </div>
+    <br><br>
     Ships on board:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().shipsOnBoard"
                    [readOnly]="gameService.getCurrentPlayer().isReady" [max]="4" [min]="0" [showSpinButtons]="true"
@@ -95,7 +132,25 @@
                    [max]="55" [min]="0" width="100px"></dx-number-box>
     <br>
   </div>
+
   <div *ngIf="gameService.game.phase === 4">
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.METALWORKING)">
+      METALWORKING: de andere speler moet éérst een token verwijderen
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ENGINEERING)">
+      ENGINEERING: citystrength +1 wanneer aangevallen, citystrength -1 wanneer jij aanvalt
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.NAVAL_WARFARE)">
+      NAVAL_WARFARE: in conflict mogen schepen gebruikt worden als token
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ADVANCED_MILITARY)">
+      ADVANCED MILITARY: in conflict mag je tokens weghalen van aangrenzende gebieden
+    </div>
+    <br><br>
     Treasury won:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference"
                    [readOnly]="gameService.getCurrentPlayer().isReady"
@@ -107,24 +162,207 @@
                    [max]="55" [min]="0" width="100px"></dx-number-box>
     <br>
   </div>
-  <!-- Fase 5 zit bij 2 -->
+
+  <div *ngIf="gameService.game.phase === 5">
+      <div style="background-color: yellowgreen; color: black"
+        *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.URBANISM)">
+        URBANISM: 4 tokens uit aangrenzende gebieden mogen helpen bij het stichten van een wilderness city 
+      </div>
+      <div style="background-color: yellowgreen; color: black"
+        *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.AGRICULTURE)">
+        AGRICULTURE: '0', '1' en '2' gebieden krijgen populationlimit +1
+      </div>
+      <div style="background-color: yellowgreen; color: black"
+        *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ARCHITECTURE)">
+        ARCHITECTURE: een halve stad mag betaald worden met treasury
+      </div>
+      <div style="background-color: yellowgreen; color: black"
+        *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PUBLIC_WORKS)">
+        PUBLIC WORKS: gebieden met steden krijgen populationlimit +1
+      </div>
+      <div style="background-color: red; color: white"
+        *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY)">
+        CULTURAL ASCENDANCY: citysupport +1
+      </div>
+      <br><br>
+      Tokens on board:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensOnBoard"
+                     (onValueChanged)="unitsChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
+                     [min]="0"
+                     [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+      Tokens in stock:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInStock"
+                     (onValueChanged)="stockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
+                     [min]="0"
+                     [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+      Treasury:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
+                     [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+      Cities on board:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard"
+                     (onValueChanged)="citiesOnBoardChanged();" [readOnly]="gameService.getCurrentPlayer().isReady"
+                     [max]="9"
+                     [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+      Cities in stock:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesInStock"
+                     (onValueChanged)="citiesInStockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady"
+                     [max]="9"
+                     [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+      <div style="color: red"
+           *ngIf="!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))">
+        Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!
+      </div>
+    </div>
+
   <div *ngIf="gameService.game.phase === 6">
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.RHETORIC)">
+      RHETORIC: lvl3 tradecards kopen voor 9 treasury
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CARTOGRAPHY)">
+      CARTOGRAPHY: lvl7 tradecards kopen voor 13 treasury en/of lvl2 tradecards kopen voor 5 treasury
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)">
+      MINING: lvl8 en/of lvl6 tradecards kopen voor 13 treasury
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.WONDER_OF_THE_WORLD)">
+      WONDER OF THE WORLD: krijg een tradecard met een waarde hoger dan je aantal steden
+    </div>
+    <br><br>
     Fase 6
   </div>
+
   <div *ngIf="gameService.game.phase === 7">
     Countdown: {{ gameService.countDownVisibleString }}
   </div>
+
   <div *ngIf="gameService.game.phase === 8">
     Fase 8
   </div>
+
   <div *ngIf="gameService.game.phase === 9">
     Fase 9
   </div>
+
   <div *ngIf="gameService.game.phase === 10">
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.FUNDAMENTALISM)">
+      FUNDAMENTALISM: vernietig alle tokens in een aangrenzend land, behalve barbaren/piraten en spelers met FUNDAMENTALISM of PHILOSOPHY
+    </div>
+    <div style="background-color: gray; color: white"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PHILOSOPHY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.FUNDAMENTALISM)">
+      PHILOSOPHY: beschermd tegen FUNDAMENTALISM
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.UNIVERSAL_DOCTRINE)">
+      UNIVERSAL DOCTRINE: neem 1 stad of tot 5 tokens over van barbaren/piraten
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.TRADE_ROUTES)">
+      TRADE ROUTES: leg tradecards af en ontvang hiervoor 2x de waarde (level) in treasury
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.POLITICS)">
+      POLITICS: ontvang 5 treasury óf betaal treasury en neem alle tokens in een aangrenzend land over, behalve barbaren/piraten en spelers met POLITICS of CULTURAL ASCENDANCY
+    </div>
+    <div style="background-color: gray; color: white"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.POLITICS)">
+      CULTURAL ASCENDANCY: beschermd tegen POLITICS
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MONOTHEISM)">
+      MONOTHEISM: neem alle tokens in een aangrenzend land over, behalve barbaren/piraten en spelers met MONOTHEISM of THEOLOGY
+    </div>
+    <div style="background-color: gray; color: white"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.THEOLOGY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MONOTHEISM)">
+      THEOLOGY: beschermd tegen MONOTHEISM
+  </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PROVINCIAL_EMPIRE)">
+      PROVINCIAL EMPIRE: ontvange van tot 5 aangrenzende spelers een tradecard lvl2+, behalve spelers met PROVINCIAL EMPIRE of PUBLIC WORKS
+    </div>
+    <div style="background-color: gray; color: white"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PUBLIC_WORKS) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PROVINCIAL_EMPIRE)">
+      PUBLIC WORKS: beschermd tegen PROVINCIAL EMPIRE
+  </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.DIASPORA)">
+      DIASPORA: verplaats 5 tokens naar een willekeurige andere plek (zonder overschrijding van de population limit)
+    </div>
+    <br><br>
     Fase 10
   </div>
-  <!-- Fase 11 zit bij 2 -->
+
+  <div *ngIf="gameService.game.phase === 11">
+      <div style="background-color: yellowgreen; color: black"
+        *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.AGRICULTURE)">
+        AGRICULTURE: '0', '1' en '2' gebieden krijgen populationlimit +1
+      </div>
+      <div style="background-color: yellowgreen; color: black"
+        *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PUBLIC_WORKS)">
+        PUBLIC WORKS: gebieden met steden krijgen populationlimit +1
+      </div>
+      <div style="background-color: red; color: white"
+        *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY)">
+        CULTURAL ASCENDANCY: citysupport +1
+      </div>
+      <br><br>
+      Tokens on board:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensOnBoard"
+                     (onValueChanged)="unitsChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
+                     [min]="0"
+                     [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+      Tokens in stock:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInStock"
+                     (onValueChanged)="stockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
+                     [min]="0"
+                     [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+      Treasury:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
+                     [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+      Cities on board:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard"
+                     (onValueChanged)="citiesOnBoardChanged();" [readOnly]="gameService.getCurrentPlayer().isReady"
+                     [max]="9"
+                     [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+      Cities in stock:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesInStock"
+                     (onValueChanged)="citiesInStockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady"
+                     [max]="9"
+                     [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+      <div style="color: red"
+           *ngIf="!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))">
+        Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!
+      </div>
+    </div>
+
   <div *ngIf="gameService.game.phase === 12">
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ROADBUILDING)">
+      ROADBUILDING: limiet tradecards +1
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)">
+      MINING: treasury is dubbel zoveel waard bij aanschaf advances
+    </div>
+    <div style="background-color: yellowgreen; color: black"
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.TRADE_EMPIRE)">
+      TRADE EMPIRE: je mag 1 tradecard gebruiken als andere tradecard met dezelfde waarde
+    </div>
+    <br><br>
     Totale kosten: {{ getTotalCost() }}<br>
     <dx-button type="default" (onClick)="showAdvancesPopup()">Advances kopen</dx-button>
     <h6>Geselecteerde advances:</h6>

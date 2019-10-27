@@ -25,6 +25,10 @@ export class ActionsComponent {
   writenRecordDiscountToArts = 0;
   disableSave: boolean;
 
+  get advanceNumber() {
+    return AdvanceNumber;
+  }
+  
   constructor(public readonly gameService: GameService,
               public readonly advancesService: AdvancesService) {
     const checkMonument = this.gameService.getCurrentPlayer().selectedAdvances.includes(AdvanceNumber.MONUMENT);

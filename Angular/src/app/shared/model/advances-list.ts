@@ -203,7 +203,7 @@ export const advancesList = [
   } as Advance, {
     id: 12,
     name: 'DEMOCRACY',
-    description: 'During the Tax Collection phase you collect tax as usual but your sities do not revolt as a result of a shortage in tax collection.  Advantage with CIVIL WAR: Select 10 less unit points.  Advantage with CIVIL DISORDER: Reduce 1 less city.',
+    description: 'During the Tax Collection phase you collect tax as usual but your cities do not revolt as a result of a shortage in tax collection.  Advantage with CIVIL WAR: Select 10 less unit points.  Advantage with CIVIL DISORDER: Reduce 1 less city.',
     cost: 220,
     currentPrice: 220,
     points: 6,
@@ -851,7 +851,7 @@ export const advancesList = [
   } as Advance, {
     id: 48,
     name: 'UNIVERSAL DOCTRINE',
-    description: 'SPECAIL ABILITY: You may choose to annex 1 pirate city of up to 5 barbarian tokens anywhere on the board.  Disadvantage with SUPERSTITION: Reduce 1 additional city.',
+    description: 'SPECAIL ABILITY: You may choose to annex 1 pirate city or up to 5 barbarian tokens anywhere on the board.  Disadvantage with SUPERSTITION: Reduce 1 additional city.',
     cost: 160,
     currentPrice: 160,
     points: 3,
