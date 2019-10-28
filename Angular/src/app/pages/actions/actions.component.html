@@ -15,11 +15,11 @@
       DEMOCRACY: geen TAXREVOLT
     </div>
     <br><br>
-    Cities on board:
+    CITIES ON BOARD:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard" [readOnly]="true"
                    [max]="9" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
-    Tax rate:
+    TAX RATE:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().taxRate" (onValueChanged)="taxRateChanged();"
                    [readOnly]="gameService.getCurrentPlayer().isReady || !(gameService.getCurrentPlayer().ownedAdvances.includes(9) || gameService.getCurrentPlayer().ownedAdvances.includes(29))"
                    [max]="gameService.getCurrentPlayer().ownedAdvances.includes(9) || gameService.getCurrentPlayer().ownedAdvances.includes(29) ?
@@ -28,11 +28,11 @@
                    width="100px">
     </dx-number-box>
     <br>
-    Tax collected:
+    TAX COLLECTED:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().collectedTax" [readOnly]="true"
                    [max]="18" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
-    Treasury:
+    TOTAL TREASURY:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
                    [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
@@ -42,29 +42,29 @@
   </div>
 
   <div *ngIf="gameService.game.phase === 2">
-    Tokens on board:
+    TOKENS ON BOARD:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensOnBoard"
                    (onValueChanged)="unitsChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
                    [min]="0"
                    [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
-    Tokens in stock:
+    TOKENS IN STOCK:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInStock"
                    (onValueChanged)="stockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
                    [min]="0"
                    [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
-    Treasury:
+    TREASURY:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
                    [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
-    Cities on board:
+    CITIES ON BOARD:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard"
                    (onValueChanged)="citiesOnBoardChanged();" [readOnly]="gameService.getCurrentPlayer().isReady"
                    [max]="9"
                    [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
-    Cities in stock:
+    CITIES IN STOCK:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesInStock"
                    (onValueChanged)="citiesInStockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady"
                    [max]="9"
@@ -77,11 +77,11 @@
     toegepast: MILITARY: iedereen zonder MILITARY moet de beurt vóór jou afronden
     </div>
     <br><br>
-    Your place in queue: {{ gameService.getCurrentPlayer().censusOrder }}
+    BEURTNUMMER: {{ gameService.getCurrentPlayer().censusOrder }}
     <br>
-    Players left in front of you: {{ gameService.playersInFrontOfCurrentPlayerInQueue }}
+    AANTAL SPELERS DIE VOOR JOU AAN DE BEURT ZIJN: {{ gameService.playersInFrontOfCurrentPlayerInQueue }}
     <br>
-    Countdown: {{ gameService.countDownVisibleString }}
+    TIJD VOOR JE BEURT: {{ gameService.countDownVisibleString }}
     <br><br>
     <div style="background-color: yellowgreen; color: black"
     *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CLOTH_MAKING)">
@@ -116,18 +116,18 @@
       ADVANCED MILITARY: je mag spelers met CULTURAL ASCENDANCY wél aanvallen
     </div>
     <br><br>
-    Ships on board:
+    SHIPS ON BOARD:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().shipsOnBoard"
                    [readOnly]="gameService.getCurrentPlayer().isReady" [max]="4" [min]="0" [showSpinButtons]="true"
                    width="100px"></dx-number-box>
     <br>
-    Treasury used:
+    TREASURY USED:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference" (onValueChanged)="treasuryUsed();"
                    [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().shipsOnBoard === 0"
                    [max]="0" [min]="-1 * gameService.getCurrentPlayer().tokensInTreasury" [showSpinButtons]="true"
                    width="100px"></dx-number-box>
     <br>
-    Treasury:
+    TREASURY TOTAL:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
                    [max]="55" [min]="0" width="100px"></dx-number-box>
     <br>
@@ -151,15 +151,16 @@
       ADVANCED MILITARY: in conflict mag je tokens weghalen van aangrenzende gebieden
     </div>
     <br><br>
-    Treasury won:
+    TREASURY WON:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference"
                    [readOnly]="gameService.getCurrentPlayer().isReady"
                    [max]="gameService.getCurrentPlayer().tokensInStock"
                    [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
-    Tokens in stock:
-    <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInStock" [readOnly]="true"
-                   [max]="55" [min]="0" width="100px"></dx-number-box>
+    TRADECARDS WON:
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().tradecards"
+                   [readOnly]="gameService.getCurrentPlayer().isReady"
+                   [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
   </div>
 
@@ -185,29 +186,29 @@
         CULTURAL ASCENDANCY: citysupport +1
       </div>
       <br><br>
-      Tokens on board:
+      TOKENS ON BOARD:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensOnBoard"
                      (onValueChanged)="unitsChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
                      [min]="0"
                      [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
-      Tokens in stock:
+      TOKENS IN STOCK:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInStock"
                      (onValueChanged)="stockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
                      [min]="0"
                      [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
-      Treasury:
+      TREASURY:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
                      [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
-      Cities on board:
+      CITIES ON BOARD:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard"
                      (onValueChanged)="citiesOnBoardChanged();" [readOnly]="gameService.getCurrentPlayer().isReady"
                      [max]="9"
                      [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
-      Cities in stock:
+      CITIES IN STOCK:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesInStock"
                      (onValueChanged)="citiesInStockChanged();" [readOnly]="gameService.getCurrentPlayer().isReady"
                      [max]="9"
@@ -237,7 +238,49 @@
       WONDER OF THE WORLD: krijg een tradecard met een waarde hoger dan je aantal steden
     </div>
     <br><br>
-    Fase 6
+    <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.WONDER_OF_THE_WORLD)">
+      FREE TRADECARD LEVEL:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="false"
+      [max]="9" [min]="gameService.getCurrentPlayer().citiesOnBoard + 1" [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+    </div>
+    TREASURY:
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
+    [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+    <br>
+    BUY LEVEL 9 TRADECARD FOR 15 TREASURY:
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="false"
+    [max]="3" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+    <br>
+    <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)">
+      BUY LEVEL 8 TRADECARD FOR 13 TREASURY:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="false"
+      [max]="4" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+    </div>
+    <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CARTOGRAPHY)">
+      BUY LEVEL 7 TRADECARD FOR 13 TREASURY:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="false"
+      [max]="4" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+    </div>
+    <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)">
+      BUY LEVEL 6 TRADECARD FOR 13 TREASURY:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="false"
+      [max]="4" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+    </div>
+    <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.RHETORIC)">
+      BUY LEVEL 3 TRADECARD FOR 9 TREASURY:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="false"
+      [max]="6" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+      <br>
+    </div>
+    <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CARTOGRAPHY)">
+      BUY LEVEL 2 TRADECARD FOR 5 TREASURY:
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="false"
+      [max]="11" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+    </div>
   </div>
 
   <div *ngIf="gameService.game.phase === 7">
