@@ -111,13 +111,19 @@ export class AdvancesService {
         price -= advance.discountFromCardAmount;
       }
     }
+    if (price < 0) {
+      price = 0;
+    }
     return price;
   }
 
+  // wordt niet gebruikt?
   public buyAdvance(advance: Advance): void {
-    this.gameService.getCurrentPlayer().ownedAdvances.push(advance.id);
-    this.gameService.game.advancesInPlay[advance.id] = true;
-    this.gameService.sendToOtherPlayers();
+    if (!this.gameService.getCurrentPlayer().ownedAdvances.includes(advance.id)) {
+      this.gameService.getCurrentPlayer().ownedAdvances.push(advance.id);
+      this.gameService.game.advancesInPlay[advance.id] = true;
+      this.gameService.sendToOtherPlayers();
+    }
   }
 
   public getAdvance(advanceID: number): Advance {

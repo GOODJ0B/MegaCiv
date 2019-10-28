@@ -23,7 +23,7 @@ export class ActionsComponent {
   writenRecordDiscountToReligion = 0;
   writenRecordDiscountToScience = 0;
   writenRecordDiscountToArts = 0;
-  disableSave: boolean;
+  disableSave = false;
 
   get advanceNumber() {
     return AdvanceNumber;
@@ -33,7 +33,44 @@ export class ActionsComponent {
               public readonly advancesService: AdvancesService) {
     const checkMonument = this.gameService.getCurrentPlayer().selectedAdvances.includes(AdvanceNumber.MONUMENT);
     const checkWritenRecord = this.gameService.getCurrentPlayer().selectedAdvances.includes(AdvanceNumber.WRITTEN_RECORD);
-    if (checkMonument || checkWritenRecord) {
+    this.readyToSaveCheck();
+  }
+
+  readyToSaveCheck() {
+    let paymentOk = false;
+    if (this.gameService.getCurrentPlayer().treasuryDifference === 0 && this.getTotalCost() <= this.gameService.getCurrentPlayer().tradeCardValueUsed) {
+      paymentOk = true;
+    }else if (!this.gameService.getCurrentPlayer().ownedAdvances.includes(AdvanceNumber.MINING) &&
+    (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + this.gameService.getCurrentPlayer().treasuryDifference))) {
+      paymentOk = true;
+    }else if (this.gameService.getCurrentPlayer().ownedAdvances.includes(AdvanceNumber.MINING) && 
+    (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryDifference *2)) ||
+    ((this.getTotalCost() +1) === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryDifference *2)))))  {
+      paymentOk = true;
+    }
+    let writtenRecordOk = !this.gameService.getCurrentPlayer().selectedAdvances.includes(AdvanceNumber.WRITTEN_RECORD);
+    if ((this.writenRecordDiscountToCivics % 5 === 0) &&
+    (this.writenRecordDiscountToCrafts % 5 === 0) &&
+    (this.writenRecordDiscountToReligion % 5 === 0) &&
+    (this.writenRecordDiscountToScience % 5 === 0) &&
+    (this.writenRecordDiscountToArts % 5 === 0) &&
+    ((this.writenRecordDiscountToArts + this.writenRecordDiscountToCivics + this.writenRecordDiscountToCrafts +
+    this.writenRecordDiscountToReligion + this.writenRecordDiscountToScience) === 10)) {
+      writtenRecordOk = true;
+    }
+    let monumentOk = !this.gameService.getCurrentPlayer().selectedAdvances.includes(AdvanceNumber.MONUMENT);
+    if ((this.monumentDiscountToCivics % 5 === 0) &&
+    (this.monumentDiscountToCrafts % 5 === 0) &&
+    (this.monumentDiscountToReligion % 5 === 0) &&
+    (this.monumentDiscountToScience % 5 === 0) &&
+    (this.monumentDiscountToArts % 5 === 0) &&
+    ((this.monumentDiscountToArts + this.monumentDiscountToCivics + this.monumentDiscountToCrafts +
+    this.monumentDiscountToReligion + this.monumentDiscountToScience) === 20)) {
+      monumentOk = true;
+    }
+    if (paymentOk && writtenRecordOk && monumentOk) {
+      this.disableSave = false;
+    }else {
       this.disableSave = true;
     }
   }
@@ -81,46 +118,6 @@ export class ActionsComponent {
     return output;
   }
 
-  monumentCalculations() {
-    let totalMonument = 0;
-    if (
-      !(this.monumentDiscountToCivics % 5 === 0) ||
-      !(this.monumentDiscountToCrafts % 5 === 0) ||
-      !(this.monumentDiscountToReligion % 5 === 0) ||
-      !(this.monumentDiscountToScience % 5 === 0) ||
-      !(this.monumentDiscountToArts % 5 === 0) ||
-      !(this.writenRecordDiscountToCivics % 5 === 0) ||
-      !(this.writenRecordDiscountToCrafts % 5 === 0) ||
-      !(this.writenRecordDiscountToReligion % 5 === 0) ||
-      !(this.writenRecordDiscountToScience % 5 === 0) ||
-      !(this.writenRecordDiscountToArts % 5 === 0)
-    ) {
-      return;
-    }
-    totalMonument += this.monumentDiscountToCivics;
-    totalMonument += this.monumentDiscountToArts;
-    totalMonument += this.monumentDiscountToCrafts;
-    totalMonument += this.monumentDiscountToReligion;
-    totalMonument += this.monumentDiscountToScience;
-    const monumentOK = totalMonument === 20;
-    let totalWritenRecord = 0;
-    totalWritenRecord += this.writenRecordDiscountToCivics;
-    totalWritenRecord += this.writenRecordDiscountToArts;
-    totalWritenRecord += this.writenRecordDiscountToCrafts;
-    totalWritenRecord += this.writenRecordDiscountToReligion;
-    totalWritenRecord += this.writenRecordDiscountToScience;
-    const writenRecordOK = totalWritenRecord === 10;
-    const checkMonument = this.gameService.getCurrentPlayer().selectedAdvances.includes(AdvanceNumber.MONUMENT);
-    const checkWritenRecord = this.gameService.getCurrentPlayer().selectedAdvances.includes(AdvanceNumber.WRITTEN_RECORD);
-    if (checkMonument && checkWritenRecord) {
-      this.disableSave = !(monumentOK && writenRecordOK);
-    } else if (checkMonument) {
-      this.disableSave = !monumentOK;
-    } else if (checkWritenRecord) {
-      this.disableSave = !writenRecordOK;
-    }
-  }
-
   buyAdvances() {
     let maxTradeCards = this.gameService.game.maxTradecards;
     if (this.advancesService.playerHasAdvance(AdvanceNumber.ROADBUILDING)) {
@@ -133,8 +130,10 @@ export class ActionsComponent {
       this.errorMessage = '';
       this.showBuyAdvancePopup = false;
       this.gameService.getCurrentPlayer().selectedAdvances.forEach(advanceNumber => {
-        this.gameService.getCurrentPlayer().ownedAdvances.push(advanceNumber);
-        this.gameService.game.advancesInPlay[advanceNumber] = true;
+        if (!this.gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber)) {
+          this.gameService.getCurrentPlayer().ownedAdvances.push(advanceNumber);
+          this.gameService.game.advancesInPlay[advanceNumber] = true;
+        }
       });
       this.gameService.getCurrentPlayer().tokensInTreasury -= this.gameService.getCurrentPlayer().treasuryDifference;
       this.gameService.getCurrentPlayer().treasuryDifference = 0;
