@@ -123,7 +123,7 @@ export class GameService {
       });
     } else if (this.game.phase === 2) {
       // reset de taxRate en berekeningen van fase1
-      this.game.players.forEach(player => {
+      this.getActivePlayers().forEach(player => {
         player.taxCollected = false;
         player.taxRate = 2;
       });

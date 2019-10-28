@@ -214,7 +214,7 @@
                      [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       <div style="color: red"
-           *ngIf="!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))">
+           *ngIf="!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) ? 3 : 2))">
         Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!
       </div>
     </div>
