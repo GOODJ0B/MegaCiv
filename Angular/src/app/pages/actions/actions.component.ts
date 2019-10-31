@@ -38,14 +38,14 @@ export class ActionsComponent {
 
   readyToSaveCheck() {
     let paymentOk = false;
-    if (this.gameService.getCurrentPlayer().treasuryDifference === 0 && this.getTotalCost() <= this.gameService.getCurrentPlayer().tradeCardValueUsed) {
+    if (this.gameService.getCurrentPlayer().treasuryUsed === 0 && this.getTotalCost() <= this.gameService.getCurrentPlayer().tradeCardValueUsed) {
       paymentOk = true;
     }else if (!this.gameService.getCurrentPlayer().ownedAdvances.includes(AdvanceNumber.MINING) &&
-    (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + this.gameService.getCurrentPlayer().treasuryDifference))) {
+    (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + this.gameService.getCurrentPlayer().treasuryUsed))) {
       paymentOk = true;
     }else if (this.gameService.getCurrentPlayer().ownedAdvances.includes(AdvanceNumber.MINING) && 
-    (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryDifference *2)) ||
-    ((this.getTotalCost() +1) === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryDifference *2)))))  {
+    (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryUsed *2)) ||
+    ((this.getTotalCost() +1) === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryUsed *2)))))  {
       paymentOk = true;
     }
     let writtenRecordOk = !this.gameService.getCurrentPlayer().selectedAdvances.includes(AdvanceNumber.WRITTEN_RECORD);
@@ -81,12 +81,17 @@ export class ActionsComponent {
 
   unitsChanged() {
     this.gameService.getCurrentPlayer().tokensInStock =
-      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensInTreasury;
+      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensIntreasury;
   }
 
   stockChanged() {
     this.gameService.getCurrentPlayer().tokensOnBoard =
-      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensInStock - this.gameService.getCurrentPlayer().tokensInTreasury;
+      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensInStock - this.gameService.getCurrentPlayer().tokensIntreasury;
+  }
+
+  treasuryChanged() {
+    this.gameService.getCurrentPlayer().tokensInStock =
+      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensIntreasury;
   }
 
   citiesOnBoardChanged() {
@@ -100,7 +105,7 @@ export class ActionsComponent {
   }
 
   treasuryUsed() { // heeft nog een reset nodig!
-    this.gameService.getCurrentPlayer().tokensInTreasury += this.gameService.getCurrentPlayer().treasuryDifference;
+    this.gameService.treasuryCalculations(this.gameService.getCurrentPlayer());
   }
 
   showAdvancesPopup() {
@@ -135,8 +140,8 @@ export class ActionsComponent {
           this.gameService.game.advancesInPlay[advanceNumber] = true;
         }
       });
-      this.gameService.getCurrentPlayer().tokensInTreasury -= this.gameService.getCurrentPlayer().treasuryDifference;
-      this.gameService.getCurrentPlayer().treasuryDifference = 0;
+      this.gameService.getCurrentPlayer().tokensIntreasury -= this.gameService.getCurrentPlayer().treasuryUsed;
+      this.gameService.getCurrentPlayer().treasuryUsed = 0;
       this.gameService.getCurrentPlayer().discountToScience += this.monumentDiscountToScience + this.writenRecordDiscountToScience;
       this.gameService.getCurrentPlayer().discountToReligion += this.monumentDiscountToReligion + this.writenRecordDiscountToReligion;
       this.gameService.getCurrentPlayer().discountToCrafts += this.monumentDiscountToCrafts + this.writenRecordDiscountToCrafts;

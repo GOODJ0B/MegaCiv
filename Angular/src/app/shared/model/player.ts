@@ -10,9 +10,13 @@ export class Player {
   citiesOnBoard = 0;
   citiesInStock = 9;
   tokensInStock = 55;
-  tokensInTreasury = 0;
-  treasuryDifference = 0;
   tokensOnBoard = 0;
+  //  tokensInTreasury = 0; //gaat weg
+  tokensIntreasury = 0;
+  treasuryUsed = 0;
+  treasuryWon = 0;
+  treasuryTemp = 0;
+  //  treasuryDifference = 0; //gaat weg
   shipsOnBoard = 0;
   score = 0;
   AstNextAgePoint1: number;
@@ -22,7 +26,7 @@ export class Player {
   AstEndpoint: 15;
   AstPosition = 0;
   taxRate = 2;
-  collectedTax = 0;
+  //  collectedTax = 0; //gaat weg
   hasTaxRevolt = false;
   taxCollected = false;
   hasTimeLeft = 0;

@@ -68,12 +68,7 @@ export class GameService {
     } else {
       player = this.getCurrentPlayer();
     }
-
-    player.tokensInTreasury += player.treasuryDifference;
-    player.treasuryDifference = 0;
-
     player.isReady = true;
-
     if (this.everybodyIsReady() && this.game.hasStarted) {
       this.nextPhase();
     } else {
@@ -124,7 +119,7 @@ export class GameService {
     } else if (this.game.phase === 2) {
       // reset de taxRate en berekeningen van fase1
       this.getActivePlayers().forEach(player => {
-        player.taxCollected = false;
+        this.treasuryReset(player);
         player.taxRate = 2;
       });
     } else if (this.game.phase === 3) {
@@ -151,13 +146,26 @@ export class GameService {
         }
       }
     } else if (this.game.phase === 4) {
+      this.getActivePlayers().forEach(player => {
+        this.treasuryReset(player);
+      });
 
     } else if (this.game.phase === 5) {
+      this.getActivePlayers().forEach(player => {
+        this.treasuryReset(player);
+      });
 
     } else if (this.game.phase === 6) {
+      this.getActivePlayers().forEach(player => {
+        this.treasuryReset(player);
+      });
 
     } else if (this.game.phase === 7) {
+      this.getActivePlayers().forEach(player => {
+        this.treasuryReset(player);
+      });
       this.game.countDown = 900;
+
     } else if (this.game.phase === 8) {
 
     } else if (this.game.phase === 9) {
@@ -167,6 +175,9 @@ export class GameService {
     } else if (this.game.phase === 11) {
 
     } else if (this.game.phase === 12) {
+      this.getActivePlayers().forEach(player => {
+        this.treasuryReset(player);
+      });
 
     } else if (this.game.phase === 13) {
       this.game.players.forEach(player => player.selectedAdvances = []);
@@ -196,26 +207,30 @@ export class GameService {
   }
 
   taxCollectionCalculations(player: Player): void {
-    // als Treasury en Stock al eens aangepast zijn met deze functie, deze aanpassing terugdraaien
-    if (player.taxCollected) {
-      player.tokensInTreasury -= player.collectedTax;
-      player.tokensInStock += player.collectedTax;
-    }
-    player.collectedTax = player.citiesOnBoard * player.taxRate;
-    // check for tax revolt
-    if (player.tokensInStock < player.collectedTax) {
+    player.treasuryWon = player.citiesOnBoard * player.taxRate;
+    if (player.tokensInStock < player.treasuryWon) {
       if (!player.ownedAdvances.includes(AdvanceNumber.DEMOCRACY)) {
         player.hasTaxRevolt = true;
         this.game.taxRevoltInPlay = true;
       }
       // collected tax can not be more than tokens in stock
-      player.collectedTax = player.tokensInStock;
+      player.treasuryWon = player.tokensInStock;
     } else {
       player.hasTaxRevolt = false;
     }
-    player.tokensInTreasury += player.collectedTax;
-    player.tokensInStock -= player.collectedTax;
-    player.taxCollected = true;
+    
+  }
+
+  treasuryCalculations(player: Player): void {
+    player.treasuryTemp = player.tokensIntreasury + player.treasuryWon - player.treasuryUsed;
+  }
+
+  treasuryReset(player: Player): void {
+    player.tokensIntreasury = player.treasuryTemp;
+    player.treasuryTemp = 0;
+    player.tokensInStock -= player.treasuryWon += player.treasuryUsed;
+    player.treasuryWon = 0;
+    player.treasuryUsed = 0;
   }
 
   public startCountDown(seconds: number) {

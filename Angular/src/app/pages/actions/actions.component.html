@@ -11,7 +11,7 @@
       MONARCHY: optioneel: taxrate +1
     </div>
     <div style="background-color: yellowgreen; color: black"
-      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MONARCHY)">
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.DEMOCRACY)">
       DEMOCRACY: geen TAXREVOLT
     </div>
     <br><br>
@@ -29,11 +29,11 @@
     </dx-number-box>
     <br>
     TAX COLLECTED:
-    <dx-number-box [(value)]="gameService.getCurrentPlayer().collectedTax" [readOnly]="true"
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryWon" [readOnly]="true"
                    [max]="18" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     TOTAL TREASURY:
-    <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryTemp" [readOnly]="true"
                    [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     <div style="background-color: red; color: white" *ngIf="gameService.getCurrentPlayer().hasTaxRevolt">
@@ -55,7 +55,7 @@
                    [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     TREASURY:
-    <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().treasury" [readOnly]="true"
                    [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     CITIES ON BOARD:
@@ -74,7 +74,7 @@
   <div *ngIf="gameService.game.phase === 3">
     <div style="background-color: yellowgreen; color: black"
     *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MILITARY)">
-    toegepast: MILITARY: iedereen zonder MILITARY moet de beurt vóór jou afronden
+      toegepast: MILITARY: iedereen zonder MILITARY moet de beurt vóór jou afronden
     </div>
     <br><br>
     BEURTNUMMER: {{ gameService.getCurrentPlayer().censusOrder }}
@@ -122,13 +122,13 @@
                    width="100px"></dx-number-box>
     <br>
     TREASURY USED:
-    <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference" (onValueChanged)="treasuryUsed();"
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryUsed" (onValueChanged)="treasuryUsed();"
                    [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().shipsOnBoard === 0"
-                   [max]="0" [min]="-1 * gameService.getCurrentPlayer().tokensInTreasury" [showSpinButtons]="true"
+                   [max]="gameService.getCurrentPlayer.treasury" [min]="0" [showSpinButtons]="true"
                    width="100px"></dx-number-box>
     <br>
     TREASURY TOTAL:
-    <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryTemp" [readOnly]="true"
                    [max]="55" [min]="0" width="100px"></dx-number-box>
     <br>
   </div>
@@ -152,12 +152,12 @@
     </div>
     <br><br>
     TREASURY WON:
-    <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference"
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryWon"
                    [readOnly]="gameService.getCurrentPlayer().isReady"
                    [max]="gameService.getCurrentPlayer().tokensInStock"
                    [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
-    TRADECARDS WON:
+    TRADECARDS WON/LOST:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tradecards"
                    [readOnly]="gameService.getCurrentPlayer().isReady"
                    [showSpinButtons]="true" width="100px"></dx-number-box>
@@ -199,7 +199,7 @@
                      [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       TREASURY:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().treasury" [readOnly]="false" (onValueChanged)="treasuryChanged();"
                      [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       CITIES ON BOARD:
@@ -245,11 +245,11 @@
       <br>
     </div>
     TREASURY:
-    <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().treasury" [readOnly]="true"
     [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     BUY LEVEL 9 TRADECARD FOR 15 TREASURY:
-    <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="false"
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl9TradecardsBought" [readOnly]="false"
     [max]="3" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)">
@@ -371,7 +371,7 @@
                      [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       Treasury:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasury" [readOnly]="true"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().treasury" [readOnly]="false" (onValueChanged)="treasuryChanged();"
                      [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       Cities on board:
@@ -420,8 +420,8 @@
       </dx-number-box>
       <br>
       Treasury used:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryDifference" [showSpinButtons]="true"
-                     [max]="gameService.getCurrentPlayer().tokensInTreasury" [min]="0"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryUsed" [showSpinButtons]="true"
+                     [max]="gameService.getCurrentPlayer().treasury" [min]="0"
                      (valueChange)="readyToSaveCheck()" width="100px">
       </dx-number-box>
       Tradecards left:
