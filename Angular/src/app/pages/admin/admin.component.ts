@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { GameService } from 'src/app/shared/services/game.service';
+import {Component} from '@angular/core';
+import {GameService} from 'src/app/shared/services/game.service';
 
 @Component({
   templateUrl: 'admin.component.html',
@@ -24,6 +24,6 @@ export class AdminComponent {
   }
 
   sendChanges() {
-    this.gameService.sendToOtherPlayers();
+    this.gameService.sendGameToOtherPlayers();
   }
 }

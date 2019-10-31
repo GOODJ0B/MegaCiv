@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { GameService } from 'src/app/shared/services/game.service';
+import {Component} from '@angular/core';
+import {GameService} from 'src/app/shared/services/game.service';
 
 @Component({
   templateUrl: 'home.component.html',
@@ -19,6 +19,6 @@ export class HomeComponent {
     this.gameService.getCurrentPlayer().isActive = true;
 
     this.gameService.game.hasStarted = false;
-    this.gameService.sendToOtherPlayers();
+    this.gameService.sendGameToOtherPlayers();
   }
 }

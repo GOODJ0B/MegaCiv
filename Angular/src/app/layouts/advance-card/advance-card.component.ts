@@ -36,7 +36,7 @@ export class AdvanceCardComponent {
       } else {
         this.gameService.getCurrentPlayer().selectedAdvances.push(this.advance.id);
       }
-      this.gameService.sendToOtherPlayers();
+      this.gameService.sendGameToOtherPlayers();
     }
   }
 }

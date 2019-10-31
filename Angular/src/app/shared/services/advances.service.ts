@@ -122,7 +122,7 @@ export class AdvancesService {
     if (!this.gameService.getCurrentPlayer().ownedAdvances.includes(advance.id)) {
       this.gameService.getCurrentPlayer().ownedAdvances.push(advance.id);
       this.gameService.game.advancesInPlay[advance.id] = true;
-      this.gameService.sendToOtherPlayers();
+      this.gameService.sendGameToOtherPlayers();
     }
   }
 
