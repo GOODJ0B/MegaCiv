@@ -13,6 +13,7 @@ import {AdvanceNumber} from '../model/advances.enum';
 export class GameService {
   gameObservable = this.socket.fromEvent<Game>('game');
   game: Game = new Game();
+  tempGame: Game = new Game();
   gameSubscription: Subscription;
 
   currentPhase = 0;
@@ -36,29 +37,40 @@ export class GameService {
       if (data.hasStarted === undefined) {
         data = new Game();
       }
-      Object.assign(this.game, data);
-      if (this.currentPhase !== this.game.phase) {
-        this.phaseHasChangedActions(this.game.phase);
-      }
-      if (this.game.countDown > 0) {
-        this.startCountDown(this.game.countDown);
-        this.game.countDown = 0;
-      }
-      // count players in queue during phase 3
-      if (this.game.phase === 3) {
-        let counter = 0;
-        this.getActivePlayers().forEach(player => {
-          if (!player.isReady && player.censusOrder < this.getCurrentPlayer().censusOrder) {
-            counter += 1;
-          }
-        });
-        // Start the countdown if there were players in front of you but not anymore.
-        if (this.playersInFrontOfCurrentPlayerInQueue > 0 && counter === 0) {
-          this.startCountDown(this.getCurrentPlayer().personalCountDown);
+      if (data.ignoreAllPlayersBut === undefined || data.ignoreAllPlayersBut === null) {
+        Object.assign(this.tempGame, data);
+        this.game.players[this.tempGame.ignoreAllPlayersBut] = this.tempGame.players[this.tempGame.ignoreAllPlayersBut];
+        for (let i = 0; i < this.game.advancesInPlay.length; i++) {
+          this.game.advancesInPlay[i] = this.game.advancesInPlay[i] || this.tempGame.advancesInPlay[i];
         }
-        this.playersInFrontOfCurrentPlayerInQueue = counter;
       }
+      Object.assign(this.game, data);
+      this.incommingGame();
     });
+  }
+
+  incommingGame() {
+    if (this.currentPhase !== this.game.phase) {
+      this.phaseHasChangedActions(this.game.phase);
+    }
+    if (this.game.countDown > 0) {
+      this.startCountDown(this.game.countDown);
+      this.game.countDown = 0;
+    }
+    // count players in queue during phase 3
+    if (this.game.phase === 3) {
+      let counter = 0;
+      this.getActivePlayers().forEach(player => {
+        if (!player.isReady && player.censusOrder < this.getCurrentPlayer().censusOrder) {
+          counter += 1;
+        }
+      });
+      // Start the countdown if there were players in front of you but not anymore.
+      if (this.playersInFrontOfCurrentPlayerInQueue > 0 && counter === 0) {
+        this.startCountDown(this.getCurrentPlayer().personalCountDown);
+      }
+      this.playersInFrontOfCurrentPlayerInQueue = counter;
+    }
   }
 
   playerIsReady(index?: number) {
@@ -77,7 +89,7 @@ export class GameService {
     if (this.everybodyIsReady() && this.game.hasStarted) {
       this.nextPhase();
     } else {
-      this.sendToOtherPlayers();
+      this.sendGameToOtherPlayers();
     }
   }
 
@@ -172,7 +184,7 @@ export class GameService {
       this.game.players.forEach(player => player.selectedAdvances = []);
     }
 
-    this.sendToOtherPlayers();
+    this.sendGameToOtherPlayers();
   }
 
   // Things that should happen when game arrives with changed phase
@@ -257,8 +269,14 @@ export class GameService {
     return output;
   }
 
-  sendToOtherPlayers(): void {
+  sendGameToOtherPlayers(): void {
     console.log('++++++++++++++++ send game: ', this.game);
+    this.socket.emit('updateGame', this.game);
+  }
+
+  sendPlayerToOtherPlayers(): void {
+    console.log('++++++++++++++++ send player: ', this.game);
+    this.game.ignoreAllPlayersBut = this.playerIndex;
     this.socket.emit('updateGame', this.game);
   }
 

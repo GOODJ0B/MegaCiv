@@ -1,14 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { GameService } from 'src/app/shared/services/game.service';
-import { Component, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import {BrowserModule} from '@angular/platform-browser';
+import {GameService} from 'src/app/shared/services/game.service';
+import {Component, NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {RouterModule} from '@angular/router';
 
-import { DxButtonModule } from 'devextreme-angular/ui/button';
-import { DxCheckBoxModule } from 'devextreme-angular/ui/check-box';
-import { DxTextBoxModule } from 'devextreme-angular/ui/text-box';
-import { DxValidatorModule } from 'devextreme-angular/ui/validator';
-import { DxValidationGroupModule } from 'devextreme-angular/ui/validation-group';
+import {DxButtonModule} from 'devextreme-angular/ui/button';
+import {DxCheckBoxModule} from 'devextreme-angular/ui/check-box';
+import {DxTextBoxModule} from 'devextreme-angular/ui/text-box';
+import {DxValidatorModule} from 'devextreme-angular/ui/validator';
+import {DxValidationGroupModule} from 'devextreme-angular/ui/validation-group';
 
 @Component({
   selector: 'app-login-form',
@@ -43,7 +43,7 @@ export class LoginFormComponent {
     this.gameService.getCurrentPlayer().isActive = index !== 0 ? true : false;
     this.gameService.getCurrentPlayer().playerName = this.playerName;
 
-    this.gameService.sendToOtherPlayers();
+    this.gameService.sendGameToOtherPlayers();
   }
 }
 @NgModule({
