@@ -44,8 +44,9 @@ export class GameService {
           this.game.advancesInPlay[i] = this.game.advancesInPlay[i] || this.tempGame.advancesInPlay[i];
         }
         this.game.ignoreAllPlayersBut = undefined;
+      } else {
+        Object.assign(this.game, data);
       }
-      Object.assign(this.game, data);
       this.incommingGame();
     });
   }
