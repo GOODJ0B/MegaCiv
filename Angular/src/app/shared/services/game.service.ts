@@ -233,7 +233,7 @@ export class GameService {
     } else {
       player.hasTaxRevolt = false;
     }
-    
+    this.treasuryCalculations(player);    
   }
 
   treasuryCalculations(player: Player): void {
