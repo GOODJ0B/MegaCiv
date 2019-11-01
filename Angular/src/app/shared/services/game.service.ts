@@ -9,6 +9,7 @@ import {Player} from '../model/player';
 import {phases} from '../model/phases';
 import {AdvanceNumber} from '../model/advances.enum';
 import { BlockNumber } from '../model/blocks.enum';
+import { advancesList } from '../model/advances-list';
 
 @Injectable({providedIn: 'root'})
 export class GameService {
@@ -191,6 +192,7 @@ export class GameService {
 
     } else if (this.game.phase === 12) {
       this.treasuryReset(this.getActivePlayers());
+      this.calculateDiscountCredits(this.getActivePlayers());
 
     } else if (this.game.phase === 13) {
       this.game.players.forEach(player => player.selectedAdvances = []);
@@ -262,6 +264,28 @@ export class GameService {
     players.forEach(player => {
       player.numberOfTradeCardsBeforeTurn = player.numberOfTradeCardsAfterTurn
       player.tradeCardDifference = 0;
+    });
+  }
+
+  calculateDiscountCredits(players: Player[]): void {
+    players.forEach(player => {
+      let creditsToArts = 0;
+      let creditsToCivics = 0;
+      let creditsToCrafts = 0;
+      let creditsToReligion = 0;
+      let creditsToScience = 0;
+      player.ownedAdvances.forEach(advanceNumber => {
+        creditsToArts += advancesList[advanceNumber].discountToArts;
+        creditsToCivics += advancesList[advanceNumber].discountToCivics;
+        creditsToCrafts += advancesList[advanceNumber].discountToCrafts;
+        creditsToReligion += advancesList[advanceNumber].discountToReligion;
+        creditsToScience += advancesList[advanceNumber].discountToScience;
+      });
+      player.totalDiscountToArts = creditsToArts + player.discountToArts
+      player.totalDiscountToArts = creditsToCivics + player.discountToArts
+      player.totalDiscountToArts = creditsToCrafts + player.discountToArts
+      player.totalDiscountToArts = creditsToReligion + player.discountToArts
+      player.totalDiscountToArts = creditsToScience + player.discountToArts
     });
   }
 

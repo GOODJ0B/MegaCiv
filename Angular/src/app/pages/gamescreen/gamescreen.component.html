@@ -119,7 +119,7 @@
   </ng-container>
 
   <ng-container *ngIf="gameService.game.phase === 7">
-    <dxi-column caption="BLOCK" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="BLOCK" dataField="block" alignment="center"></dxi-column>
     <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TRADECARDS" dataField="numberOfTradeCardsBeforeTurn" alignment="center"></dxi-column>
     <dxi-column caption="TIME" dataField=""></dxi-column>
@@ -184,11 +184,11 @@
                 [visible]="gameService.game.advancesInPlay[advanceNumber.MINING]"></dxi-column>
     <dxi-column cellTemplate="hasTRADE_EMPIRE" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.TRADE_EMPIRE]"></dxi-column>
-    <dxi-column caption="CIVICS" dataField="" alignment="center"></dxi-column>
-    <dxi-column caption="CRAFST" dataField="" alignment="center"></dxi-column>
-    <dxi-column caption="RELIGION" dataField="" alignment="center"></dxi-column>
-    <dxi-column caption="SCIENCE" dataField="" alignment="center"></dxi-column>
-    <dxi-column caption="ARTS" dataField="" alignment="center"></dxi-column>
+    <dxi-column caption="CIVICS" dataField="totalDiscountToCivics" alignment="center"></dxi-column>
+    <dxi-column caption="CRAFST" dataField="totalDiscountToCrafts" alignment="center"></dxi-column>
+    <dxi-column caption="RELIGION" dataField="totalDiscountToReligion" alignment="center"></dxi-column>
+    <dxi-column caption="SCIENCE" dataField="totalDiscountToScience" alignment="center"></dxi-column>
+    <dxi-column caption="ARTS" dataField="totalDiscountToArts" alignment="center"></dxi-column>
     <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="GOLD USED" dataField="tradeCardValueUsed" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY USED" dataField="treasuryUsed" alignment="center"></dxi-column>

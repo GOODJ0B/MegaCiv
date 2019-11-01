@@ -51,6 +51,11 @@ export class Player {
   lvl2TradecardsBought = 0;
   personalCountDown = 0;
   block: BlockNumber;
+  totalDiscountToCivics = 0;
+  totalDiscountToCrafts = 0;
+  totalDiscountToReligion = 0;
+  totalDiscountToScience = 0;
+  totalDiscountToArts = 0;
   
 
   constructor(civilizationName: string, AstNextAgePoint1: number, AstNextAgePoint2: number) {
