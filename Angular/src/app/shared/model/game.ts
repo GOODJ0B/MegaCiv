@@ -13,6 +13,7 @@ export class Game {
     false, false, false, false, false, false, false, false, false, false,
     false, false, false, false, false, false, false, false, false, false];
   taxRevoltInPlay = false;
+  minorCalamitiesInPlay = false;
   maxTradecards = 0;
   countDown = 0;
 

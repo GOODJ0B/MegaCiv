@@ -1,5 +1,5 @@
-export enum Blocks {
-  None = 0,
-  West = 1,
-  East = 2,
+export enum BlockNumber {
+  NONE = 0,
+  WEST = 1,
+  EAST = 2,
 }

@@ -1,4 +1,5 @@
 import {AdvanceNumber} from './advances.enum';
+import { BlockNumber } from './blocks.enum';
 
 export class Player {
   originalOrder: number;
@@ -48,11 +49,9 @@ export class Player {
   lvl6TradecardsBought = 0;
   lvl3TradecardsBought = 0;
   lvl2TradecardsBought = 0;
-  
-
-
-  // Advances:
   personalCountDown = 0;
+  block: BlockNumber;
+  
 
   constructor(civilizationName: string, AstNextAgePoint1: number, AstNextAgePoint2: number) {
     this.civilizationName = civilizationName;
