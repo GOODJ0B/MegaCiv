@@ -12,10 +12,10 @@ export class Player {
   tokensInStock = 55;
   tokensOnBoard = 0;
   //  tokensInTreasury = 0; //gaat weg
-  tokensIntreasury = 0;
+  tokensIntreasuryBeforeTurn = 0;
   treasuryUsed = 0;
   treasuryWon = 0;
-  treasuryTemp = 0;
+  tokensInTreasuryAfterTurn = 0;
   //  treasuryDifference = 0; //gaat weg
   shipsOnBoard = 0;
   score = 0;
@@ -35,10 +35,20 @@ export class Player {
   discountToReligion = 0;
   discountToScience = 0;
   discountToArts = 0;
-  numberOfTradeCards = 0;
+  numberOfTradeCardsBeforeTurn = 0;
+  numberOfTradeCardsAfterTurn = 0;
+  tradeCardDifference = 0;
   tradeCardValueUsed = 0;
   selectedAdvances: AdvanceNumber[] = [];
   ownedAdvances: AdvanceNumber[] = [];
+  wotwTradecard = 0;
+  lvl9TradecardsBought = 0;
+  lvl8TradecardsBought = 0;
+  lvl7TradecardsBought = 0;
+  lvl6TradecardsBought = 0;
+  lvl3TradecardsBought = 0;
+  lvl2TradecardsBought = 0;
+  
 
 
   // Advances:

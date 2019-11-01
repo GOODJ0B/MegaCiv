@@ -81,17 +81,17 @@ export class ActionsComponent {
 
   unitsChanged() {
     this.gameService.getCurrentPlayer().tokensInStock =
-      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensIntreasury;
+      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn;
   }
 
   stockChanged() {
     this.gameService.getCurrentPlayer().tokensOnBoard =
-      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensInStock - this.gameService.getCurrentPlayer().tokensIntreasury;
+      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensInStock - this.gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn;
   }
 
   treasuryChanged() {
     this.gameService.getCurrentPlayer().tokensInStock =
-      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensIntreasury;
+      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn;
   }
 
   citiesOnBoardChanged() {
@@ -104,7 +104,7 @@ export class ActionsComponent {
       this.gameService.maxCities - this.gameService.getCurrentPlayer().citiesInStock;
   }
 
-  treasuryUsed() { // heeft nog een reset nodig!
+  treasuryUsed() {
     this.gameService.treasuryCalculations(this.gameService.getCurrentPlayer());
   }
 
@@ -128,7 +128,7 @@ export class ActionsComponent {
     if (this.advancesService.playerHasAdvance(AdvanceNumber.ROADBUILDING)) {
       maxTradeCards += 1;
     }
-    if (this.gameService.getCurrentPlayer().numberOfTradeCards > maxTradeCards) {
+    if (this.gameService.getCurrentPlayer().numberOfTradeCardsAfterTurn > maxTradeCards) {
       this.errorMessage = 'Je mag er maximaal ' + maxTradeCards + ' overhouden!';
       return;
     } else {
@@ -140,7 +140,7 @@ export class ActionsComponent {
           this.gameService.game.advancesInPlay[advanceNumber] = true;
         }
       });
-      this.gameService.getCurrentPlayer().tokensIntreasury -= this.gameService.getCurrentPlayer().treasuryUsed;
+      this.gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn -= this.gameService.getCurrentPlayer().treasuryUsed;
       this.gameService.getCurrentPlayer().treasuryUsed = 0;
       this.gameService.getCurrentPlayer().discountToScience += this.monumentDiscountToScience + this.writenRecordDiscountToScience;
       this.gameService.getCurrentPlayer().discountToReligion += this.monumentDiscountToReligion + this.writenRecordDiscountToReligion;
@@ -163,5 +163,16 @@ export class ActionsComponent {
     this.writenRecordDiscountToReligion = 0;
     this.writenRecordDiscountToScience = 0;
     this.writenRecordDiscountToArts = 0;
+  }
+
+  buyTradecard() {
+    this.gameService.getCurrentPlayer().treasuryUsed = 0 + this.gameService.getCurrentPlayer().lvl9TradecardsBought * 15 + this.gameService.getCurrentPlayer().lvl8TradecardsBought *13 +
+      this.gameService.getCurrentPlayer().lvl7TradecardsBought * 13 + this.gameService.getCurrentPlayer().lvl6TradecardsBought * 13 + 
+      this.gameService.getCurrentPlayer().lvl3TradecardsBought * 9 + this.gameService.getCurrentPlayer().lvl2TradecardsBought * 5;
+    this.gameService.treasuryCalculations(this.gameService.getCurrentPlayer());
+  }
+
+  tradecardWonOrLost(){
+    this.gameService.getCurrentPlayer().numberOfTradeCardsAfterTurn = this.gameService.getCurrentPlayer().numberOfTradeCardsBeforeTurn - this.gameService.getCurrentPlayer().tradeCardDifference;
   }
 }

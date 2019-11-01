@@ -132,8 +132,8 @@ export class GameService {
       });
     } else if (this.game.phase === 2) {
       // reset de taxRate en berekeningen van fase1
+      this.treasuryReset(this.getActivePlayers());
       this.getActivePlayers().forEach(player => {
-        this.treasuryReset(player);
         player.taxRate = 2;
       });
     } else if (this.game.phase === 3) {
@@ -152,32 +152,32 @@ export class GameService {
       for (let i = 0; i < playerList.length; i++) {
         playerList[i].censusOrder = i + 1;
         if (i === 0) {
-          playerList[i].personalCountDown = 150;
+          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 4;
         } else if (i === 1) {
-          playerList[i].personalCountDown = 120;
+          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3,5;
+        } else if (i === 2) {
+          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3;
         } else {
-          playerList[i].personalCountDown = 90;
+          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 2,5;
+        }
+        if (!playerList[i].ownedAdvances.includes(AdvanceNumber.MILITARY)) {
+          playerList[i].personalCountDown += 20;
         }
       }
     } else if (this.game.phase === 4) {
-      this.getActivePlayers().forEach(player => {
-        this.treasuryReset(player);
-      });
+      this.treasuryReset(this.getActivePlayers());
+      this.tradecardWonLostReset(this.getActivePlayers());
 
     } else if (this.game.phase === 5) {
-      this.getActivePlayers().forEach(player => {
-        this.treasuryReset(player);
-      });
+      this.treasuryReset(this.getActivePlayers());
 
     } else if (this.game.phase === 6) {
-      this.getActivePlayers().forEach(player => {
-        this.treasuryReset(player);
-      });
+      this.treasuryReset(this.getActivePlayers());
 
     } else if (this.game.phase === 7) {
-      this.getActivePlayers().forEach(player => {
-        this.treasuryReset(player);
-      });
+      this.treasuryReset(this.getActivePlayers());
+      this.tradecardBoughtReset(this.getActivePlayers());
+
       this.game.countDown = 900;
 
     } else if (this.game.phase === 8) {
@@ -189,9 +189,7 @@ export class GameService {
     } else if (this.game.phase === 11) {
 
     } else if (this.game.phase === 12) {
-      this.getActivePlayers().forEach(player => {
-        this.treasuryReset(player);
-      });
+      this.treasuryReset(this.getActivePlayers());
 
     } else if (this.game.phase === 13) {
       this.game.players.forEach(player => player.selectedAdvances = []);
@@ -236,15 +234,34 @@ export class GameService {
   }
 
   treasuryCalculations(player: Player): void {
-    player.treasuryTemp = player.tokensIntreasury + player.treasuryWon - player.treasuryUsed;
+    player.tokensInTreasuryAfterTurn = (player.tokensIntreasuryBeforeTurn + player.treasuryWon - player.treasuryUsed);
   }
 
-  treasuryReset(player: Player): void {
-    player.tokensIntreasury = player.treasuryTemp;
-    player.treasuryTemp = 0;
-    player.tokensInStock -= player.treasuryWon += player.treasuryUsed;
-    player.treasuryWon = 0;
-    player.treasuryUsed = 0;
+  treasuryReset(players: Player[]): void {
+    players.forEach(player => {
+      player.tokensIntreasuryBeforeTurn = player.tokensInTreasuryAfterTurn;
+      player.tokensInStock -= player.treasuryWon += player.treasuryUsed;
+      player.treasuryWon = 0;
+      player.treasuryUsed = 0;
+    });
+  }
+  
+  tradecardBoughtReset(players: Player[]): void {
+    players.forEach(player => {
+      player.lvl9TradecardsBought = 0;
+      player.lvl8TradecardsBought = 0;
+      player.lvl7TradecardsBought = 0;
+      player.lvl6TradecardsBought = 0;
+      player.lvl3TradecardsBought = 0;
+      player.lvl2TradecardsBought = 0;
+    });
+  }
+
+  tradecardWonLostReset(players: Player[]): void {
+    players.forEach(player => {
+      player.numberOfTradeCardsBeforeTurn = player.numberOfTradeCardsAfterTurn
+      player.tradeCardDifference = 0;
+    });
   }
 
   public startCountDown(seconds: number) {
