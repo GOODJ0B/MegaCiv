@@ -1,7 +1,7 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {DxButtonModule} from 'devextreme-angular/ui/button';
-import {GameService} from 'src/app/shared/services/game.service';
-import {Component, NgModule} from '@angular/core';
+import { Component, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { DxButtonModule } from 'devextreme-angular/ui/button';
+import { GameService } from 'src/app/shared/services/game.service';
 
 @Component({
   selector: 'app-footer',
@@ -19,7 +19,7 @@ export class FooterComponent {
 
   playerIsNotReady(): void {
     this.gameService.getCurrentPlayer().isReady = false;
-    this.gameService.sendGameToOtherPlayers();
+    this.gameService.sendPlayerToOtherPlayers();
   }
 
   editPhase(difference: number): void {

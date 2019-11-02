@@ -88,7 +88,11 @@ export class GameService {
     if (this.everybodyIsReady() && this.game.hasStarted) {
       this.nextPhase();
     } else {
-      this.sendGameToOtherPlayers();
+      if (index) {
+        this.sendGameToOtherPlayers();
+      } else {
+        this.sendPlayerToOtherPlayers();
+      }
     }
   }
 

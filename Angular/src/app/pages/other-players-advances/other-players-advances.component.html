@@ -8,8 +8,10 @@
   </div>
 
   <dx-popup *ngIf="showAdvancesPopup" [(visible)]="showAdvancesPopup">
-    <app-advance-card *ngFor="let ownedAdvance of advancesService.getOwnedAdvancesOfPlayer(selectedPlayer)"
-                      [advance]="ownedAdvance" [hideCost]="true"></app-advance-card>
+    <dx-scroll-view>
+      <app-advance-card *ngFor="let ownedAdvance of advancesService.getOwnedAdvancesOfPlayer(selectedPlayer)"
+        [advance]="ownedAdvance" [hideCost]="true"></app-advance-card>
+    </dx-scroll-view>
   </dx-popup>
 
 </div>

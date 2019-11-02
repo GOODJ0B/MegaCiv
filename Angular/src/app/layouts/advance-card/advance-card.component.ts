@@ -1,11 +1,11 @@
-import {Component, Input, NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {DxScrollViewModule} from 'devextreme-angular/ui/scroll-view';
-import {Advance} from '../../shared/model/advance.interface';
-import {AdvancePopupModule} from '../advance-popup/advance-popup.component';
-import {DxCheckBoxModule} from 'devextreme-angular';
-import {AdvancesService} from '../../shared/services/advances.service';
-import {GameService} from '../../shared/services/game.service';
+import { CommonModule } from '@angular/common';
+import { Component, Input, NgModule } from '@angular/core';
+import { DxCheckBoxModule } from 'devextreme-angular';
+import { DxScrollViewModule } from 'devextreme-angular/ui/scroll-view';
+import { Advance } from '../../shared/model/advance.interface';
+import { AdvancesService } from '../../shared/services/advances.service';
+import { GameService } from '../../shared/services/game.service';
+import { AdvancePopupModule } from '../advance-popup/advance-popup.component';
 
 @Component({
   selector: 'app-advance-card',
@@ -36,7 +36,7 @@ export class AdvanceCardComponent {
       } else {
         this.gameService.getCurrentPlayer().selectedAdvances.push(this.advance.id);
       }
-      this.gameService.sendGameToOtherPlayers();
+      this.gameService.sendPlayerToOtherPlayers();
     }
   }
 }

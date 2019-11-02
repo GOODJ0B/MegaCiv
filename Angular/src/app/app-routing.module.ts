@@ -1,18 +1,18 @@
-import {CommonModule} from '@angular/common';
-import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {RouterModule, Routes} from '@angular/router';
-import {DxDataGridModule, DxFormModule, DxNumberBoxModule, DxPopupModule} from 'devextreme-angular';
-import {DxButtonModule} from 'devextreme-angular/ui/button';
-import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
-import {AdvanceCardModule} from './layouts/advance-card/advance-card.component';
-import {ActionsComponent} from './pages/actions/actions.component';
-import {AdminComponent} from './pages/admin/admin.component';
-import {AdvancesComponent} from './pages/advances/advances.component';
-import {GamescreenComponent} from './pages/gamescreen/gamescreen.component';
-import {HomeComponent} from './pages/home/home.component';
-import {OverviewComponent} from './pages/overview/overview.component';
-import {OtherPlayersAdvancesComponent} from './pages/other-players-advances/other-players-advances.component';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { DxDataGridModule, DxFormModule, DxNumberBoxModule, DxPopupModule, DxScrollViewModule } from 'devextreme-angular';
+import { DxButtonModule } from 'devextreme-angular/ui/button';
+import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { AdvanceCardModule } from './layouts/advance-card/advance-card.component';
+import { ActionsComponent } from './pages/actions/actions.component';
+import { AdminComponent } from './pages/admin/admin.component';
+import { AdvancesComponent } from './pages/advances/advances.component';
+import { GamescreenComponent } from './pages/gamescreen/gamescreen.component';
+import { HomeComponent } from './pages/home/home.component';
+import { OtherPlayersAdvancesComponent } from './pages/other-players-advances/other-players-advances.component';
+import { OverviewComponent } from './pages/overview/overview.component';
 
 const routes: Routes = [
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent,
+    component: GamescreenComponent, // temp fix
   },
   {
     path: 'gamescreen',
@@ -62,7 +62,8 @@ const config: SocketIoConfig = {url: 'http://jantineislief.nl:8889', options: {}
     CommonModule,
     DxNumberBoxModule,
     AdvanceCardModule,
-    DxPopupModule
+    DxPopupModule,
+    DxScrollViewModule,
   ],
   providers: [],
   exports: [
