@@ -85,7 +85,7 @@ module.exports = "<dx-scroll-view height=\"100%\" class=\"full-height-scrollable
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"content-block\">Fase {{ gameService.game.phase }} ({{ gameService.getPhaseName() }})</h2>\r\n\r\n<div class=\"content-block dx-card responsive-paddings\">\r\n  <div *ngIf=\"gameService.game.phase === 1\">\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n         *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(9)\">\r\n      Je kunt gebruik maken van COINAGE (taxrate +1 / -1)\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n         *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(29)\">\r\n      Je kunt gebruik maken van MONARCHY (taxrate +1)\r\n    </div>\r\n    Cities on board:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesOnBoard\" [readOnly]=\"true\"\r\n                   [max]=\"9\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    Tax rate:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().taxRate\" (onValueChanged)=\"taxRateChanged();\"\r\n                   [readOnly]=\"gameService.getCurrentPlayer().isReady || !(gameService.getCurrentPlayer().ownedAdvances.includes(9) || gameService.getCurrentPlayer().ownedAdvances.includes(29))\"\r\n                   [max]=\"gameService.getCurrentPlayer().ownedAdvances.includes(9) || gameService.getCurrentPlayer().ownedAdvances.includes(29) ?\r\n             gameService.getCurrentPlayer().ownedAdvances.includes(9) && gameService.getCurrentPlayer().ownedAdvances.includes(29) ? 4 : 3 : 2\"\r\n                   [min]=\"gameService.getCurrentPlayer().ownedAdvances.includes(9) ? 1 : 2\" [showSpinButtons]=\"true\"\r\n                   width=\"100px\">\r\n    </dx-number-box>\r\n    <br>\r\n    Tax collected:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().collectedTax\" [readOnly]=\"true\"\r\n                   [max]=\"18\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    Treasury:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasury\" [readOnly]=\"true\"\r\n                   [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    <div style=\"background-color: red; color: white\" *ngIf=\"gameService.getCurrentPlayer().hasTaxRevolt\">\r\n      TAX REVOLT!\r\n    </div>\r\n  </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 2 || gameService.game.phase === 5 || gameService.game.phase === 11\">\r\n    Tokens on board:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensOnBoard\"\r\n                   (onValueChanged)=\"unitsChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\"\r\n                   [min]=\"0\"\r\n                   [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    Tokens in stock:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInStock\"\r\n                   (onValueChanged)=\"stockChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\"\r\n                   [min]=\"0\"\r\n                   [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    Treasury:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasury\" [readOnly]=\"true\"\r\n                   [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    Cities on board:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesOnBoard\"\r\n                   (onValueChanged)=\"citiesOnBoardChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\"\r\n                   [max]=\"9\"\r\n                   [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    Cities in stock:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesInStock\"\r\n                   (onValueChanged)=\"citiesInStockChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\"\r\n                   [max]=\"9\"\r\n                   [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    <div style=\"color: red\"\r\n         *ngIf=\"!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))\">\r\n      Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!\r\n    </div>\r\n  </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 3\">\r\n    Your place in queue: {{ gameService.getCurrentPlayer().censusOrder }}\r\n    <br>\r\n    Players left in front of you: {{ gameService.playersInFrontOfCurrentPlayerInQueue }}\r\n    <br>\r\n    Countdown: {{ gameService.countDownVisibleString }}\r\n    <br><br>\r\n\r\n    Ships on board:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().shipsOnBoard\"\r\n                   [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"4\" [min]=\"0\" [showSpinButtons]=\"true\"\r\n                   width=\"100px\"></dx-number-box>\r\n    <br>\r\n    Treasury used:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().treasuryDifference\" (onValueChanged)=\"treasuryUsed();\"\r\n                   [readOnly]=\"gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().shipsOnBoard === 0\"\r\n                   [max]=\"0\" [min]=\"-1 * gameService.getCurrentPlayer().tokensInTreasury\" [showSpinButtons]=\"true\"\r\n                   width=\"100px\"></dx-number-box>\r\n    <br>\r\n    Treasury:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasury\" [readOnly]=\"true\"\r\n                   [max]=\"55\" [min]=\"0\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n  </div>\r\n  <div *ngIf=\"gameService.game.phase === 4\">\r\n    Treasury won:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().treasuryDifference\"\r\n                   [readOnly]=\"gameService.getCurrentPlayer().isReady\"\r\n                   [max]=\"gameService.getCurrentPlayer().tokensInStock\"\r\n                   [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    Tokens in stock:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInStock\" [readOnly]=\"true\"\r\n                   [max]=\"55\" [min]=\"0\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n  </div>\r\n  <!-- Fase 5 zit bij 2 -->\r\n  <div *ngIf=\"gameService.game.phase === 6\">\r\n    Fase 6\r\n  </div>\r\n  <div *ngIf=\"gameService.game.phase === 7\">\r\n    Countdown: {{ gameService.countDownVisibleString }}\r\n  </div>\r\n  <div *ngIf=\"gameService.game.phase === 8\">\r\n    Fase 8\r\n  </div>\r\n  <div *ngIf=\"gameService.game.phase === 9\">\r\n    Fase 9\r\n  </div>\r\n  <div *ngIf=\"gameService.game.phase === 10\">\r\n    Fase 10\r\n  </div>\r\n  <!-- Fase 11 zit bij 2 -->\r\n  <div *ngIf=\"gameService.game.phase === 12\">\r\n    Totale kosten: {{ getTotalCost() }}<br>\r\n    <dx-button type=\"default\" (onClick)=\"showAdvancesPopup()\">Advances kopen</dx-button>\r\n    <h6>Geselecteerde advances:</h6>\r\n    <div *ngFor=\"let advance of advancesService.selectedAdvances\">\r\n      <app-advance-card [advance]=\"advance\" [selectable]=\"true\"></app-advance-card>\r\n    </div>\r\n\r\n    <dx-popup *ngIf=\"showBuyAdvancePopup\" [(visible)]=\"showBuyAdvancePopup\" height=\"auto\">\r\n      Tradecard value used:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tradeCardValueUsed\" [min]=\"0\" [showSpinButtons]=\"true\"\r\n                     width=\"100px\">\r\n      </dx-number-box>\r\n      <br>\r\n      Treasury used:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().treasuryDifference\" [showSpinButtons]=\"true\"\r\n                     [max]=\"gameService.getCurrentPlayer().tokensInTreasury\" [min]=\"0\"\r\n                     width=\"100px\">\r\n      </dx-number-box>\r\n      Tradecards left:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().numberOfTradeCards\"\r\n                     [min]=\"0\" [showSpinButtons]=\"true\"\r\n                     width=\"100px\">\r\n      </dx-number-box>\r\n      {{errorMessage}}<br><br>\r\n      <div *ngIf=\"gameService.getCurrentPlayer().selectedAdvances.includes(31)\">\r\n        Kies je korting voor MONUMENT (samen 20):<br>\r\n        Civics:\r\n        <dx-number-box #monument [(value)]=\"monumentDiscountToCivics\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"monumentCalculations()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Crafts:\r\n        <dx-number-box #monument [(value)]=\"monumentDiscountToCrafts\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"monumentCalculations()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Religion:\r\n        <dx-number-box #monument [(value)]=\"monumentDiscountToReligion\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"monumentCalculations()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Science:\r\n        <dx-number-box #monument [(value)]=\"monumentDiscountToScience\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"monumentCalculations()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Arts:\r\n        <dx-number-box #monument [(value)]=\"monumentDiscountToArts\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"monumentCalculations()\" width=\"100px\">\r\n        </dx-number-box>\r\n        <br>\r\n      </div>\r\n      <div *ngIf=\"gameService.getCurrentPlayer().selectedAdvances.includes(51)\">\r\n        Kies je korting voor WRITEN RECORD (samen 10):<br>\r\n        Civics:\r\n        <dx-number-box #monument [(value)]=\"writenRecordDiscountToCivics\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"monumentCalculations()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Crafts:\r\n        <dx-number-box #monument [(value)]=\"writenRecordDiscountToCrafts\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"monumentCalculations()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Religion:\r\n        <dx-number-box #monument [(value)]=\"writenRecordDiscountToReligion\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"monumentCalculations()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Science:\r\n        <dx-number-box #monument [(value)]=\"writenRecordDiscountToScience\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"monumentCalculations()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Arts:\r\n        <dx-number-box #monument [(value)]=\"writenRecordDiscountToArts\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"monumentCalculations()\" width=\"100px\">\r\n        </dx-number-box>\r\n        <br>\r\n      </div>\r\n      <br><br>\r\n      <dx-button type=\"default\" (onClick)=\"buyAdvances()\" [disabled]=\"disableSave\">Opslaan</dx-button>\r\n\r\n    </dx-popup>\r\n  </div>\r\n</div>\r\n"
+module.exports = "<h2 class=\"content-block\">Fase {{ gameService.game.phase }} ({{ gameService.getPhaseName() }})</h2>\r\n\r\n<div class=\"content-block dx-card responsive-paddings\">\r\n  <div *ngIf=\"gameService.game.phase === 1\">\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.COINAGE)\">\r\n      COINAGE: optioneel: taxrate +1 of -1\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MONARCHY)\">\r\n      MONARCHY: optioneel: taxrate +1\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.DEMOCRACY)\">\r\n      DEMOCRACY: geen TAXREVOLT\r\n    </div>\r\n    <br><br>\r\n    CITIES ON BOARD:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesOnBoard\" [readOnly]=\"true\"\r\n                   [max]=\"9\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    TAX RATE:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().taxRate\" (onValueChanged)=\"taxRateChanged();\"\r\n                   [readOnly]=\"gameService.getCurrentPlayer().isReady || !(gameService.getCurrentPlayer().ownedAdvances.includes(9) || gameService.getCurrentPlayer().ownedAdvances.includes(29))\"\r\n                   [max]=\"gameService.getCurrentPlayer().ownedAdvances.includes(9) || gameService.getCurrentPlayer().ownedAdvances.includes(29) ?\r\n             gameService.getCurrentPlayer().ownedAdvances.includes(9) && gameService.getCurrentPlayer().ownedAdvances.includes(29) ? 4 : 3 : 2\"\r\n                   [min]=\"gameService.getCurrentPlayer().ownedAdvances.includes(9) ? 1 : 2\" [showSpinButtons]=\"true\"\r\n                   width=\"100px\">\r\n    </dx-number-box>\r\n    <br>\r\n    TAX COLLECTED:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().treasuryWon\" [readOnly]=\"true\"\r\n                   [max]=\"18\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    TOTAL TREASURY:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasuryAfterTurn\" [readOnly]=\"true\"\r\n                   [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    <div style=\"background-color: red; color: white\" *ngIf=\"gameService.getCurrentPlayer().hasTaxRevolt\">\r\n      TAX REVOLT!\r\n    </div>\r\n  </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 2\">\r\n    TOKENS ON BOARD:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensOnBoard\"\r\n                   (onValueChanged)=\"unitsChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\"\r\n                   [min]=\"0\"\r\n                   [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    TOKENS IN STOCK:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInStock\"\r\n                   (onValueChanged)=\"stockChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\"\r\n                   [min]=\"0\"\r\n                   [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    TREASURY:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn\" [readOnly]=\"true\"\r\n                   [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    CITIES ON BOARD:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesOnBoard\"\r\n                   (onValueChanged)=\"citiesOnBoardChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\"\r\n                   [max]=\"9\"\r\n                   [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    CITIES IN STOCK:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesInStock\"\r\n                   (onValueChanged)=\"citiesInStockChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\"\r\n                   [max]=\"9\"\r\n                   [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n  </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 3\">\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n    *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MILITARY)\">\r\n      toegepast: MILITARY: iedereen zonder MILITARY moet de beurt vóór jou afronden\r\n    </div>\r\n    <br><br>\r\n    BEURTNUMMER: {{ gameService.getCurrentPlayer().censusOrder }}\r\n    <br>\r\n    AANTAL SPELERS DIE VOOR JOU AAN DE BEURT ZIJN: {{ gameService.playersInFrontOfCurrentPlayerInQueue }}\r\n    <br>\r\n    TIJD VOOR JE BEURT: {{ gameService.countDownVisibleString }}\r\n    <br><br>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n    *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CLOTH_MAKING)\">\r\n      CLOTH MAKING: shipmovement +1\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n    *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ASTRONAVIGATION)\">\r\n      ASTRONAVIGATION: schepen mogen door open zee\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n    *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.DIPLOMACY)\">\r\n      DIPLOMACY: spelers mogen geen van jouw steden aanvallen, behalve met DIPLOMACY of MILITARY\r\n    </div>\r\n    <div style=\"background-color: grey; color: white\"\r\n    *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MILITARY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.DIPLOMACY)\">\r\n      MILITARY: je mag steden van spelers met DIPLOMACY wél aanvallen\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n    *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.NAVAL_WARFARE)\">\r\n      NAVAL WARFARE: shipload +1\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n    *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ROADBUILDING)\">\r\n      ROADBUILDING: tokenmovement +1, behalve in conflict\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n    *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY)\">\r\n      CULTURAL ASCENDANCY: spelers mogen geen van jouw gebieden aanvallen, behalve met CULTURAL ASCENDANCY of ADVANCED MILITARY\r\n    </div>\r\n    <div style=\"background-color: grey; color: white\"\r\n    *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ADVANCED_MILITARY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY)\">\r\n      ADVANCED MILITARY: je mag spelers met CULTURAL ASCENDANCY wél aanvallen\r\n    </div>\r\n    <br><br>\r\n    SHIPS ON BOARD:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().shipsOnBoard\"\r\n                   [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"4\" [min]=\"0\" [showSpinButtons]=\"true\"\r\n                   width=\"100px\"></dx-number-box>\r\n    <br>\r\n    TREASURY USED:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().treasuryUsed\" (onValueChanged)=\"treasuryUsed();\"\r\n                   [readOnly]=\"gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().shipsOnBoard === 0\"\r\n                   [max]=\"gameService.getCurrentPlayer.tokensInTreasury\" [min]=\"0\" [showSpinButtons]=\"true\"\r\n                   width=\"100px\"></dx-number-box>\r\n    <br>\r\n    TREASURY TOTAL:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasuryAfterTurn\" [readOnly]=\"true\"\r\n                   [max]=\"55\" [min]=\"0\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n  </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 4\">\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.METALWORKING)\">\r\n      METALWORKING: de andere speler moet éérst een token verwijderen\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ENGINEERING)\">\r\n      ENGINEERING: citystrength +1 wanneer aangevallen, citystrength -1 wanneer jij aanvalt\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.NAVAL_WARFARE)\">\r\n      NAVAL_WARFARE: in conflict mogen schepen gebruikt worden als token\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ADVANCED_MILITARY)\">\r\n      ADVANCED MILITARY: in conflict mag je tokens weghalen van aangrenzende gebieden\r\n    </div>\r\n    <br><br>\r\n    TREASURY WON:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().treasuryWon\" (onValueChanged)=\"treasuryUsed();\"\r\n                   [readOnly]=\"gameService.getCurrentPlayer().isReady\"\r\n                   [max]=\"gameService.getCurrentPlayer().tokensInStock\"\r\n                   [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    TRADECARDS WON/LOST:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tradeCardDifference\" (onValueChanged)=\"tradecardWonOrLost();\"\r\n                   [readOnly]=\"gameService.getCurrentPlayer().isReady\"\r\n                   [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n  </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 5\">\r\n      <div style=\"background-color: yellowgreen; color: black\"\r\n        *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.URBANISM)\">\r\n        URBANISM: 4 tokens uit aangrenzende gebieden mogen helpen bij het stichten van een wilderness city \r\n      </div>\r\n      <div style=\"background-color: yellowgreen; color: black\"\r\n        *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.AGRICULTURE)\">\r\n        AGRICULTURE: '0', '1' en '2' gebieden krijgen populationlimit +1\r\n      </div>\r\n      <div style=\"background-color: yellowgreen; color: black\"\r\n        *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ARCHITECTURE)\">\r\n        ARCHITECTURE: een halve stad mag betaald worden met treasury\r\n      </div>\r\n      <div style=\"background-color: yellowgreen; color: black\"\r\n        *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PUBLIC_WORKS)\">\r\n        PUBLIC WORKS: gebieden met steden krijgen populationlimit +1\r\n      </div>\r\n      <div style=\"background-color: red; color: white\"\r\n        *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY)\">\r\n        CULTURAL ASCENDANCY: citysupport +1\r\n      </div>\r\n      <br><br>\r\n      TOKENS ON BOARD:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensOnBoard\"\r\n                     (onValueChanged)=\"unitsChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\"\r\n                     [min]=\"0\"\r\n                     [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n      TOKENS IN STOCK:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInStock\"\r\n                     (onValueChanged)=\"stockChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\"\r\n                     [min]=\"0\"\r\n                     [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n      TREASURY:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn\" [readOnly]=\"false\" (onValueChanged)=\"treasuryChanged();\"\r\n                     [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n      CITIES ON BOARD:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesOnBoard\"\r\n                     (onValueChanged)=\"citiesOnBoardChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\"\r\n                     [max]=\"9\"\r\n                     [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n      CITIES IN STOCK:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesInStock\"\r\n                     (onValueChanged)=\"citiesInStockChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\"\r\n                     [max]=\"9\"\r\n                     [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n      <div style=\"color: red\"\r\n           *ngIf=\"!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) ? 3 : 2))\">\r\n        Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!\r\n      </div>\r\n    </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 6\">\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.RHETORIC)\">\r\n      RHETORIC: lvl3 tradecards kopen voor 9 treasury\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CARTOGRAPHY)\">\r\n      CARTOGRAPHY: lvl7 tradecards kopen voor 13 treasury en/of lvl2 tradecards kopen voor 5 treasury\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)\">\r\n      MINING: lvl8 en/of lvl6 tradecards kopen voor 13 treasury\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.WONDER_OF_THE_WORLD)\">\r\n      WONDER OF THE WORLD: krijg een tradecard met een waarde hoger dan je aantal steden\r\n    </div>\r\n    <br><br>\r\n    <div *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.WONDER_OF_THE_WORLD)\">\r\n      FREE TRADECARD LEVEL:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().wotwTradecard\" [readOnly]=\"false\"\r\n      [min]=\"1\" [max]=\"9\" [min]=\"gameService.getCurrentPlayer().citiesOnBoard + 1\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n    </div>\r\n    TREASURY:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInTreasuryAfterTurn\" [readOnly]=\"true\"\r\n    [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    BUY LEVEL 9 TRADECARD FOR 15 TREASURY:\r\n    <dx-number-box [(value)]=\"gameService.getCurrentPlayer().lvl9TradecardsBought\" [readOnly]=\"false\" (onValueChanged)=\"buyTradecard();\"\r\n    [max]=\"3\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    <br>\r\n    <div *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)\">\r\n      BUY LEVEL 8 TRADECARD FOR 13 TREASURY:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().lvl8TradecardsBought\" [readOnly]=\"false\" (onValueChanged)=\"buyTradecard();\"\r\n      [max]=\"4\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n    </div>\r\n    <div *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CARTOGRAPHY)\">\r\n      BUY LEVEL 7 TRADECARD FOR 13 TREASURY:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().lvl7TradecardsBought\" [readOnly]=\"false\" (onValueChanged)=\"buyTradecard();\"\r\n      [max]=\"4\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n    </div>\r\n    <div *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)\">\r\n      BUY LEVEL 6 TRADECARD FOR 13 TREASURY:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().lvl6TradecardsBought\" [readOnly]=\"false\" (onValueChanged)=\"buyTradecard();\"\r\n      [max]=\"4\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n    </div>\r\n    <div *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.RHETORIC)\">\r\n      BUY LEVEL 3 TRADECARD FOR 9 TREASURY:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().lvl3TradecardsBought\" [readOnly]=\"false\" (onValueChanged)=\"buyTradecard();\"\r\n      [max]=\"6\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n    </div>\r\n    <div *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CARTOGRAPHY)\">\r\n      BUY LEVEL 2 TRADECARD FOR 5 TREASURY:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().lvl2TradecardsBought\" [readOnly]=\"false\" (onValueChanged)=\"buyTradecard();\"\r\n      [max]=\"11\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n    </div>\r\n  </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 7\">\r\n    Countdown: {{ gameService.countDownVisibleString }}\r\n  </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 8\">\r\n    Fase 8\r\n  </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 9\">\r\n    Fase 9\r\n  </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 10\">\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.FUNDAMENTALISM)\">\r\n      FUNDAMENTALISM: vernietig alle tokens in een aangrenzend land, behalve barbaren/piraten en spelers met FUNDAMENTALISM of PHILOSOPHY\r\n    </div>\r\n    <div style=\"background-color: gray; color: white\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PHILOSOPHY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.FUNDAMENTALISM)\">\r\n      PHILOSOPHY: beschermd tegen FUNDAMENTALISM\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.UNIVERSAL_DOCTRINE)\">\r\n      UNIVERSAL DOCTRINE: neem 1 stad of tot 5 tokens over van barbaren/piraten\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.TRADE_ROUTES)\">\r\n      TRADE ROUTES: leg tradecards af en ontvang hiervoor 2x de waarde (level) in treasury\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.POLITICS)\">\r\n      POLITICS: ontvang 5 treasury óf betaal treasury en neem alle tokens in een aangrenzend land over, behalve barbaren/piraten en spelers met POLITICS of CULTURAL ASCENDANCY\r\n    </div>\r\n    <div style=\"background-color: gray; color: white\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.POLITICS)\">\r\n      CULTURAL ASCENDANCY: beschermd tegen POLITICS\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MONOTHEISM)\">\r\n      MONOTHEISM: neem alle tokens in een aangrenzend land over, behalve barbaren/piraten en spelers met MONOTHEISM of THEOLOGY\r\n    </div>\r\n    <div style=\"background-color: gray; color: white\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.THEOLOGY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MONOTHEISM)\">\r\n      THEOLOGY: beschermd tegen MONOTHEISM\r\n  </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PROVINCIAL_EMPIRE)\">\r\n      PROVINCIAL EMPIRE: ontvange van tot 5 aangrenzende spelers een tradecard lvl2+, behalve spelers met PROVINCIAL EMPIRE of PUBLIC WORKS\r\n    </div>\r\n    <div style=\"background-color: gray; color: white\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PUBLIC_WORKS) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PROVINCIAL_EMPIRE)\">\r\n      PUBLIC WORKS: beschermd tegen PROVINCIAL EMPIRE\r\n  </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.DIASPORA)\">\r\n      DIASPORA: verplaats 5 tokens naar een willekeurige andere plek (zonder overschrijding van de population limit)\r\n    </div>\r\n    <br><br>\r\n    Fase 10\r\n  </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 11\">\r\n      <div style=\"background-color: yellowgreen; color: black\"\r\n        *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.AGRICULTURE)\">\r\n        AGRICULTURE: '0', '1' en '2' gebieden krijgen populationlimit +1\r\n      </div>\r\n      <div style=\"background-color: yellowgreen; color: black\"\r\n        *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PUBLIC_WORKS)\">\r\n        PUBLIC WORKS: gebieden met steden krijgen populationlimit +1\r\n      </div>\r\n      <div style=\"background-color: red; color: white\"\r\n        *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY)\">\r\n        CULTURAL ASCENDANCY: citysupport +1\r\n      </div>\r\n      <br><br>\r\n      Tokens on board:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensOnBoard\"\r\n                     (onValueChanged)=\"unitsChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\"\r\n                     [min]=\"0\"\r\n                     [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n      Tokens in stock:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensInStock\"\r\n                     (onValueChanged)=\"stockChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\" [max]=\"55\"\r\n                     [min]=\"0\"\r\n                     [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n      Treasury:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn\" [readOnly]=\"false\" (onValueChanged)=\"treasuryChanged();\"\r\n                     [max]=\"55\" [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n      Cities on board:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesOnBoard\"\r\n                     (onValueChanged)=\"citiesOnBoardChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\"\r\n                     [max]=\"9\"\r\n                     [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n      Cities in stock:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().citiesInStock\"\r\n                     (onValueChanged)=\"citiesInStockChanged();\" [readOnly]=\"gameService.getCurrentPlayer().isReady\"\r\n                     [max]=\"9\"\r\n                     [min]=\"0\" [showSpinButtons]=\"true\" width=\"100px\"></dx-number-box>\r\n      <br>\r\n      <div style=\"color: red\"\r\n           *ngIf=\"!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))\">\r\n        Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!\r\n      </div>\r\n    </div>\r\n\r\n  <div *ngIf=\"gameService.game.phase === 12\">\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ROADBUILDING)\">\r\n      ROADBUILDING: limiet tradecards +1\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)\">\r\n      MINING: treasury is dubbel zoveel waard bij aanschaf advances\r\n    </div>\r\n    <div style=\"background-color: yellowgreen; color: black\"\r\n      *ngIf=\"gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.TRADE_EMPIRE)\">\r\n      TRADE EMPIRE: je mag 1 tradecard gebruiken als andere tradecard met dezelfde waarde\r\n    </div>\r\n    <br><br>\r\n    Totale kosten: {{ getTotalCost() }}<br>\r\n    <dx-button type=\"default\" (onClick)=\"showAdvancesPopup()\">Advances kopen</dx-button>\r\n    <h6>Geselecteerde advances:</h6>\r\n    <div *ngFor=\"let advance of advancesService.selectedAdvances\">\r\n      <app-advance-card [advance]=\"advance\" [selectable]=\"true\"></app-advance-card>\r\n    </div>\r\n\r\n    <dx-popup *ngIf=\"showBuyAdvancePopup\" [(visible)]=\"showBuyAdvancePopup\" height=\"auto\">\r\n      Tradecard value used:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().tradeCardValueUsed\" [min]=\"0\" [showSpinButtons]=\"true\"\r\n                     (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n      </dx-number-box>\r\n      <br>\r\n      Treasury used:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().treasuryUsed\" [showSpinButtons]=\"true\"\r\n                     [max]=\"gameService.getCurrentPlayer().treasury\" [min]=\"0\"\r\n                     (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n      </dx-number-box>\r\n      Tradecards left:\r\n      <dx-number-box [(value)]=\"gameService.getCurrentPlayer().numberOfTradeCardsBeforeTurn\"\r\n                     [min]=\"0\" [showSpinButtons]=\"true\"\r\n                     width=\"100px\">\r\n      </dx-number-box>\r\n      {{errorMessage}}<br><br>\r\n      <div *ngIf=\"gameService.getCurrentPlayer().selectedAdvances.includes(31)\">\r\n        Kies je korting voor MONUMENT (samen 20):<br>\r\n        Civics:\r\n        <dx-number-box #monument [(value)]=\"monumentDiscountToCivics\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Crafts:\r\n        <dx-number-box #monument [(value)]=\"monumentDiscountToCrafts\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Religion:\r\n        <dx-number-box #monument [(value)]=\"monumentDiscountToReligion\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Science:\r\n        <dx-number-box #monument [(value)]=\"monumentDiscountToScience\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Arts:\r\n        <dx-number-box #monument [(value)]=\"monumentDiscountToArts\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n        </dx-number-box>\r\n        <br>\r\n      </div>\r\n      <div *ngIf=\"gameService.getCurrentPlayer().selectedAdvances.includes(51)\">\r\n        Kies je korting voor WRITEN RECORD (samen 10):<br>\r\n        Civics:\r\n        <dx-number-box #monument [(value)]=\"writenRecordDiscountToCivics\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Crafts:\r\n        <dx-number-box #monument [(value)]=\"writenRecordDiscountToCrafts\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Religion:\r\n        <dx-number-box #monument [(value)]=\"writenRecordDiscountToReligion\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Science:\r\n        <dx-number-box #monument [(value)]=\"writenRecordDiscountToScience\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n        </dx-number-box>\r\n        Arts:\r\n        <dx-number-box #monument [(value)]=\"writenRecordDiscountToArts\" [min]=\"0\" step=\"5\" [showSpinButtons]=\"true\"\r\n                       (valueChange)=\"readyToSaveCheck()\" width=\"100px\">\r\n        </dx-number-box>\r\n        <br>\r\n      </div>\r\n      <br><br>\r\n      <dx-button type=\"default\" (onClick)=\"buyAdvances()\" [disabled]=\"disableSave\">Opslaan</dx-button>\r\n\r\n    </dx-popup>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -96,7 +96,7 @@ module.exports = "<h2 class=\"content-block\">Fase {{ gameService.game.phase }} 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ng-container *ngIf=\"gameService.playerIndex === 0 || true; else notAuthorized\">\r\n    <h2 class=\"content-block\">Admin</h2>\r\n    <div class=\"content-block\">\r\n        <div class=\"dx-card responsive-paddings\">\r\n\r\n            <dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showColumnLines]=\"true\"\r\n                [showRowLines]=\"false\" [showBorders]=\"true\" [rowAlternationEnabled]=\"true\" [focusedRowEnabled]=\"false\"\r\n                [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\">\r\n                <dxo-column-chooser></dxo-column-chooser>\r\n                <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n                <dxo-pager [showPageSizeSelector]=\"false\" [showInfo]=\"true\"></dxo-pager>\r\n                <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n                <dxo-editing [allowUpdating]=\"true\" mode=\"cell\"></dxo-editing>\r\n\r\n                <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\">\r\n                </dxi-column>\r\n                <dxi-column dataField=\"civilizationName\" caption=\"Civilization\"></dxi-column>\r\n                <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n                <dxi-column dataField=\"censusOrder\" caption=\"Volgorde\"></dxi-column>\r\n                <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n                <dxi-column dataField=\"isReady\" caption=\"Ready\"></dxi-column>\r\n                <dxi-column dataField=\"citiesOnBoard\" caption=\"Steden\"></dxi-column>\r\n                <dxi-column dataField=\"tokensOnBoard\" caption=\"units\"></dxi-column>\r\n                <dxi-column dataField=\"tokensInStock\" caption=\"stock\"></dxi-column>\r\n                <dxi-column dataField=\"tokensInTreasury\" caption=\"treasury\"></dxi-column>\r\n                <dxi-column dataField=\"hasTaxRevolt\" caption=\"Tax Revolt\"></dxi-column>\r\n                <dxi-column dataField=\"taxRate\" caption=\"taxRate\"></dxi-column>\r\n                <dxi-column dataField=\"hasMonarchy\" caption=\"Monarchy\"></dxi-column>\r\n                <dxi-column dataField=\"hasCoinage\" caption=\"Coinage\"></dxi-column>\r\n                <dxi-column dataField=\"treasuryDifference\" caption=\"Treasury won\"></dxi-column>\r\n                <dxi-column dataField=\"hasAdvancedMilitary\" caption=\"Advanded Military\"></dxi-column>\r\n                <dxi-column dataField=\"hasEngineering\" caption=\"Engineering\"></dxi-column>\r\n                <dxi-column dataField=\"hasMetalWorking\" caption=\"Metal Working\"></dxi-column>\r\n                <dxi-column dataField=\"hasNavalWarfare\" caption=\"Naval Warfare\"></dxi-column>\r\n\r\n            </dx-data-grid>\r\n\r\n\r\n            <dx-button *ngIf=\"!gameService.game.hasStarted\" (onClick)=\"startGame()\" type=\"default\">Start game</dx-button>\r\n            <dx-button (onClick)=\"nextPhase()\" type=\"normal\" [disabled]=\"!gameService.everybodyIsReady()\">Next phase</dx-button>\r\n            <dx-button (onClick)=\"sendChanges()\" type=\"default\">Send changes</dx-button>\r\n\r\n            <br><br>\r\n            <dx-button (onClick)=\"resetGame()\" type=\"warning\">Reset game</dx-button>\r\n\r\n        </div>\r\n    </div>\r\n</ng-container>\r\n\r\n\r\n\r\n<ng-template #notAuthorized>\r\n    <h2 class=\"content-block\">Admin</h2>\r\n    <div class=\"content-block\">\r\n        <div class=\"dx-card responsive-paddings\">\r\n            Voor deze pagina moet je admin zijn.\r\n        </div>\r\n    </div>\r\n</ng-template>"
+module.exports = "<ng-container *ngIf=\"gameService.playerIndex === 0; else notAuthorized\">\r\n    <h2 class=\"content-block\">Admin</h2>\r\n    <div class=\"content-block\">\r\n        <div class=\"dx-card responsive-paddings\">\r\n\r\n            <dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showColumnLines]=\"true\"\r\n                [showRowLines]=\"false\" [showBorders]=\"true\" [rowAlternationEnabled]=\"true\" [focusedRowEnabled]=\"false\"\r\n                [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\">\r\n                <dxo-column-chooser></dxo-column-chooser>\r\n                <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n                <dxo-pager [showPageSizeSelector]=\"false\" [showInfo]=\"true\"></dxo-pager>\r\n                <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n                <dxo-editing [allowUpdating]=\"true\" mode=\"cell\"></dxo-editing>\r\n\r\n                <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\">\r\n                </dxi-column>\r\n                <dxi-column dataField=\"civilizationName\" caption=\"Civilization\"></dxi-column>\r\n                <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n                <dxi-column dataField=\"censusOrder\" caption=\"Volgorde\"></dxi-column>\r\n                <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n                <dxi-column dataField=\"isReady\" caption=\"Ready\"></dxi-column>\r\n                <dxi-column dataField=\"citiesOnBoard\" caption=\"Steden\"></dxi-column>\r\n                <dxi-column dataField=\"tokensOnBoard\" caption=\"units\"></dxi-column>\r\n                <dxi-column dataField=\"tokensInStock\" caption=\"stock\"></dxi-column>\r\n                <dxi-column dataField=\"tokensInTreasury\" caption=\"treasury\"></dxi-column>\r\n                <dxi-column dataField=\"hasTaxRevolt\" caption=\"Tax Revolt\"></dxi-column>\r\n                <dxi-column dataField=\"taxRate\" caption=\"taxRate\"></dxi-column>\r\n                <dxi-column dataField=\"hasMonarchy\" caption=\"Monarchy\"></dxi-column>\r\n                <dxi-column dataField=\"hasCoinage\" caption=\"Coinage\"></dxi-column>\r\n                <dxi-column dataField=\"treasuryDifference\" caption=\"Treasury won\"></dxi-column>\r\n                <dxi-column dataField=\"hasAdvancedMilitary\" caption=\"Advanded Military\"></dxi-column>\r\n                <dxi-column dataField=\"hasEngineering\" caption=\"Engineering\"></dxi-column>\r\n                <dxi-column dataField=\"hasMetalWorking\" caption=\"Metal Working\"></dxi-column>\r\n                <dxi-column dataField=\"hasNavalWarfare\" caption=\"Naval Warfare\"></dxi-column>\r\n\r\n            </dx-data-grid>\r\n\r\n\r\n            <dx-button *ngIf=\"!gameService.game.hasStarted\" (onClick)=\"startGame()\" type=\"default\">Start game</dx-button>\r\n            <dx-button (onClick)=\"nextPhase()\" type=\"normal\" [disabled]=\"!gameService.everybodyIsReady()\">Next phase</dx-button>\r\n            <dx-button (onClick)=\"sendChanges()\" type=\"default\">Send changes</dx-button>\r\n\r\n            <br><br>\r\n            <dx-button (onClick)=\"resetGame()\" type=\"warning\">Reset game</dx-button>\r\n\r\n        </div>\r\n    </div>\r\n</ng-container>\r\n\r\n\r\n\r\n<ng-template #notAuthorized>\r\n    <h2 class=\"content-block\">Admin</h2>\r\n    <div class=\"content-block\">\r\n        <div class=\"dx-card responsive-paddings\">\r\n            Voor deze pagina moet je admin zijn.\r\n        </div>\r\n    </div>\r\n</ng-template>"
 
 /***/ }),
 
@@ -118,7 +118,7 @@ module.exports = "<h2 class=\"content-block\">Advances:</h2>\r\n<div class=\"con
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showColumnLines]=\"true\"\r\n              [showRowLines]=\"false\" [showBorders]=\"true\" [rowAlternationEnabled]=\"true\" [focusedRowEnabled]=\"false\"\r\n              [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\" (onCellPrepared)=\"setCellStyling($event)\">\r\n\r\n  <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n  <dxo-pager [showPageSizeSelector]=\"false\" [showInfo]=\"true\"></dxo-pager>\r\n  <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n  <dxo-editing [allowUpdating]=\"true\" mode=\"cell\"></dxo-editing>\r\n\r\n  <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\"></dxi-column>\r\n  <ng-container *ngIf=\"gameService.game.phase === 0\">\r\n    <dxi-column dataField=\"isReady\" caption=\"Ready\"></dxi-column>\r\n    <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n    <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 1\">\r\n    <dxi-column cellTemplate=\"hasMONARCHY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.MONARCHY]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasCOINAGE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.COINAGE]\"></dxi-column>\r\n    <dxi-column caption=\"CITIES\" dataField=\"citiesOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"TAX RATE\" dataField=\"taxRate\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TAX COLLECTED\" dataField=\"collectedTax\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasury\" alignment=\"center\"></dxi-column>\r\n    <dxi-column cellTemplate=\"taxRevolt\" alignment=\"center\" [visible]=\"true\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 2\">\r\n    <dxi-column caption=\"STOCK\" dataField=\"tokensInStock\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"TOKENS\" dataField=\"tokensOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasury\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CITIES\" dataField=\"citiesOnBoard\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 3\">\r\n    <dxi-column cellTemplate=\"hasMILITARY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column caption=\"TOKENS\" dataField=\"tokensOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"TIME\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY USED\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasCLOTH MAKING\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasASTRONAVIGATION\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasDIPLOMACY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasNAVAL WARFARE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasROADBUILDING\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasCULTURAL ASCENDANCY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 4\">\r\n    <dxi-column cellTemplate=\"hasADVANCED MILITARY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasENGINEERING\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasMETAL WORKING\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasNAVAL WARFARE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY WON\" dataField=\"treasuryDifference\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasury\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TRADECARDS WON\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TRADECARDS\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 5\">\r\n    <dxi-column cellTemplate=\"hasCULTURAL ASCENDANCY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasARCHITECTURE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasAGRICULTURE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasPUBLIC WORKS\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasURBANISM\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"TOKENS\" dataField=\"tokensOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"STOCK\" dataField=\"tokensInStock\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasury\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CITIES\" dataField=\"citiesOnBoard\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 6\">\r\n    <dxi-column caption=\"BLOCK\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CITIES\" dataField=\"citiesOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasury\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"WONDER OF THE WORLD\" dataField=\"\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.WONDER_OF_THE_WORLD]\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl9 (15)\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl8 (13)\" dataField=\"\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl7 (13)\" dataField=\"\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl6 (13)\" dataField=\"\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl3 (9)\" dataField=\"\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl2 (5)\" dataField=\"\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 7\">\r\n    <dxi-column caption=\"BLOCK\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"TRADECARDS\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TIME\" dataField=\"\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 8\">\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"CALAMITIES\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 9\">\r\n    <dxi-column caption=\"CALAMITY\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"EFFECT\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 10\">\r\n    <dxi-column caption=\"A.S.T.\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasDIASPORA\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasFUNDAMENTALISM\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasMONOTHEISM\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasPOLITICS\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasPROVINCIAL EMPIRE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasTRADE ROUTES\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasUNIVERSAL DOCTRINE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 11\">\r\n    <dxi-column cellTemplate=\"hasCULTURAL ASCENDANCY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasARCHITECTURE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasPUBLIC WORKS\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column caption=\"STOCK\" dataField=\"tokensInStock\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"TOKENS\" dataField=\"tokensOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasury\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CITIES\" dataField=\"citiesOnBoard\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 12\">\r\n    <dxi-column cellTemplate=\"hasMINING\" alignment=\"center\" [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasROADBUILDING\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasTRADE EMPIRE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[0]\"></dxi-column>\r\n    <dxi-column caption=\"CIVICS\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CRAFST\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"RELIGION\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"SCIENCE\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"ARTS\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"GOLD USED\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY USED\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"ADVANCES BOUGHT\" dataField=\"\" cellTemplate=\"selectedAdvances\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasury\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TRADECARDS\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <div *dxTemplate=\"let item of 'selectedAdvances'\">\r\n    <div *ngFor=\"let advance of item.data.selectedAdvances\"\r\n         style=\"display: inline\">{{advancesService.getAdvanceName(advance)}},\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'displayName'\">\r\n    {{item.data.civilizationName}} ({{item.data.playerName}})\r\n  </div>\r\n\r\n  <div *dxTemplate=\"let item of 'taxRevolt'\">\r\n    <div style=\"background-color: red; color: white\">\r\n      {{ item.data.hasTaxRevolt ? 'TAX REVOLT' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasMONARCHY'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(29) ? 'MONARCHY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasCOINAGE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(9) ? 'COINAGE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasMILITARY'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'MILITARY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasCLOTH MAKING'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'CLOTH MAKING' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasASTRONAVIGATION'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'ASTRONAVIGATION' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasDIPLOMACY'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'DIPLOMACY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasNAVAL WARFARE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'NAVAL WARFARE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasROADBUILDING'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'ROADBUILDING' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasCULTURAL ASCENDANCY'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'CULTURAL ASCENDANCY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasADVANCED MILITARY'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'ADVANCED MILITARY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasENGINEERING'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'ENGINEERING' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasMETAL WORKING'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'METAL WORKING' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasARCHITECTURE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'ARCHITECTURE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasAGRICULTURE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'AGRICULTURE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasPUBLIC WORKS'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'PUBLIC WORKS' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasURBANISM'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'URBANISM' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasDIASPORA'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'DIASPORA' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasFUNDAMENTALISM'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'FUNDAMENTALISM' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasMONOTHEISM'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'MONOTHEISM' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasPOLITICS'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'POLITICS' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasPROVINCIAL EMPIRE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'PROVINCIAL EMPIRE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasTRADE ROUTES'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'TRADE ROUTES' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasUNIVERSAL DOCTRINE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'UNIVERSAL DOCTRINE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasMINING'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'MINING' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasTRADE EMPIRE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(0) ? 'TRADE EMPIRE' : '' }}\r\n    </div>\r\n  </div>\r\n\r\n</dx-data-grid>\r\n"
+module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\"dx-card wide-card\" [dataSource]=\"gameService.game.players\" [showColumnLines]=\"true\"\r\n              [showRowLines]=\"false\" [showBorders]=\"true\" [rowAlternationEnabled]=\"true\" [focusedRowEnabled]=\"false\"\r\n              [columnAutoWidth]=\"true\" [columnHidingEnabled]=\"false\" (onCellPrepared)=\"setCellStyling($event)\">\r\n\r\n  <dxo-paging [pageSize]=\"20\"></dxo-paging>\r\n  <dxo-pager [showPageSizeSelector]=\"false\" [showInfo]=\"true\"></dxo-pager>\r\n  <dxo-filter-row [visible]=\"false\"></dxo-filter-row>\r\n  <dxo-editing [allowUpdating]=\"true\" mode=\"cell\"></dxo-editing>\r\n\r\n  <dxi-column dataField=\"isActive\" [width]=\"0\" [selectedFilterOperation]=\"'='\" [filterValue]=\"true\"></dxi-column>\r\n  <ng-container *ngIf=\"gameService.game.phase === 0\">\r\n    <dxi-column dataField=\"isReady\" caption=\"Ready\"></dxi-column>\r\n    <dxi-column dataField=\"playerName\" caption=\"Speler\"></dxi-column>\r\n    <dxi-column dataField=\"score\" caption=\"score\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 1\">\r\n    <dxi-column cellTemplate=\"hasMONARCHY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.MONARCHY]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasCOINAGE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.COINAGE]\"></dxi-column>\r\n    <dxi-column caption=\"CITIES\" dataField=\"citiesOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"TAX RATE\" dataField=\"taxRate\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TAX COLLECTED\" dataField=\"treasuryWon\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasuryAfterTurn\" alignment=\"center\"></dxi-column>\r\n    <dxi-column cellTemplate=\"taxRevolt\" alignment=\"center\" [visible]=\"gameService.game.taxRevoltInPlay\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasDEMOCRACY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.DEMOCRACY]\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 2\">\r\n    <dxi-column caption=\"STOCK\" dataField=\"tokensInStock\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"POPULATION\" dataField=\"tokensOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasuryAfterTurn\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CITIES\" dataField=\"citiesOnBoard\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 3\">\r\n    <dxi-column cellTemplate=\"hasMILITARY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.MILITARY]\"></dxi-column>\r\n    <dxi-column caption=\"POPULATION\" dataField=\"tokensOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"TIME\" dataField=\"personalCountDown\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY USED\" dataField=\"treasuryUsed\" alignment=\"center\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasCLOTH_MAKING\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.CLOTH_MAKING]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasASTRONAVIGATION\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.ASTRONAVIGATION]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasDIPLOMACY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.DIPLOMACY]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasMILITARYdefence\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.MILITARY]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasNAVAL_WARFARE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.NAVAL_WARFARE]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasROADBUILDING\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.ROADBUILDING]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasCULTURAL_ASCENDANCY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.CULTURAL_ASCENDANCY]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasADVANCED_MILITARYdefence\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.ADVANCED_MILITARY]\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 4\">\r\n      <dxi-column cellTemplate=\"hasMETALWORKING\" alignment=\"center\"\r\n      [visible]=\"gameService.game.advancesInPlay[advanceNumber.METALWORKING]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasENGINEERING\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.ENGINEERING]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasNAVAL_WARFARE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.NAVAL_WARFARE]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasADVANCED_MILITARY\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.ADVANCED_MILITARY]\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY WON\" dataField=\"treasuryWon\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasuryAfterTurn\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TRADECARDS WON\" dataField=\"tradeCardDifference\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TRADECARDS\" dataField=\"numberOfTradeCardsAfterTurn\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 5\">\r\n    <dxi-column cellTemplate=\"hasURBANISM\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.URBANISM]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasAGRICULTURE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.AGRICULTURE]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasARCHITECTURE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.ARCHITECTURE]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasPUBLIC_WORKS\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.PUBLIC_WORKS]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasCULTURAL_ASCENDANCYnegative\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.CULTURAL_ASCENDANCY]\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"POPULATION\" dataField=\"tokensOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"STOCK\" dataField=\"tokensInStock\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasuryAfterTurn\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CITIES\" dataField=\"citiesOnBoard\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 6\">\r\n    <dxi-column caption=\"BLOCK\" dataField=\"block\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CITIES\" dataField=\"citiesOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasuryAfterTurn\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"WONDER OF THE WORLD\" dataField=\"\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.WONDER_OF_THE_WORLD]\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl9 (15)\" dataField=\"lvl9TradecardsBought\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl8 (13)\" dataField=\"lvl8TradecardsBought\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.MINING]\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl7 (13)\" dataField=\"lvl7TradecardsBought\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.CARTOGRAPHY]\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl6 (13)\" dataField=\"lvl6TradecardsBought\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.MINING]\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl3 (9)\" dataField=\"lvl3TradecardsBought\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.RHETORIC]\"></dxi-column>\r\n    <dxi-column caption=\"tradecard lvl2 (5)\" dataField=\"lvl2TradecardsBought\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.CARTOGRAPHY]\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 7\">\r\n    <dxi-column caption=\"BLOCK\" dataField=\"block\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"TRADECARDS\" dataField=\"numberOfTradeCardsBeforeTurn\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TIME\" dataField=\"\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 8\">\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"CALAMITIES\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 9\">\r\n    <dxi-column caption=\"CALAMITY\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"EFFECT\" dataField=\"\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 10\">\r\n    <dxi-column caption=\"A.S.T.\" dataField=\"AstPosition\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasFUNDAMENTALISM\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.FUNDAMENTALISM]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasPHILOSOPHYdefence\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.PHILOSOPHY] && gameService.game.advancesInPlay[advanceNumber.FUNDAMENTALISM]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasUNIVERSAL_DOCTRINE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.UNIVERSAL_DOCTRINE]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasTRADE_ROUTES\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.TRADE_ROUTES]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasPOLITICS\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.POLITICS]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasCULTURAL_ASCENDANCYdefence\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.CULTURAL_ASCENDANCY] && gameService.game.advancesInPlay[advanceNumber.POLITICS]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasMONOTHEISM\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.MONOTHEISM]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasTHEOLOGYdefence\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.THEOLOGY] && gameService.game.advancesInPlay[advanceNumber.MONOTHEISM]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasPROVINCIAL_EMPIRE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.PROVINCIAL_EMPIRE]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasPUBLIC_WORKSdefence\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.PUBLIC_WORKS] && gameService.game.advancesInPlay[advanceNumber.PROVINCIAL_EMPIRE]\"></dxi-column>   \r\n    <dxi-column cellTemplate=\"hasDIASPORA\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.DIASPORA]\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 11\">\r\n    <dxi-column cellTemplate=\"hasAGRICULTURE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.AGRICULTURE]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasPUBLIC_WORKS\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.PUBLIC_WORKS]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasCULTURAL_ASCENDANCYnegative\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.CULTURAL_ASCENDANCY]\"></dxi-column>\r\n    <dxi-column caption=\"STOCK\" dataField=\"tokensInStock\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"POPULATION\" dataField=\"tokensOnBoard\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasuryAfterTurn\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CITIES\" dataField=\"citiesOnBoard\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <ng-container *ngIf=\"gameService.game.phase === 12\">\r\n    <dxi-column cellTemplate=\"hasROADBUILDING\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.ROADBUILDING]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasMINING\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.MINING]\"></dxi-column>\r\n    <dxi-column cellTemplate=\"hasTRADE_EMPIRE\" alignment=\"center\"\r\n                [visible]=\"gameService.game.advancesInPlay[advanceNumber.TRADE_EMPIRE]\"></dxi-column>\r\n    <dxi-column caption=\"CIVICS\" dataField=\"totalDiscountToCivics\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CRAFST\" dataField=\"totalDiscountToCrafts\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"RELIGION\" dataField=\"totalDiscountToReligion\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"SCIENCE\" dataField=\"totalDiscountToScience\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"ARTS\" dataField=\"totalDiscountToArts\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"CIVILIZATION\" cellTemplate=\"displayName\"></dxi-column>\r\n    <dxi-column caption=\"GOLD USED\" dataField=\"tradeCardValueUsed\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY USED\" dataField=\"treasuryUsed\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"ADVANCES BOUGHT\" dataField=\"\" cellTemplate=\"selectedAdvances\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TREASURY\" dataField=\"tokensInTreasuryAfterTurn\" alignment=\"center\"></dxi-column>\r\n    <dxi-column caption=\"TRADECARDS\" dataField=\"numberOfTradeCardsBeforeTurn\" alignment=\"center\"></dxi-column>\r\n  </ng-container>\r\n\r\n  <div *dxTemplate=\"let item of 'selectedAdvances'\">\r\n    <div *ngFor=\"let advance of item.data.selectedAdvances\"\r\n         style=\"display: inline\">{{advancesService.getAdvanceName(advance)}},\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'displayName'\">\r\n    {{item.data.civilizationName}} ({{item.data.playerName}})\r\n  </div>\r\n\r\n  <div *dxTemplate=\"let item of 'taxRevolt'\">\r\n    <div style=\"background-color: red; color: white\">\r\n      {{ item.data.hasTaxRevolt ? 'TAX REVOLT' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasMONARCHY'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.MONARCHY) ? 'MONARCHY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasCOINAGE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.COINAGE) ? 'COINAGE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasDEMOCRACY'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.DEMOCRACY) ? 'DEMOCRACY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasMILITARY'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.MILITARY) ? 'MILITARY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasCLOTH_MAKING'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.CLOTH_MAKING) ? 'CLOTH MAKING' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasASTRONAVIGATION'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.ASTRONAVIGATION) ? 'ASTRONAVIGATION' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasDIPLOMACY'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.DIPLOMACY) ? 'DIPLOMACY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasNAVAL_WARFARE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.NAVAL_WARFARE) ? 'NAVAL WARFARE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasROADBUILDING'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.ROADBUILDING) ? 'ROADBUILDING' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasCULTURAL_ASCENDANCY'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) ? 'CULTURAL ASCENDANCY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasCULTURAL_ASCENDANCYnegative'\">\r\n      <div style=\"background-color: red; color: white\">\r\n        {{ item.data.ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) ? 'CULTURAL ASCENDANCY' : '' }}\r\n      </div>\r\n    </div>\r\n  <div *dxTemplate=\"let item of 'hasADVANCED_MILITARY'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.ADVANCED_MILITARY) ? 'ADVANCED MILITARY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasENGINEERING'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.ENGINEERING) ? 'ENGINEERING' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasMETALWORKING'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.METALWORKING) ? 'METAL WORKING' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasARCHITECTURE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.ARCHITECTURE) ? 'ARCHITECTURE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasAGRICULTURE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.AGRICULTURE) ? 'AGRICULTURE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasPUBLIC_WORKS'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.PUBLIC_WORKS) ? 'PUBLIC WORKS' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasURBANISM'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.URBANISM) ? 'URBANISM' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasDIASPORA'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.DIASPORA) ? 'DIASPORA' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasFUNDAMENTALISM'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.FUNDAMENTALISM) ? 'FUNDAMENTALISM' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasMONOTHEISM'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.MONOTHEISM) ? 'MONOTHEISM' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasPOLITICS'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.POLITICS) ? 'POLITICS' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasPROVINCIAL_EMPIRE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.PROVINCIAL_EMPIRE) ? 'PROVINCIAL EMPIRE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasTRADE_ROUTES'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.TRADE_ROUTES) ? 'TRADE ROUTES' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasUNIVERSAL_DOCTRINE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.UNIVERSAL_DOCTRINE) ? 'UNIVERSAL DOCTRINE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasMINING'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.MINING) ? 'MINING' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasTRADE_EMPIRE'\">\r\n    <div style=\"background-color: yellowgreen; color: black\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.TRADE_EMPIRE) ? 'TRADE EMPIRE' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasMILITARYdefence'\">\r\n    <div style=\"background-color: grey; color: white\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.MILITARY) ? 'MILITARY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasADVANCED_MILITARYdefence'\">\r\n    <div style=\"background-color: grey; color: white\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.ADVANCED_MILITARY) ? 'ADVANCED MILITARY' : '' }}\r\n    </div>\r\n  </div>   \r\n  <div *dxTemplate=\"let item of 'hasPHILOSOPHYdefence'\">\r\n    <div style=\"background-color: grey; color: white\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.PHILOSOPHY) ? 'PHILOSOPHY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasCULTURAL_ASCENDANCYdefence'\">\r\n    <div style=\"background-color: grey; color: white\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) ? 'CULTURAL ASCENDANCY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasTHEOLOGYdefence'\">\r\n    <div style=\"background-color: grey; color: white\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.THEOLOGY) ? 'THEOLOGY' : '' }}\r\n    </div>\r\n  </div>\r\n  <div *dxTemplate=\"let item of 'hasPUBLIC_WORKSdefence'\">\r\n    <div style=\"background-color: grey; color: white\">\r\n      {{ item.data.ownedAdvances.includes(advanceNumber.PUBLIC_WORKS) ? 'PUBLIC WORKS' : '' }}\r\n    </div>\r\n  </div>\r\n</dx-data-grid>\r\n"
 
 /***/ }),
 
@@ -162,7 +162,7 @@ module.exports = "<h2 class=\"content-block\"></h2>\r\n\r\n<dx-data-grid class=\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<dx-button *ngIf=\"!gameService.getCurrentPlayer().isReady\" type=\"success\" (onClick)=\"playerIsReady()\" width=\"200px\" [disabled]=\"gameService.disableReadyButton\">Ready</dx-button>\r\n<dx-button *ngIf=\"gameService.getCurrentPlayer().isReady\" type=\"danger\" (onClick)=\"playerIsNotReady()\" width=\"200px\">Toch niet ready</dx-button>\r\n\r\n<dx-button type=\"normal\" (onClick)=\"editPhase(-1)\" width=\"150px\">Previous Phase</dx-button>\r\n<dx-button type=\"normal\" (onClick)=\"editPhase(1)\" width=\"150px\">Next Phase</dx-button>\r\n\r\n<dx-button type=\"default\" (onClick)=\"test()\" width=\"150px\">TEST</dx-button>\r\n\r\n<!-- Countdown: {{ gameService.countDown }} -->\r\n\r\n"
+module.exports = "<dx-button *ngIf=\"!gameService.getCurrentPlayer().isReady\" type=\"success\" (onClick)=\"playerIsReady()\" width=\"200px\" [disabled]=\"gameService.disableReadyButton\">Ready</dx-button>\r\n<dx-button *ngIf=\"gameService.getCurrentPlayer().isReady\" type=\"danger\" (onClick)=\"playerIsNotReady()\" width=\"200px\">Toch niet ready</dx-button>\r\n<!-- \r\n<dx-button type=\"normal\" (onClick)=\"editPhase(-1)\" width=\"150px\">Previous Phase</dx-button>\r\n<dx-button type=\"normal\" (onClick)=\"editPhase(1)\" width=\"150px\">Next Phase</dx-button>\r\n\r\n<dx-button type=\"default\" (onClick)=\"test()\" width=\"150px\">TEST</dx-button> -->\r\n\r\n<!-- Countdown: {{ gameService.countDown }} -->\r\n\r\n"
 
 /***/ }),
 
@@ -550,7 +550,7 @@ let AdvanceCardComponent = class AdvanceCardComponent {
             else {
                 this.gameService.getCurrentPlayer().selectedAdvances.push(this.advance.id);
             }
-            this.gameService.sendToOtherPlayers();
+            this.gameService.sendGameToOtherPlayers();
         }
     }
 };
@@ -942,9 +942,52 @@ let ActionsComponent = class ActionsComponent {
         this.writenRecordDiscountToReligion = 0;
         this.writenRecordDiscountToScience = 0;
         this.writenRecordDiscountToArts = 0;
+        this.disableSave = false;
         const checkMonument = this.gameService.getCurrentPlayer().selectedAdvances.includes(_shared_model_advances_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceNumber"].MONUMENT);
         const checkWritenRecord = this.gameService.getCurrentPlayer().selectedAdvances.includes(_shared_model_advances_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceNumber"].WRITTEN_RECORD);
-        if (checkMonument || checkWritenRecord) {
+        this.readyToSaveCheck();
+    }
+    get advanceNumber() {
+        return _shared_model_advances_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceNumber"];
+    }
+    readyToSaveCheck() {
+        let paymentOk = false;
+        if (this.gameService.getCurrentPlayer().treasuryUsed === 0 && this.getTotalCost() <= this.gameService.getCurrentPlayer().tradeCardValueUsed) {
+            paymentOk = true;
+        }
+        else if (!this.gameService.getCurrentPlayer().ownedAdvances.includes(_shared_model_advances_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceNumber"].MINING) &&
+            (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + this.gameService.getCurrentPlayer().treasuryUsed))) {
+            paymentOk = true;
+        }
+        else if (this.gameService.getCurrentPlayer().ownedAdvances.includes(_shared_model_advances_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceNumber"].MINING) &&
+            (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryUsed * 2)) ||
+                ((this.getTotalCost() + 1) === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryUsed * 2))))) {
+            paymentOk = true;
+        }
+        let writtenRecordOk = !this.gameService.getCurrentPlayer().selectedAdvances.includes(_shared_model_advances_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceNumber"].WRITTEN_RECORD);
+        if ((this.writenRecordDiscountToCivics % 5 === 0) &&
+            (this.writenRecordDiscountToCrafts % 5 === 0) &&
+            (this.writenRecordDiscountToReligion % 5 === 0) &&
+            (this.writenRecordDiscountToScience % 5 === 0) &&
+            (this.writenRecordDiscountToArts % 5 === 0) &&
+            ((this.writenRecordDiscountToArts + this.writenRecordDiscountToCivics + this.writenRecordDiscountToCrafts +
+                this.writenRecordDiscountToReligion + this.writenRecordDiscountToScience) === 10)) {
+            writtenRecordOk = true;
+        }
+        let monumentOk = !this.gameService.getCurrentPlayer().selectedAdvances.includes(_shared_model_advances_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceNumber"].MONUMENT);
+        if ((this.monumentDiscountToCivics % 5 === 0) &&
+            (this.monumentDiscountToCrafts % 5 === 0) &&
+            (this.monumentDiscountToReligion % 5 === 0) &&
+            (this.monumentDiscountToScience % 5 === 0) &&
+            (this.monumentDiscountToArts % 5 === 0) &&
+            ((this.monumentDiscountToArts + this.monumentDiscountToCivics + this.monumentDiscountToCrafts +
+                this.monumentDiscountToReligion + this.monumentDiscountToScience) === 20)) {
+            monumentOk = true;
+        }
+        if (paymentOk && writtenRecordOk && monumentOk) {
+            this.disableSave = false;
+        }
+        else {
             this.disableSave = true;
         }
     }
@@ -953,11 +996,15 @@ let ActionsComponent = class ActionsComponent {
     }
     unitsChanged() {
         this.gameService.getCurrentPlayer().tokensInStock =
-            this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensInTreasury;
+            this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn;
     }
     stockChanged() {
         this.gameService.getCurrentPlayer().tokensOnBoard =
-            this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensInStock - this.gameService.getCurrentPlayer().tokensInTreasury;
+            this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensInStock - this.gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn;
+    }
+    treasuryChanged() {
+        this.gameService.getCurrentPlayer().tokensInStock =
+            this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn;
     }
     citiesOnBoardChanged() {
         this.gameService.getCurrentPlayer().citiesInStock =
@@ -968,7 +1015,7 @@ let ActionsComponent = class ActionsComponent {
             this.gameService.maxCities - this.gameService.getCurrentPlayer().citiesInStock;
     }
     treasuryUsed() {
-        this.gameService.getCurrentPlayer().tokensInTreasury += this.gameService.getCurrentPlayer().treasuryDifference;
+        this.gameService.treasuryCalculations(this.gameService.getCurrentPlayer());
     }
     showAdvancesPopup() {
         this.showBuyAdvancePopup = true;
@@ -983,51 +1030,12 @@ let ActionsComponent = class ActionsComponent {
         }
         return output;
     }
-    monumentCalculations() {
-        let totalMonument = 0;
-        if (!(this.monumentDiscountToCivics % 5 === 0) ||
-            !(this.monumentDiscountToCrafts % 5 === 0) ||
-            !(this.monumentDiscountToReligion % 5 === 0) ||
-            !(this.monumentDiscountToScience % 5 === 0) ||
-            !(this.monumentDiscountToArts % 5 === 0) ||
-            !(this.writenRecordDiscountToCivics % 5 === 0) ||
-            !(this.writenRecordDiscountToCrafts % 5 === 0) ||
-            !(this.writenRecordDiscountToReligion % 5 === 0) ||
-            !(this.writenRecordDiscountToScience % 5 === 0) ||
-            !(this.writenRecordDiscountToArts % 5 === 0)) {
-            return;
-        }
-        totalMonument += this.monumentDiscountToCivics;
-        totalMonument += this.monumentDiscountToArts;
-        totalMonument += this.monumentDiscountToCrafts;
-        totalMonument += this.monumentDiscountToReligion;
-        totalMonument += this.monumentDiscountToScience;
-        const monumentOK = totalMonument === 20;
-        let totalWritenRecord = 0;
-        totalWritenRecord += this.writenRecordDiscountToCivics;
-        totalWritenRecord += this.writenRecordDiscountToArts;
-        totalWritenRecord += this.writenRecordDiscountToCrafts;
-        totalWritenRecord += this.writenRecordDiscountToReligion;
-        totalWritenRecord += this.writenRecordDiscountToScience;
-        const writenRecordOK = totalWritenRecord === 10;
-        const checkMonument = this.gameService.getCurrentPlayer().selectedAdvances.includes(_shared_model_advances_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceNumber"].MONUMENT);
-        const checkWritenRecord = this.gameService.getCurrentPlayer().selectedAdvances.includes(_shared_model_advances_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceNumber"].WRITTEN_RECORD);
-        if (checkMonument && checkWritenRecord) {
-            this.disableSave = !(monumentOK && writenRecordOK);
-        }
-        else if (checkMonument) {
-            this.disableSave = !monumentOK;
-        }
-        else if (checkWritenRecord) {
-            this.disableSave = !writenRecordOK;
-        }
-    }
     buyAdvances() {
         let maxTradeCards = this.gameService.game.maxTradecards;
         if (this.advancesService.playerHasAdvance(_shared_model_advances_enum__WEBPACK_IMPORTED_MODULE_4__["AdvanceNumber"].ROADBUILDING)) {
             maxTradeCards += 1;
         }
-        if (this.gameService.getCurrentPlayer().numberOfTradeCards > maxTradeCards) {
+        if (this.gameService.getCurrentPlayer().numberOfTradeCardsAfterTurn > maxTradeCards) {
             this.errorMessage = 'Je mag er maximaal ' + maxTradeCards + ' overhouden!';
             return;
         }
@@ -1035,11 +1043,13 @@ let ActionsComponent = class ActionsComponent {
             this.errorMessage = '';
             this.showBuyAdvancePopup = false;
             this.gameService.getCurrentPlayer().selectedAdvances.forEach(advanceNumber => {
-                this.gameService.getCurrentPlayer().ownedAdvances.push(advanceNumber);
-                this.gameService.game.advancesInPlay[advanceNumber] = true;
+                if (!this.gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber)) {
+                    this.gameService.getCurrentPlayer().ownedAdvances.push(advanceNumber);
+                    this.gameService.game.advancesInPlay[advanceNumber] = true;
+                }
             });
-            this.gameService.getCurrentPlayer().tokensInTreasury -= this.gameService.getCurrentPlayer().treasuryDifference;
-            this.gameService.getCurrentPlayer().treasuryDifference = 0;
+            this.gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn -= this.gameService.getCurrentPlayer().treasuryUsed;
+            this.gameService.getCurrentPlayer().treasuryUsed = 0;
             this.gameService.getCurrentPlayer().discountToScience += this.monumentDiscountToScience + this.writenRecordDiscountToScience;
             this.gameService.getCurrentPlayer().discountToReligion += this.monumentDiscountToReligion + this.writenRecordDiscountToReligion;
             this.gameService.getCurrentPlayer().discountToCrafts += this.monumentDiscountToCrafts + this.writenRecordDiscountToCrafts;
@@ -1060,6 +1070,15 @@ let ActionsComponent = class ActionsComponent {
         this.writenRecordDiscountToReligion = 0;
         this.writenRecordDiscountToScience = 0;
         this.writenRecordDiscountToArts = 0;
+    }
+    buyTradecard() {
+        this.gameService.getCurrentPlayer().treasuryUsed = 0 + this.gameService.getCurrentPlayer().lvl9TradecardsBought * 15 + this.gameService.getCurrentPlayer().lvl8TradecardsBought * 13 +
+            this.gameService.getCurrentPlayer().lvl7TradecardsBought * 13 + this.gameService.getCurrentPlayer().lvl6TradecardsBought * 13 +
+            this.gameService.getCurrentPlayer().lvl3TradecardsBought * 9 + this.gameService.getCurrentPlayer().lvl2TradecardsBought * 5;
+        this.gameService.treasuryCalculations(this.gameService.getCurrentPlayer());
+    }
+    tradecardWonOrLost() {
+        this.gameService.getCurrentPlayer().numberOfTradeCardsAfterTurn = this.gameService.getCurrentPlayer().numberOfTradeCardsBeforeTurn - this.gameService.getCurrentPlayer().tradeCardDifference;
     }
 };
 ActionsComponent.ctorParameters = () => [
@@ -1118,7 +1137,7 @@ let AdminComponent = class AdminComponent {
         this.gameService.nextPhase();
     }
     sendChanges() {
-        this.gameService.sendToOtherPlayers();
+        this.gameService.sendGameToOtherPlayers();
     }
 };
 AdminComponent.ctorParameters = () => [
@@ -1273,7 +1292,7 @@ let HomeComponent = class HomeComponent {
         this.gameService.getCurrentPlayer().isReady = !this.gameService.getCurrentPlayer().isReady;
         this.gameService.getCurrentPlayer().isActive = true;
         this.gameService.game.hasStarted = false;
-        this.gameService.sendToOtherPlayers();
+        this.gameService.sendGameToOtherPlayers();
     }
 };
 HomeComponent.ctorParameters = () => [
@@ -1420,7 +1439,7 @@ let FooterComponent = class FooterComponent {
     }
     playerIsNotReady() {
         this.gameService.getCurrentPlayer().isReady = false;
-        this.gameService.sendToOtherPlayers();
+        this.gameService.sendGameToOtherPlayers();
     }
     editPhase(difference) {
         this.gameService.game.phase += difference;
@@ -1655,7 +1674,7 @@ let LoginFormComponent = class LoginFormComponent {
         this.gameService.playerIndex = index;
         this.gameService.getCurrentPlayer().isActive = index !== 0 ? true : false;
         this.gameService.getCurrentPlayer().playerName = this.playerName;
-        this.gameService.sendToOtherPlayers();
+        this.gameService.sendGameToOtherPlayers();
     }
 };
 LoginFormComponent.ctorParameters = () => [
@@ -2043,7 +2062,7 @@ const advancesList = [
     }, {
         id: 7,
         name: 'CARTOGRAPHY',
-        description: 'During the Trade Cards Acquisition phase, you may acquire additional trade cards form stack 2 for 5 treasury and/or form stack 7 for 13 treasury tokens per card.  Disadvantage with PIRACY: If you are the primary victim, the beneficiary selects and replaces 1 additional coastal city.',
+        description: 'During the Trade Cards Acquisition phase, you may acquire additional trade cards from stack 2 for 5 treasury and/or from stack 7 for 13 treasury tokens per card.  Disadvantage with PIRACY: If you are the primary victim, the beneficiary selects and replaces 1 additional coastal city.',
         cost: 160,
         currentPrice: 160,
         points: 3,
@@ -2133,7 +2152,7 @@ const advancesList = [
     }, {
         id: 12,
         name: 'DEMOCRACY',
-        description: 'During the Tax Collection phase you collect tax as usual but your sities do not revolt as a result of a shortage in tax collection.  Advantage with CIVIL WAR: Select 10 less unit points.  Advantage with CIVIL DISORDER: Reduce 1 less city.',
+        description: 'During the Tax Collection phase you collect tax as usual but your cities do not revolt as a result of a shortage in tax collection.  Advantage with CIVIL WAR: Select 10 less unit points.  Advantage with CIVIL DISORDER: Reduce 1 less city.',
         cost: 220,
         currentPrice: 220,
         points: 6,
@@ -2205,7 +2224,7 @@ const advancesList = [
     }, {
         id: 16,
         name: 'EMPIRICISM',
-        description: '0',
+        description: '-',
         cost: 60,
         currentPrice: 60,
         points: 1,
@@ -2241,7 +2260,7 @@ const advancesList = [
     }, {
         id: 18,
         name: 'ENLIGHTENMENT',
-        description: 'Advantage with SUPERSTITION: Reduce 1 less city.  Advantage with SLAVE REVOLT: Your city support rate is decreased by 1 during the resolution of SLAVE REVOLT.  Advantage with EPIDEMIC: If you are the primary victim, prevent 5 damage.  Advantage with REGRESSION: For each step backward, you may choose to prevent the effect by destroying 2 of your cities (if possible non0coastal).',
+        description: 'Advantage with SUPERSTITION: Reduce 1 less city.  Advantage with SLAVE REVOLT: Your city support rate is decreased by 1 during the resolution of SLAVE REVOLT.  Advantage with EPIDEMIC: If you are the primary victim, prevent 5 damage.  Advantage with REGRESSION: For each step backward, you may choose to prevent the effect by destroying 2 of your cities (if possible nonecoastal).',
         cost: 160,
         currentPrice: 160,
         points: 3,
@@ -2313,12 +2332,12 @@ const advancesList = [
     }, {
         id: 22,
         name: 'LITERACY',
-        description: '0',
+        description: '-',
         cost: 110,
         currentPrice: 110,
         points: 3,
-        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
-        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CIVICS,
         discountToCivics: 10,
         discountToCrafts: 5,
         discountToReligion: 5,
@@ -2349,7 +2368,7 @@ const advancesList = [
     }, {
         id: 24,
         name: 'MATHEMATICS',
-        description: '0',
+        description: '-',
         cost: 250,
         currentPrice: 250,
         points: 6,
@@ -2421,7 +2440,7 @@ const advancesList = [
     }, {
         id: 28,
         name: 'MINING',
-        description: 'During the Trade Cards Acquisition phase, you may acquire additional trade cards form stack 6 and/or form stack 8 for 13 treasury tokens per card.  Treasury tokens are worth 2 points when purchasing Civilization Advances. When using treasury tokens to purchase Civilization Advances you may exceed the purchase price by exactly 1 this way.  Disadvantage with SLAVE REVOLT: Your city support rate is increased by 1 during the resolution of SLAVE REVOLT.',
+        description: 'During the Trade Cards Acquisition phase, you may acquire additional trade cards from stack 6 and/or from stack 8 for 13 treasury tokens per card.  Treasury tokens are worth 2 points when purchasing Civilization Advances. When using treasury tokens to purchase Civilization Advances you may exceed the purchase price by exactly 1 this way.  Disadvantage with SLAVE REVOLT: Your city support rate is increased by 1 during the resolution of SLAVE REVOLT.',
         cost: 230,
         currentPrice: 230,
         points: 6,
@@ -2515,8 +2534,8 @@ const advancesList = [
         cost: 50,
         currentPrice: 50,
         points: 1,
-        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
-        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
         discountToCivics: 0,
         discountToCrafts: 0,
         discountToReligion: 5,
@@ -2666,7 +2685,7 @@ const advancesList = [
         discountToReligion: 0,
         discountToScience: 0,
         discountToArts: 10,
-        discountFromCard: 16,
+        discountFromCard: 15,
         discountFromCardAmount: 10,
         discountToCard: 37,
         discountToCardAmount: 20,
@@ -2734,8 +2753,8 @@ const advancesList = [
         type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].RELIGION,
         type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].NONE,
         discountToCivics: 0,
-        discountToCrafts: 20,
-        discountToReligion: 0,
+        discountToCrafts: 0,
+        discountToReligion: 20,
         discountToScience: 5,
         discountToArts: 0,
         discountFromCard: 48,
@@ -2781,7 +2800,7 @@ const advancesList = [
     }, {
         id: 48,
         name: 'UNIVERSAL DOCTRINE',
-        description: 'SPECAIL ABILITY: You may choose to annex 1 pirate city of up to 5 barbarian tokens anywhere on the board.  Disadvantage with SUPERSTITION: Reduce 1 additional city.',
+        description: 'SPECAIL ABILITY: You may choose to annex 1 pirate city or up to 5 barbarian tokens anywhere on the board.  Disadvantage with SUPERSTITION: Reduce 1 additional city.',
         cost: 160,
         currentPrice: 160,
         points: 3,
@@ -2817,19 +2836,19 @@ const advancesList = [
     }, {
         id: 50,
         name: 'WONDER OF THE WORLD',
-        description: 'During the Trade Cards Acquisition phase, you may acquire 1 additional Trade Card for free from a stack number that is highter than your number of cities in play.  WONDER OF THE WORLD counts as a city during the A.S.T. alteration phase.  Disadvantage with CORRUPTION: Discard 5 additional points of face value.',
+        description: 'During the Trade Cards Acquisition phase, you may acquire 1 additional Trade Card for free from a stack number that is higher than your number of cities in play.  WONDER OF THE WORLD counts as a city during the A.S.T. alteration phase.  Disadvantage with CORRUPTION: Discard 5 additional points of face value.',
         cost: 290,
         currentPrice: 290,
         points: 6,
-        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
-        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type1: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].ARTS,
+        type2: _advance_types_enum__WEBPACK_IMPORTED_MODULE_0__["AdvanceTypes"].CRAFTS,
         discountToCivics: 0,
         discountToCrafts: 20,
         discountToReligion: 0,
         discountToScience: 0,
         discountToArts: 20,
-        discountFromCard: 0,
-        discountFromCardAmount: 0,
+        discountFromCard: 31,
+        discountFromCardAmount: 20,
         discountToCard: 0,
         discountToCardAmount: 0,
     }, {
@@ -2846,8 +2865,8 @@ const advancesList = [
         discountToReligion: 0,
         discountToScience: 5,
         discountToArts: 0,
-        discountFromCard: 31,
-        discountFromCardAmount: 20,
+        discountFromCard: 0,
+        discountFromCardAmount: 0,
         discountToCard: 7,
         discountToCardAmount: 10,
     }
@@ -2925,6 +2944,26 @@ var AdvanceNumber;
 
 /***/ }),
 
+/***/ "./src/app/shared/model/blocks.enum.ts":
+/*!*********************************************!*\
+  !*** ./src/app/shared/model/blocks.enum.ts ***!
+  \*********************************************/
+/*! exports provided: BlockNumber */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BlockNumber", function() { return BlockNumber; });
+var BlockNumber;
+(function (BlockNumber) {
+    BlockNumber[BlockNumber["NONE"] = 0] = "NONE";
+    BlockNumber[BlockNumber["WEST"] = 1] = "WEST";
+    BlockNumber[BlockNumber["EAST"] = 2] = "EAST";
+})(BlockNumber || (BlockNumber = {}));
+
+
+/***/ }),
+
 /***/ "./src/app/shared/model/game.ts":
 /*!**************************************!*\
   !*** ./src/app/shared/model/game.ts ***!
@@ -2943,13 +2982,14 @@ class Game {
         this.phase = 0;
         this.players = [];
         this.hasStarted = false;
-        this.advancesInPlay = [true, false,
+        this.advancesInPlay = [false, false,
             false, false, false, false, false, false, false, false, false, false,
             false, false, false, false, false, false, false, false, false, false,
             false, false, false, false, false, false, false, false, false, false,
             false, false, false, false, false, false, false, false, false, false,
             false, false, false, false, false, false, false, false, false, false];
-        this.taxRevoltInPlay = true;
+        this.taxRevoltInPlay = false;
+        this.minorCalamitiesInPlay = false;
         this.maxTradecards = 0;
         this.countDown = 0;
         this.players.push(new _player__WEBPACK_IMPORTED_MODULE_0__["Player"]('Admin', 0, 0));
@@ -3032,15 +3072,19 @@ class Player {
         this.citiesOnBoard = 0;
         this.citiesInStock = 9;
         this.tokensInStock = 55;
-        this.tokensInTreasury = 0;
-        this.treasuryDifference = 0;
         this.tokensOnBoard = 0;
+        //  tokensInTreasury = 0; //gaat weg
+        this.tokensIntreasuryBeforeTurn = 0;
+        this.treasuryUsed = 0;
+        this.treasuryWon = 0;
+        this.tokensInTreasuryAfterTurn = 0;
+        //  treasuryDifference = 0; //gaat weg
         this.shipsOnBoard = 0;
         this.score = 0;
         this.AstNextAgePoint3 = 11;
         this.AstPosition = 0;
         this.taxRate = 2;
-        this.collectedTax = 0;
+        //  collectedTax = 0; //gaat weg
         this.hasTaxRevolt = false;
         this.taxCollected = false;
         this.hasTimeLeft = 0;
@@ -3049,12 +3093,25 @@ class Player {
         this.discountToReligion = 0;
         this.discountToScience = 0;
         this.discountToArts = 0;
-        this.numberOfTradeCards = 0;
+        this.numberOfTradeCardsBeforeTurn = 0;
+        this.numberOfTradeCardsAfterTurn = 0;
+        this.tradeCardDifference = 0;
         this.tradeCardValueUsed = 0;
         this.selectedAdvances = [];
         this.ownedAdvances = [];
-        // Advances:
+        this.wotwTradecard = 0;
+        this.lvl9TradecardsBought = 0;
+        this.lvl8TradecardsBought = 0;
+        this.lvl7TradecardsBought = 0;
+        this.lvl6TradecardsBought = 0;
+        this.lvl3TradecardsBought = 0;
+        this.lvl2TradecardsBought = 0;
         this.personalCountDown = 0;
+        this.totalDiscountToCivics = 0;
+        this.totalDiscountToCrafts = 0;
+        this.totalDiscountToReligion = 0;
+        this.totalDiscountToScience = 0;
+        this.totalDiscountToArts = 0;
         this.civilizationName = civilizationName;
         this.AstNextAgePoint1 = AstNextAgePoint1;
         this.AstNextAgePoint2 = AstNextAgePoint2;
@@ -3193,12 +3250,18 @@ let AdvancesService = class AdvancesService {
                 price -= advance.discountFromCardAmount;
             }
         }
+        if (price < 0) {
+            price = 0;
+        }
         return price;
     }
+    // wordt niet gebruikt?
     buyAdvance(advance) {
-        this.gameService.getCurrentPlayer().ownedAdvances.push(advance.id);
-        this.gameService.game.advancesInPlay[advance.id] = true;
-        this.gameService.sendToOtherPlayers();
+        if (!this.gameService.getCurrentPlayer().ownedAdvances.includes(advance.id)) {
+            this.gameService.getCurrentPlayer().ownedAdvances.push(advance.id);
+            this.gameService.game.advancesInPlay[advance.id] = true;
+            this.gameService.sendGameToOtherPlayers();
+        }
     }
     getAdvance(advanceID) {
         return _model_advances_list__WEBPACK_IMPORTED_MODULE_3__["advancesList"][advanceID - 1];
@@ -3269,10 +3332,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var ngx_socket_io__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-socket-io */ "./node_modules/ngx-socket-io/index.js");
-/* harmony import */ var _model_game__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../model/game */ "./src/app/shared/model/game.ts");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
-/* harmony import */ var _model_phases__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../model/phases */ "./src/app/shared/model/phases.ts");
-/* harmony import */ var _model_advances_enum__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../model/advances.enum */ "./src/app/shared/model/advances.enum.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var _model_advances_list__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../model/advances-list */ "./src/app/shared/model/advances-list.ts");
+/* harmony import */ var _model_advances_enum__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../model/advances.enum */ "./src/app/shared/model/advances.enum.ts");
+/* harmony import */ var _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../model/blocks.enum */ "./src/app/shared/model/blocks.enum.ts");
+/* harmony import */ var _model_game__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../model/game */ "./src/app/shared/model/game.ts");
+/* harmony import */ var _model_phases__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../model/phases */ "./src/app/shared/model/phases.ts");
+
+
 
 
 
@@ -3284,38 +3351,52 @@ let GameService = class GameService {
     constructor(socket) {
         this.socket = socket;
         this.gameObservable = this.socket.fromEvent('game');
-        this.game = new _model_game__WEBPACK_IMPORTED_MODULE_3__["Game"]();
+        this.game = new _model_game__WEBPACK_IMPORTED_MODULE_7__["Game"]();
+        this.tempGame = new _model_game__WEBPACK_IMPORTED_MODULE_7__["Game"]();
         this.currentPhase = 0;
         this.maxUnits = 55;
         this.maxCities = 9;
-        this.gameSubscription = this.gameObservable.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["startWith"])(this.game)).subscribe(data => {
+        this.gameSubscription = this.gameObservable.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["startWith"])(this.game)).subscribe(data => {
             console.log('---------------- recieved data: ', data);
             if (data.hasStarted === undefined) {
-                data = new _model_game__WEBPACK_IMPORTED_MODULE_3__["Game"]();
+                data = new _model_game__WEBPACK_IMPORTED_MODULE_7__["Game"]();
             }
-            Object.assign(this.game, data);
-            if (this.currentPhase !== this.game.phase) {
-                this.phaseHasChangedActions(this.game.phase);
-            }
-            if (this.game.countDown > 0) {
-                this.startCountDown(this.game.countDown);
-                this.game.countDown = 0;
-            }
-            // count players in queue during phase 3
-            if (this.game.phase === 3) {
-                let counter = 0;
-                this.getActivePlayers().forEach(player => {
-                    if (!player.isReady && player.censusOrder < this.getCurrentPlayer().censusOrder) {
-                        counter += 1;
-                    }
-                });
-                // Start the countdown if there were players in front of you but not anymore.
-                if (this.playersInFrontOfCurrentPlayerInQueue > 0 && counter === 0) {
-                    this.startCountDown(this.getCurrentPlayer().personalCountDown);
+            if (data.ignoreAllPlayersBut === undefined || data.ignoreAllPlayersBut === null) {
+                Object.assign(this.tempGame, data);
+                this.game.players[this.tempGame.ignoreAllPlayersBut] = this.tempGame.players[this.tempGame.ignoreAllPlayersBut];
+                for (let i = 0; i < this.game.advancesInPlay.length; i++) {
+                    this.game.advancesInPlay[i] = this.game.advancesInPlay[i] || this.tempGame.advancesInPlay[i];
                 }
-                this.playersInFrontOfCurrentPlayerInQueue = counter;
+                this.game.ignoreAllPlayersBut = undefined;
             }
+            else {
+                Object.assign(this.game, data);
+            }
+            this.incommingGame();
         });
+    }
+    incommingGame() {
+        if (this.currentPhase !== this.game.phase) {
+            this.phaseHasChangedActions(this.game.phase);
+        }
+        if (this.game.countDown > 0) {
+            this.startCountDown(this.game.countDown);
+            this.game.countDown = 0;
+        }
+        // count players in queue during phase 3
+        if (this.game.phase === 3) {
+            let counter = 0;
+            this.getActivePlayers().forEach(player => {
+                if (!player.isReady && player.censusOrder < this.getCurrentPlayer().censusOrder) {
+                    counter += 1;
+                }
+            });
+            // Start the countdown if there were players in front of you but not anymore.
+            if (this.playersInFrontOfCurrentPlayerInQueue > 0 && counter === 0) {
+                this.startCountDown(this.getCurrentPlayer().personalCountDown);
+            }
+            this.playersInFrontOfCurrentPlayerInQueue = counter;
+        }
     }
     playerIsReady(index) {
         let player;
@@ -3325,14 +3406,12 @@ let GameService = class GameService {
         else {
             player = this.getCurrentPlayer();
         }
-        player.tokensInTreasury += player.treasuryDifference;
-        player.treasuryDifference = 0;
         player.isReady = true;
         if (this.everybodyIsReady() && this.game.hasStarted) {
             this.nextPhase();
         }
         else {
-            this.sendToOtherPlayers();
+            this.sendGameToOtherPlayers();
         }
     }
     everybodyIsReady() {
@@ -3354,7 +3433,8 @@ let GameService = class GameService {
         else {
             this.game.phase += 1;
         }
-        // All players are set to unready
+        // All players (including admin) are set to unready
+        this.game.players[0].isReady = false;
         for (const player of this.game.players) {
             if (player.isActive) {
                 player.isReady = false;
@@ -3365,7 +3445,7 @@ let GameService = class GameService {
             this.getActivePlayers().forEach(player => {
                 this.taxCollectionCalculations(player);
                 // als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
-                if (!(player.ownedAdvances.includes(_model_advances_enum__WEBPACK_IMPORTED_MODULE_6__["AdvanceNumber"].MONARCHY) || player.ownedAdvances.includes(_model_advances_enum__WEBPACK_IMPORTED_MODULE_6__["AdvanceNumber"].COINAGE))) {
+                if (!(player.ownedAdvances.includes(_model_advances_enum__WEBPACK_IMPORTED_MODULE_5__["AdvanceNumber"].MONARCHY) || player.ownedAdvances.includes(_model_advances_enum__WEBPACK_IMPORTED_MODULE_5__["AdvanceNumber"].COINAGE))) {
                     player.isReady = true;
                 }
                 // Automatisch door als iedereen ready is:
@@ -3376,8 +3456,8 @@ let GameService = class GameService {
         }
         else if (this.game.phase === 2) {
             // reset de taxRate en berekeningen van fase1
-            this.game.players.forEach(player => {
-                player.taxCollected = false;
+            this.treasuryReset(this.getActivePlayers());
+            this.getActivePlayers().forEach(player => {
                 player.taxRate = 2;
             });
         }
@@ -3387,7 +3467,7 @@ let GameService = class GameService {
             playerList.sort((a, b) => b.tokensOnBoard - a.tokensOnBoard === 0 ? a.originalOrder - b.originalOrder : b.tokensOnBoard - a.tokensOnBoard);
             // Zet de spelers met Military achteraan de rij
             for (let i = 0; i < playerList.length; i++) {
-                playerList[i].censusOrder = playerList[i].ownedAdvances.includes(_model_advances_enum__WEBPACK_IMPORTED_MODULE_6__["AdvanceNumber"].MILITARY) ? i + playerList.length : i;
+                playerList[i].censusOrder = playerList[i].ownedAdvances.includes(_model_advances_enum__WEBPACK_IMPORTED_MODULE_5__["AdvanceNumber"].MILITARY) ? i + playerList.length : i;
             }
             // Sorteer spelers op censusVolgorde
             playerList.sort((a, b) => a.censusOrder - b.censusOrder);
@@ -3395,23 +3475,35 @@ let GameService = class GameService {
             for (let i = 0; i < playerList.length; i++) {
                 playerList[i].censusOrder = i + 1;
                 if (i === 0) {
-                    playerList[i].personalCountDown = 150;
+                    playerList[i].personalCountDown = playerList[i].tokensOnBoard * 4;
                 }
                 else if (i === 1) {
-                    playerList[i].personalCountDown = 120;
+                    playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3, 5;
+                }
+                else if (i === 2) {
+                    playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3;
                 }
                 else {
-                    playerList[i].personalCountDown = 90;
+                    playerList[i].personalCountDown = playerList[i].tokensOnBoard * 2, 5;
+                }
+                if (!playerList[i].ownedAdvances.includes(_model_advances_enum__WEBPACK_IMPORTED_MODULE_5__["AdvanceNumber"].MILITARY)) {
+                    playerList[i].personalCountDown += 20;
                 }
             }
         }
         else if (this.game.phase === 4) {
+            this.treasuryReset(this.getActivePlayers());
+            this.tradecardWonLostReset(this.getActivePlayers());
         }
         else if (this.game.phase === 5) {
+            this.treasuryReset(this.getActivePlayers());
         }
         else if (this.game.phase === 6) {
+            this.treasuryReset(this.getActivePlayers());
         }
         else if (this.game.phase === 7) {
+            this.treasuryReset(this.getActivePlayers());
+            this.tradecardBoughtReset(this.getActivePlayers());
             this.game.countDown = 900;
         }
         else if (this.game.phase === 8) {
@@ -3423,11 +3515,13 @@ let GameService = class GameService {
         else if (this.game.phase === 11) {
         }
         else if (this.game.phase === 12) {
+            this.treasuryReset(this.getActivePlayers());
+            this.calculateDiscountCredits(this.getActivePlayers());
         }
         else if (this.game.phase === 13) {
             this.game.players.forEach(player => player.selectedAdvances = []);
         }
-        this.sendToOtherPlayers();
+        this.sendGameToOtherPlayers();
     }
     // Things that should happen when game arrives with changed phase
     phaseHasChangedActions(newPhase) {
@@ -3448,27 +3542,67 @@ let GameService = class GameService {
         }
     }
     taxCollectionCalculations(player) {
-        // als Treasury en Stock al eens aangepast zijn met deze functie, deze aanpassing terugdraaien
-        if (player.taxCollected) {
-            player.tokensInTreasury -= player.collectedTax;
-            player.tokensInStock += player.collectedTax;
-        }
-        player.collectedTax = player.citiesOnBoard * player.taxRate;
-        // check for tax revolt
-        if (player.tokensInStock < player.collectedTax) {
-            if (!player.ownedAdvances.includes(_model_advances_enum__WEBPACK_IMPORTED_MODULE_6__["AdvanceNumber"].DEMOCRACY)) {
+        player.treasuryWon = player.citiesOnBoard * player.taxRate;
+        if (player.tokensInStock < player.treasuryWon) {
+            if (!player.ownedAdvances.includes(_model_advances_enum__WEBPACK_IMPORTED_MODULE_5__["AdvanceNumber"].DEMOCRACY)) {
                 player.hasTaxRevolt = true;
                 this.game.taxRevoltInPlay = true;
             }
             // collected tax can not be more than tokens in stock
-            player.collectedTax = player.tokensInStock;
+            player.treasuryWon = player.tokensInStock;
         }
         else {
             player.hasTaxRevolt = false;
         }
-        player.tokensInTreasury += player.collectedTax;
-        player.tokensInStock -= player.collectedTax;
-        player.taxCollected = true;
+        this.treasuryCalculations(player);
+    }
+    treasuryCalculations(player) {
+        player.tokensInTreasuryAfterTurn = (player.tokensIntreasuryBeforeTurn + player.treasuryWon - player.treasuryUsed);
+    }
+    treasuryReset(players) {
+        players.forEach(player => {
+            player.tokensIntreasuryBeforeTurn = player.tokensInTreasuryAfterTurn;
+            player.tokensInStock -= player.treasuryWon += player.treasuryUsed;
+            player.treasuryWon = 0;
+            player.treasuryUsed = 0;
+        });
+    }
+    tradecardBoughtReset(players) {
+        players.forEach(player => {
+            player.lvl9TradecardsBought = 0;
+            player.lvl8TradecardsBought = 0;
+            player.lvl7TradecardsBought = 0;
+            player.lvl6TradecardsBought = 0;
+            player.lvl3TradecardsBought = 0;
+            player.lvl2TradecardsBought = 0;
+        });
+    }
+    tradecardWonLostReset(players) {
+        players.forEach(player => {
+            player.numberOfTradeCardsBeforeTurn = player.numberOfTradeCardsAfterTurn;
+            player.tradeCardDifference = 0;
+        });
+    }
+    calculateDiscountCredits(players) {
+        players.forEach(player => {
+            let creditsToArts = 0;
+            let creditsToCivics = 0;
+            let creditsToCrafts = 0;
+            let creditsToReligion = 0;
+            let creditsToScience = 0;
+            player.ownedAdvances.forEach(advanceNumber => {
+                creditsToArts += _model_advances_list__WEBPACK_IMPORTED_MODULE_4__["advancesList"][advanceNumber].discountToArts;
+                creditsToCivics += _model_advances_list__WEBPACK_IMPORTED_MODULE_4__["advancesList"][advanceNumber].discountToCivics;
+                creditsToCrafts += _model_advances_list__WEBPACK_IMPORTED_MODULE_4__["advancesList"][advanceNumber].discountToCrafts;
+                creditsToReligion += _model_advances_list__WEBPACK_IMPORTED_MODULE_4__["advancesList"][advanceNumber].discountToReligion;
+                creditsToScience += _model_advances_list__WEBPACK_IMPORTED_MODULE_4__["advancesList"][advanceNumber].discountToScience;
+            });
+            player.totalDiscountToArts = creditsToArts + player.discountToArts;
+            player.totalDiscountToArts = creditsToCivics + player.discountToArts;
+            player.totalDiscountToArts = creditsToCrafts + player.discountToArts;
+            player.totalDiscountToArts = creditsToReligion + player.discountToArts;
+            player.totalDiscountToArts = creditsToScience + player.discountToArts;
+        });
     }
     startCountDown(seconds) {
         clearInterval(this.countDownInterval);
@@ -3505,22 +3639,28 @@ let GameService = class GameService {
         });
         return output;
     }
-    sendToOtherPlayers() {
+    sendGameToOtherPlayers() {
         console.log('++++++++++++++++ send game: ', this.game);
+        this.socket.emit('updateGame', this.game);
+    }
+    sendPlayerToOtherPlayers() {
+        console.log('++++++++++++++++ send player: ', this.game);
+        this.game.ignoreAllPlayersBut = this.playerIndex;
         this.socket.emit('updateGame', this.game);
     }
     startGame() {
         this.game.hasStarted = true;
         this.game.turn = 1;
-        let counter = 0;
-        this.game.players.forEach(player => {
-            if (player.isActive) {
-                counter++;
-            }
-        });
-        this.applyDiscountToAdvances(counter);
-        this.createBlock(counter);
-        this.maxTradeCards(counter);
+        this.setupGame();
+        // let counter = 0;
+        // this.game.players.forEach(player => {
+        //   if (player.isActive) {
+        //     counter++;
+        //   }
+        // });
+        // this.applyDiscountToAdvances(counter);
+        // this.createBlock(counter);
+        // this.maxTradeCards(counter);
         // Start game on phase 2 since nobody has cities yet.
         this.game.phase = 1;
         this.nextPhase();
@@ -3556,7 +3696,354 @@ let GameService = class GameService {
         this.socket.emit('resetGame');
     }
     getPhaseName(index) {
-        return _model_phases__WEBPACK_IMPORTED_MODULE_5__["phases"][index ? index : this.game.phase];
+        return _model_phases__WEBPACK_IMPORTED_MODULE_8__["phases"][index ? index : this.game.phase];
+    }
+    setupGame() {
+        const numberOfPlayers = this.getActivePlayers().length;
+        if (numberOfPlayers === 5) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 8;
+            this.game.players.forEach(player => {
+                player.discountToArts += 10;
+                player.discountToCivics += 10;
+                player.discountToCrafts += 10;
+                player.discountToReligion += 10;
+                player.discountToScience += 10;
+            });
+        }
+        else if (numberOfPlayers === 6) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 8;
+            this.game.players.forEach(player => {
+                player.discountToArts += 5;
+                player.discountToCivics += 5;
+                player.discountToCrafts += 5;
+                player.discountToReligion += 5;
+                player.discountToScience += 5;
+            });
+        }
+        else if (numberOfPlayers === 7) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 8;
+        }
+        else if (numberOfPlayers === 8) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 8;
+        }
+        else if (numberOfPlayers === 9) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 8;
+            this.game.minorCalamitiesInPlay = true;
+        }
+        else if (numberOfPlayers === 10) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 8;
+            this.game.minorCalamitiesInPlay = true;
+        }
+        else if (numberOfPlayers === 11) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.maxTradecards = 8;
+            this.game.minorCalamitiesInPlay = true;
+        }
+        else if (numberOfPlayers === 12) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 8;
+            this.game.players.forEach(player => {
+                player.discountToArts += 5;
+                player.discountToCivics += 5;
+                player.discountToCrafts += 5;
+                player.discountToReligion += 5;
+                player.discountToScience += 5;
+            });
+        }
+        else if (numberOfPlayers === 13) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 9;
+        }
+        else if (numberOfPlayers === 14) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 9;
+        }
+        else if (numberOfPlayers === 15) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 9;
+            this.game.minorCalamitiesInPlay = true;
+        }
+        else if (numberOfPlayers === 16) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 9;
+            this.game.minorCalamitiesInPlay = true;
+        }
+        else if (numberOfPlayers === 17) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 9;
+            this.game.minorCalamitiesInPlay = true;
+        }
+        else if (numberOfPlayers === 18) {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].EAST;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].WEST;
+            this.game.maxTradecards = 9;
+            this.game.minorCalamitiesInPlay = true;
+        }
+        else {
+            this.game.players[1].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[2].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[3].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[4].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[5].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[6].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[7].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[8].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[9].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[10].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[11].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[12].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[13].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[14].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[15].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[16].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[17].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.players[18].block = _model_blocks_enum__WEBPACK_IMPORTED_MODULE_6__["BlockNumber"].NONE;
+            this.game.maxTradecards = 9;
+            this.game.minorCalamitiesInPlay = true;
+        }
     }
 };
 GameService.ctorParameters = () => [
