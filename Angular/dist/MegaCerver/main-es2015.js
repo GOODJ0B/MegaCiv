@@ -206,7 +206,7 @@ module.exports = "<ng-content></ng-content>\r\n\r\n<div class=\"menu-container\"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"user-panel\">\r\n    <div class=\"user-info\">\r\n        <div class=\"image-container\">\r\n            <div class=\"user-image\"></div>\r\n        </div>\r\n        <div class=\"user-name\">{{ gameService.getCurrentPlayer().civilizationName }}</div>\r\n    </div>\r\n    <dx-context-menu\r\n        *ngIf=\"menuMode === 'context'\"\r\n        [items]=\"menuItems\"\r\n        target=\".user-button\"\r\n        showEvent=\"dxclick\"\r\n        width=\"170px\"\r\n        [position]=\"{ my: 'top center', at: 'bottom center' }\"\r\n        cssClass=\"user-menu\">\r\n    </dx-context-menu>\r\n    <dx-list\r\n        *ngIf=\"menuMode === 'list'\"\r\n        class=\"dx-toolbar-menu-action\"\r\n        [items]=\"menuItems\">\r\n    </dx-list>\r\n</div>\r\n"
+module.exports = "<div class=\"user-panel\">\r\n  <div class=\"user-info\">\r\n    <div class=\"image-container\">\r\n      <div class=\"user-image\"></div>\r\n    </div>\r\n    <div class=\"user-name\">{{ gameService.getCurrentPlayer().civilizationName }}</div>\r\n  </div>\r\n  <dx-context-menu\r\n    *ngIf=\"menuMode === 'context'\"\r\n    [items]=\"menuItems\"\r\n    target=\".user-button\"\r\n    showEvent=\"dxclick\"\r\n    width=\"170px\"\r\n    [position]=\"{ my: 'top center', at: 'bottom center' }\"\r\n    cssClass=\"user-menu\"\r\n    (onItemClick)=\"logout()\">\r\n  </dx-context-menu>\r\n  <dx-list\r\n    *ngIf=\"menuMode === 'list'\"\r\n    class=\"dx-toolbar-menu-action\"\r\n    [items]=\"menuItems\">\r\n  </dx-list>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -403,18 +403,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_services_game_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shared/services/game.service */ "./src/app/shared/services/game.service.ts");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./shared/services */ "./src/app/shared/services/index.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
+
 
 
 
 
 let AppComponent = class AppComponent {
-    constructor(screen, appInfo, gameService) {
+    constructor(screen, appInfo, gameService, cookieService) {
         this.screen = screen;
         this.appInfo = appInfo;
         this.gameService = gameService;
+        this.cookieService = cookieService;
     }
     get getClass() {
         return Object.keys(this.screen.sizes).filter(cl => this.screen.sizes[cl]).join(' ');
+    }
+    ngOnInit() {
+        const cookie = +this.cookieService.get('playerIndex');
+        if (cookie > -1) {
+            console.log('++++++++++++ cookie read: ', cookie);
+            this.gameService.playerIndex = cookie;
+        }
     }
     isAutorized() {
         return this.gameService.playerIndex > -1;
@@ -423,7 +433,8 @@ let AppComponent = class AppComponent {
 AppComponent.ctorParameters = () => [
     { type: _shared_services__WEBPACK_IMPORTED_MODULE_3__["ScreenService"] },
     { type: _shared_services__WEBPACK_IMPORTED_MODULE_3__["AppInfoService"] },
-    { type: _shared_services_game_service__WEBPACK_IMPORTED_MODULE_1__["GameService"] }
+    { type: _shared_services_game_service__WEBPACK_IMPORTED_MODULE_1__["GameService"] },
+    { type: ngx_cookie_service__WEBPACK_IMPORTED_MODULE_4__["CookieService"] }
 ];
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["HostBinding"])('class')
@@ -459,6 +470,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _shared_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./shared/components */ "./src/app/shared/components/index.ts");
 /* harmony import */ var _shared_services__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./shared/services */ "./src/app/shared/services/index.ts");
 /* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
+
 
 
 
@@ -483,7 +496,7 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _app_routing_module__WEBPACK_IMPORTED_MODULE_8__["AppRoutingModule"],
             _shared_components_login_form_login_form_component__WEBPACK_IMPORTED_MODULE_1__["LoginFormModule"],
         ],
-        providers: [_shared_services__WEBPACK_IMPORTED_MODULE_7__["ScreenService"], _shared_services__WEBPACK_IMPORTED_MODULE_7__["AppInfoService"]],
+        providers: [_shared_services__WEBPACK_IMPORTED_MODULE_7__["ScreenService"], _shared_services__WEBPACK_IMPORTED_MODULE_7__["AppInfoService"], ngx_cookie_service__WEBPACK_IMPORTED_MODULE_9__["CookieService"]],
         bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
     })
 ], AppModule);
@@ -1518,9 +1531,6 @@ let HeaderComponent = class HeaderComponent {
         this.menuToggle = new _angular_core__WEBPACK_IMPORTED_MODULE_1__["EventEmitter"]();
         this.menuToggleEnabled = false;
         this.userMenuItems = [{
-                text: 'Profile',
-                icon: 'user'
-            }, {
                 text: 'Logout',
                 icon: 'runner',
             }];
@@ -1640,6 +1650,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var devextreme_angular_ui_validator__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! devextreme-angular/ui/validator */ "./node_modules/devextreme-angular/ui/validator.js");
 /* harmony import */ var devextreme_angular_ui_validator__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_validator__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! src/app/shared/services/game.service */ "./src/app/shared/services/game.service.ts");
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
+
 
 
 
@@ -1652,8 +1664,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let LoginFormComponent = class LoginFormComponent {
-    constructor(gameService) {
+    constructor(gameService, cookieService) {
         this.gameService = gameService;
+        this.cookieService = cookieService;
         this.playerName = '';
         this.showCivilizationButtons = false;
     }
@@ -1672,6 +1685,7 @@ let LoginFormComponent = class LoginFormComponent {
                 }
             }
         }
+        this.cookieService.set('playerIndex', `${index}`, 1);
         this.gameService.playerIndex = index;
         this.gameService.getCurrentPlayer().isActive = index !== 0 ? true : false;
         this.gameService.getCurrentPlayer().playerName = this.playerName;
@@ -1679,7 +1693,8 @@ let LoginFormComponent = class LoginFormComponent {
     }
 };
 LoginFormComponent.ctorParameters = () => [
-    { type: src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_10__["GameService"] }
+    { type: src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_10__["GameService"] },
+    { type: ngx_cookie_service__WEBPACK_IMPORTED_MODULE_11__["CookieService"] }
 ];
 LoginFormComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
@@ -1847,7 +1862,7 @@ SideNavigationMenuModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".user-info {\n  display: flex;\n  align-items: center; }\n  :host-context(.dx-toolbar-menu-section) .user-info {\n    padding: 10px 6px;\n    border-bottom: 1px solid rgba(0, 0, 0, 0.1); }\n  .user-info .image-container {\n    overflow: hidden;\n    border-radius: 50%;\n    height: 30px;\n    width: 30px;\n    margin: 0 4px;\n    border: 1px solid rgba(0, 0, 0, 0.1);\n    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }\n  .user-info .image-container .user-image {\n      width: 100%;\n      height: 100%;\n      background: url(\"https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png\") no-repeat #fff;\n      background-size: cover; }\n  .user-info .user-name {\n    font-size: 14px;\n    color: rgba(0, 0, 0, 0.87);\n    margin: 0 9px; }\n  .user-panel ::ng-deep .dx-list-item .dx-icon {\n  vertical-align: middle;\n  color: rgba(0, 0, 0, 0.87);\n  margin-right: 16px; }\n  .user-panel ::ng-deep .dx-rtl .dx-list-item .dx-icon {\n  margin-right: 0;\n  margin-left: 16px; }\n  ::ng-deep .dx-context-menu.user-menu.dx-rtl .dx-submenu .dx-menu-items-container .dx-icon {\n  margin-left: 16px; }\n  ::ng-deep .dx-context-menu.user-menu .dx-submenu .dx-menu-items-container .dx-icon {\n  margin-right: 16px; }\n  ::ng-deep .dx-context-menu.user-menu .dx-menu-item .dx-menu-item-content {\n  padding: 3px 15px 4px; }\n  ::ng-deep .dx-theme-generic .user-menu .dx-menu-item-content .dx-menu-item-text {\n  padding-left: 4px;\n  padding-right: 4px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvc2hhcmVkL2NvbXBvbmVudHMvdXNlci1wYW5lbC9DOlxcVXNlcnNcXGpvYlxcRG9jdW1lbnRzXFxNZWdhQ2VydmVyXFxBbmd1bGFyL3NyY1xcYXBwXFxzaGFyZWRcXGNvbXBvbmVudHNcXHVzZXItcGFuZWxcXHVzZXItcGFuZWwuY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL3NoYXJlZC9jb21wb25lbnRzL3VzZXItcGFuZWwvQzpcXFVzZXJzXFxqb2JcXERvY3VtZW50c1xcTWVnYUNlcnZlclxcQW5ndWxhci9zcmNcXHRoZW1lc1xcZ2VuZXJhdGVkXFx2YXJpYWJsZXMuYmFzZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUVBO0VBQ0UsYUFBYTtFQUNiLG1CQUFtQixFQUFBO0VBRW5CO0lBQ0UsaUJBQWlCO0lBQ2pCLDJDQUEyQyxFQUFBO0VBTi9DO0lBVUksZ0JBQWdCO0lBQ2hCLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osV0FBVztJQUNYLGFBQWE7SUFDYixvQ0FBb0M7SUFDcEMseUNBQXNDLEVBQUE7RUFoQjFDO01BbUJNLFdBQVc7TUFDWCxZQUFZO01BQ1osZ0hBQWdIO01BQ2hILHNCQUFzQixFQUFBO0VBdEI1QjtJQTJCSSxlQUFlO0lBQ2YsMEJDOUJpQztJRCtCakMsYUFBYSxFQUFBO0VBSWpCO0VBRUksc0JBQXNCO0VBQ3RCLDBCQUEwQjtFQUMxQixrQkFBa0IsRUFBQTtFQUp0QjtFQU9JLGVBQWU7RUFDZixpQkFBaUIsRUFBQTtFQUlyQjtFQUdNLGlCQUFpQixFQUFBO0VBSHZCO0VBT0ksa0JBQWtCLEVBQUE7RUFQdEI7RUFVTSxxQkFBcUIsRUFBQTtFQUkzQjtFQUNFLGlCQUFpQjtFQUNqQixrQkFBa0IsRUFBQSIsImZpbGUiOiJzcmMvYXBwL3NoYXJlZC9jb21wb25lbnRzL3VzZXItcGFuZWwvdXNlci1wYW5lbC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIkBpbXBvcnQgXCIuLi8uLi8uLi8uLi90aGVtZXMvZ2VuZXJhdGVkL3ZhcmlhYmxlcy5iYXNlLnNjc3NcIjtcclxuXHJcbi51c2VyLWluZm8ge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuXHJcbiAgOmhvc3QtY29udGV4dCguZHgtdG9vbGJhci1tZW51LXNlY3Rpb24pICYge1xyXG4gICAgcGFkZGluZzogMTBweCA2cHg7XHJcbiAgICBib3JkZXItYm90dG9tOiAxcHggc29saWQgcmdiYSgwLCAwLCAwLCAwLjEpO1xyXG4gIH1cclxuXHJcbiAgLmltYWdlLWNvbnRhaW5lciB7XHJcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xyXG4gICAgYm9yZGVyLXJhZGl1czogNTAlO1xyXG4gICAgaGVpZ2h0OiAzMHB4O1xyXG4gICAgd2lkdGg6IDMwcHg7XHJcbiAgICBtYXJnaW46IDAgNHB4O1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgcmdiYSgwLCAwLCAwLCAwLjEpO1xyXG4gICAgYm94LXNoYWRvdzogMCAxcHggM3B4IHJnYmEoMCwwLDAsMC4xNSk7XHJcblxyXG4gICAgLnVzZXItaW1hZ2Uge1xyXG4gICAgICB3aWR0aDogMTAwJTtcclxuICAgICAgaGVpZ2h0OiAxMDAlO1xyXG4gICAgICBiYWNrZ3JvdW5kOiB1cmwoXCJodHRwczovL2pzLmRldmV4cHJlc3MuY29tL0RlbW9zL1dpZGdldHNHYWxsZXJ5L0pTRGVtb3MvaW1hZ2VzL2VtcGxveWVlcy8wNi5wbmdcIikgbm8tcmVwZWF0ICNmZmY7XHJcbiAgICAgIGJhY2tncm91bmQtc2l6ZTogY292ZXI7XHJcbiAgICB9XHJcbiAgfVxyXG5cclxuICAudXNlci1uYW1lIHtcclxuICAgIGZvbnQtc2l6ZTogMTRweDtcclxuICAgIGNvbG9yOiAkYmFzZS10ZXh0LWNvbG9yO1xyXG4gICAgbWFyZ2luOiAwIDlweDtcclxuICB9XHJcbn1cclxuXHJcbi51c2VyLXBhbmVsIDo6bmctZGVlcCB7XHJcbiAgLmR4LWxpc3QtaXRlbSAuZHgtaWNvbiB7XHJcbiAgICB2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO1xyXG4gICAgY29sb3I6IHJnYmEoMCwgMCwgMCwgMC44Nyk7XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDE2cHg7XHJcbiAgfVxyXG4gIC5keC1ydGwgLmR4LWxpc3QtaXRlbSAuZHgtaWNvbiB7XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDA7XHJcbiAgICBtYXJnaW4tbGVmdDogMTZweDtcclxuICB9XHJcbn1cclxuXHJcbjo6bmctZGVlcCAuZHgtY29udGV4dC1tZW51LnVzZXItbWVudSB7XHJcbiAgJi5keC1ydGwge1xyXG4gICAgLmR4LXN1Ym1lbnUgLmR4LW1lbnUtaXRlbXMtY29udGFpbmVyIC5keC1pY29uIHtcclxuICAgICAgbWFyZ2luLWxlZnQ6IDE2cHg7XHJcbiAgICB9XHJcbiAgfVxyXG4gIC5keC1zdWJtZW51IC5keC1tZW51LWl0ZW1zLWNvbnRhaW5lciAuZHgtaWNvbiB7XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDE2cHg7XHJcbiAgfVxyXG4gIC5keC1tZW51LWl0ZW0gLmR4LW1lbnUtaXRlbS1jb250ZW50IHtcclxuICAgICAgcGFkZGluZzogM3B4IDE1cHggNHB4O1xyXG4gIH1cclxufVxyXG5cclxuOjpuZy1kZWVwIC5keC10aGVtZS1nZW5lcmljIC51c2VyLW1lbnUgLmR4LW1lbnUtaXRlbS1jb250ZW50IC5keC1tZW51LWl0ZW0tdGV4dCB7XHJcbiAgcGFkZGluZy1sZWZ0OiA0cHg7XHJcbiAgcGFkZGluZy1yaWdodDogNHB4O1xyXG59XHJcbiIsIiRiYXNlLXRleHQtY29sb3I6IHJnYmEoMCwgMCwgMCwgMC44Nyk7XG4kYmFzZS1iZzogI2ZmZjtcbiRiYXNlLWJvcmRlci1jb2xvcjogI2UwZTBlMDtcbiRiYXNlLWJvcmRlci1yYWRpdXM6IDRweDtcbiRiYXNlLWFjY2VudDogI0ZGNTcyMjtcbiJdfQ== */"
+module.exports = ".user-info {\n  display: flex;\n  align-items: center; }\n  :host-context(.dx-toolbar-menu-section) .user-info {\n    padding: 10px 6px;\n    border-bottom: 1px solid rgba(0, 0, 0, 0.1); }\n  .user-info .image-container {\n    overflow: hidden;\n    border-radius: 50%;\n    height: 30px;\n    width: 30px;\n    margin: 0 4px;\n    border: 1px solid rgba(0, 0, 0, 0.1);\n    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }\n  .user-info .image-container .user-image {\n      width: 100%;\n      height: 100%;\n      background: url(\"https://cf.geekdo-images.com/itemrep/img/lZ0WwwfIr1W168AohrrrR5utqAQ=/fit-in/246x300/pic3193295.jpg\") no-repeat #fff;\n      background-size: cover; }\n  .user-info .user-name {\n    font-size: 14px;\n    color: rgba(0, 0, 0, 0.87);\n    margin: 0 9px; }\n  .user-panel ::ng-deep .dx-list-item .dx-icon {\n  vertical-align: middle;\n  color: rgba(0, 0, 0, 0.87);\n  margin-right: 16px; }\n  .user-panel ::ng-deep .dx-rtl .dx-list-item .dx-icon {\n  margin-right: 0;\n  margin-left: 16px; }\n  ::ng-deep .dx-context-menu.user-menu.dx-rtl .dx-submenu .dx-menu-items-container .dx-icon {\n  margin-left: 16px; }\n  ::ng-deep .dx-context-menu.user-menu .dx-submenu .dx-menu-items-container .dx-icon {\n  margin-right: 16px; }\n  ::ng-deep .dx-context-menu.user-menu .dx-menu-item .dx-menu-item-content {\n  padding: 3px 15px 4px; }\n  ::ng-deep .dx-theme-generic .user-menu .dx-menu-item-content .dx-menu-item-text {\n  padding-left: 4px;\n  padding-right: 4px; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvc2hhcmVkL2NvbXBvbmVudHMvdXNlci1wYW5lbC9DOlxcVXNlcnNcXGpvYlxcRG9jdW1lbnRzXFxNZWdhQ2VydmVyXFxBbmd1bGFyL3NyY1xcYXBwXFxzaGFyZWRcXGNvbXBvbmVudHNcXHVzZXItcGFuZWxcXHVzZXItcGFuZWwuY29tcG9uZW50LnNjc3MiLCJzcmMvYXBwL3NoYXJlZC9jb21wb25lbnRzL3VzZXItcGFuZWwvQzpcXFVzZXJzXFxqb2JcXERvY3VtZW50c1xcTWVnYUNlcnZlclxcQW5ndWxhci9zcmNcXHRoZW1lc1xcZ2VuZXJhdGVkXFx2YXJpYWJsZXMuYmFzZS5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUVBO0VBQ0UsYUFBYTtFQUNiLG1CQUFtQixFQUFBO0VBRW5CO0lBQ0UsaUJBQWlCO0lBQ2pCLDJDQUEyQyxFQUFBO0VBTi9DO0lBVUksZ0JBQWdCO0lBQ2hCLGtCQUFrQjtJQUNsQixZQUFZO0lBQ1osV0FBVztJQUNYLGFBQWE7SUFDYixvQ0FBb0M7SUFDcEMseUNBQXNDLEVBQUE7RUFoQjFDO01BbUJNLFdBQVc7TUFDWCxZQUFZO01BQ1oscUlBQXFJO01BQ3JJLHNCQUFzQixFQUFBO0VBdEI1QjtJQTJCSSxlQUFlO0lBQ2YsMEJDOUJpQztJRCtCakMsYUFBYSxFQUFBO0VBSWpCO0VBRUksc0JBQXNCO0VBQ3RCLDBCQUEwQjtFQUMxQixrQkFBa0IsRUFBQTtFQUp0QjtFQU9JLGVBQWU7RUFDZixpQkFBaUIsRUFBQTtFQUlyQjtFQUdNLGlCQUFpQixFQUFBO0VBSHZCO0VBT0ksa0JBQWtCLEVBQUE7RUFQdEI7RUFVTSxxQkFBcUIsRUFBQTtFQUkzQjtFQUNFLGlCQUFpQjtFQUNqQixrQkFBa0IsRUFBQSIsImZpbGUiOiJzcmMvYXBwL3NoYXJlZC9jb21wb25lbnRzL3VzZXItcGFuZWwvdXNlci1wYW5lbC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIkBpbXBvcnQgXCIuLi8uLi8uLi8uLi90aGVtZXMvZ2VuZXJhdGVkL3ZhcmlhYmxlcy5iYXNlLnNjc3NcIjtcclxuXHJcbi51c2VyLWluZm8ge1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuXHJcbiAgOmhvc3QtY29udGV4dCguZHgtdG9vbGJhci1tZW51LXNlY3Rpb24pICYge1xyXG4gICAgcGFkZGluZzogMTBweCA2cHg7XHJcbiAgICBib3JkZXItYm90dG9tOiAxcHggc29saWQgcmdiYSgwLCAwLCAwLCAwLjEpO1xyXG4gIH1cclxuXHJcbiAgLmltYWdlLWNvbnRhaW5lciB7XHJcbiAgICBvdmVyZmxvdzogaGlkZGVuO1xyXG4gICAgYm9yZGVyLXJhZGl1czogNTAlO1xyXG4gICAgaGVpZ2h0OiAzMHB4O1xyXG4gICAgd2lkdGg6IDMwcHg7XHJcbiAgICBtYXJnaW46IDAgNHB4O1xyXG4gICAgYm9yZGVyOiAxcHggc29saWQgcmdiYSgwLCAwLCAwLCAwLjEpO1xyXG4gICAgYm94LXNoYWRvdzogMCAxcHggM3B4IHJnYmEoMCwwLDAsMC4xNSk7XHJcblxyXG4gICAgLnVzZXItaW1hZ2Uge1xyXG4gICAgICB3aWR0aDogMTAwJTtcclxuICAgICAgaGVpZ2h0OiAxMDAlO1xyXG4gICAgICBiYWNrZ3JvdW5kOiB1cmwoXCJodHRwczovL2NmLmdlZWtkby1pbWFnZXMuY29tL2l0ZW1yZXAvaW1nL2xaMFd3d2ZJcjFXMTY4QW9ocnJyUjV1dHFBUT0vZml0LWluLzI0NngzMDAvcGljMzE5MzI5NS5qcGdcIikgbm8tcmVwZWF0ICNmZmY7XHJcbiAgICAgIGJhY2tncm91bmQtc2l6ZTogY292ZXI7XHJcbiAgICB9XHJcbiAgfVxyXG5cclxuICAudXNlci1uYW1lIHtcclxuICAgIGZvbnQtc2l6ZTogMTRweDtcclxuICAgIGNvbG9yOiAkYmFzZS10ZXh0LWNvbG9yO1xyXG4gICAgbWFyZ2luOiAwIDlweDtcclxuICB9XHJcbn1cclxuXHJcbi51c2VyLXBhbmVsIDo6bmctZGVlcCB7XHJcbiAgLmR4LWxpc3QtaXRlbSAuZHgtaWNvbiB7XHJcbiAgICB2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlO1xyXG4gICAgY29sb3I6IHJnYmEoMCwgMCwgMCwgMC44Nyk7XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDE2cHg7XHJcbiAgfVxyXG4gIC5keC1ydGwgLmR4LWxpc3QtaXRlbSAuZHgtaWNvbiB7XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDA7XHJcbiAgICBtYXJnaW4tbGVmdDogMTZweDtcclxuICB9XHJcbn1cclxuXHJcbjo6bmctZGVlcCAuZHgtY29udGV4dC1tZW51LnVzZXItbWVudSB7XHJcbiAgJi5keC1ydGwge1xyXG4gICAgLmR4LXN1Ym1lbnUgLmR4LW1lbnUtaXRlbXMtY29udGFpbmVyIC5keC1pY29uIHtcclxuICAgICAgbWFyZ2luLWxlZnQ6IDE2cHg7XHJcbiAgICB9XHJcbiAgfVxyXG4gIC5keC1zdWJtZW51IC5keC1tZW51LWl0ZW1zLWNvbnRhaW5lciAuZHgtaWNvbiB7XHJcbiAgICBtYXJnaW4tcmlnaHQ6IDE2cHg7XHJcbiAgfVxyXG4gIC5keC1tZW51LWl0ZW0gLmR4LW1lbnUtaXRlbS1jb250ZW50IHtcclxuICAgICAgcGFkZGluZzogM3B4IDE1cHggNHB4O1xyXG4gIH1cclxufVxyXG5cclxuOjpuZy1kZWVwIC5keC10aGVtZS1nZW5lcmljIC51c2VyLW1lbnUgLmR4LW1lbnUtaXRlbS1jb250ZW50IC5keC1tZW51LWl0ZW0tdGV4dCB7XHJcbiAgcGFkZGluZy1sZWZ0OiA0cHg7XHJcbiAgcGFkZGluZy1yaWdodDogNHB4O1xyXG59XHJcbiIsIiRiYXNlLXRleHQtY29sb3I6IHJnYmEoMCwgMCwgMCwgMC44Nyk7XG4kYmFzZS1iZzogI2ZmZjtcbiRiYXNlLWJvcmRlci1jb2xvcjogI2UwZTBlMDtcbiRiYXNlLWJvcmRlci1yYWRpdXM6IDRweDtcbiRiYXNlLWFjY2VudDogI0ZGNTcyMjtcbiJdfQ== */"
 
 /***/ }),
 
@@ -1870,6 +1885,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var devextreme_angular_ui_list__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_list__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var devextreme_angular_ui_context_menu__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! devextreme-angular/ui/context-menu */ "./node_modules/devextreme-angular/ui/context-menu.js");
 /* harmony import */ var devextreme_angular_ui_context_menu__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(devextreme_angular_ui_context_menu__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var ngx_cookie_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-cookie-service */ "./node_modules/ngx-cookie-service/ngx-cookie-service.js");
+
 
 
 
@@ -1877,12 +1894,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let UserPanelComponent = class UserPanelComponent {
-    constructor(gameService) {
+    constructor(gameService, cookieService) {
         this.gameService = gameService;
+        this.cookieService = cookieService;
+    }
+    logout() {
+        this.gameService.playerIndex = undefined;
+        this.cookieService.delete('playerIndex');
+        console.log('++++++++++++ Logged out!');
     }
 };
 UserPanelComponent.ctorParameters = () => [
-    { type: src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_1__["GameService"] }
+    { type: src_app_shared_services_game_service__WEBPACK_IMPORTED_MODULE_1__["GameService"] },
+    { type: ngx_cookie_service__WEBPACK_IMPORTED_MODULE_6__["CookieService"] }
 ];
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"])()
