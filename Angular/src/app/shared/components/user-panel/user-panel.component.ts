@@ -1,9 +1,10 @@
-import { GameService } from 'src/app/shared/services/game.service';
-import { Component, NgModule, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {GameService} from 'src/app/shared/services/game.service';
+import {Component, Input, NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { DxListModule } from 'devextreme-angular/ui/list';
-import { DxContextMenuModule } from 'devextreme-angular/ui/context-menu';
+import {DxListModule} from 'devextreme-angular/ui/list';
+import {DxContextMenuModule} from 'devextreme-angular/ui/context-menu';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-user-panel',
@@ -18,7 +19,16 @@ export class UserPanelComponent {
   @Input()
   menuMode: string;
 
-  constructor(public readonly gameService: GameService) {}
+  constructor(public readonly gameService: GameService,
+              private readonly cookieService: CookieService) {
+  }
+
+
+  logout() {
+    this.gameService.playerIndex = undefined;
+    this.cookieService.delete('playerIndex');
+    console.log('++++++++++++ Logged out!');
+  }
 }
 
 @NgModule({
@@ -27,7 +37,8 @@ export class UserPanelComponent {
     DxContextMenuModule,
     CommonModule
   ],
-  declarations: [ UserPanelComponent ],
-  exports: [ UserPanelComponent ]
+  declarations: [UserPanelComponent],
+  exports: [UserPanelComponent]
 })
-export class UserPanelModule { }
+export class UserPanelModule {
+}
