@@ -175,7 +175,16 @@ export class GameService {
 
     } else if (this.game.phase === 6) {
       this.treasuryReset(this.getActivePlayers());
-
+      for (const player of this.game.players) { //autoready spelers die deze fase niets kunnen
+        if (!player.ownedAdvances.includes(AdvanceNumber.WONDER_OF_THE_WORLD) ||
+        (!player.ownedAdvances.includes(AdvanceNumber.CARTOGRAPHY) && !(player.tokensIntreasuryBeforeTurn < 5)) ||
+        (!player.ownedAdvances.includes(AdvanceNumber.RHETORIC) && !(player.tokensIntreasuryBeforeTurn < 9)) ||
+        (!player.ownedAdvances.includes(AdvanceNumber.MINING) && !(player.tokensIntreasuryBeforeTurn < 13)) ||
+        !(player.tokensIntreasuryBeforeTurn < 15)) {
+          player.isReady = true;
+        }
+      }
+      
     } else if (this.game.phase === 7) {
       this.treasuryReset(this.getActivePlayers());
       this.tradecardBoughtReset(this.getActivePlayers());
@@ -183,10 +192,30 @@ export class GameService {
       this.game.countDown = 900;
 
     } else if (this.game.phase === 8) {
+      //autoready iederen omdat deze fase nog niet ingebouwd is
+      for (const player of this.game.players) { 
+        if (player.isActive) {
+          player.isReady = true;
+        }
+      }
 
     } else if (this.game.phase === 9) {
+      //autoready iederen omdat deze fase nog niet ingebouwd is
+      for (const player of this.game.players) { 
+        if (player.isActive) {
+          player.isReady = true;
+        }
+      }
 
     } else if (this.game.phase === 10) {
+      for (const player of this.game.players) { //autoready spelers die deze fase niets kunnen
+        if (!player.ownedAdvances.includes(AdvanceNumber.FUNDAMENTALISM) || !player.ownedAdvances.includes(AdvanceNumber.UNIVERSAL_DOCTRINE) ||
+          !player.ownedAdvances.includes(AdvanceNumber.TRADE_ROUTES) || !player.ownedAdvances.includes(AdvanceNumber.POLITICS) || 
+          !player.ownedAdvances.includes(AdvanceNumber.MONOTHEISM) || !player.ownedAdvances.includes(AdvanceNumber.PROVINCIAL_EMPIRE) ||
+          !player.ownedAdvances.includes(AdvanceNumber.DIASPORA)) {
+            player.isReady = true;
+        }
+      }
 
     } else if (this.game.phase === 11) {
 

@@ -173,6 +173,6 @@ export class ActionsComponent {
   }
 
   tradecardWonOrLost(){
-    this.gameService.getCurrentPlayer().numberOfTradeCardsAfterTurn = this.gameService.getCurrentPlayer().numberOfTradeCardsBeforeTurn - this.gameService.getCurrentPlayer().tradeCardDifference;
+    this.gameService.getCurrentPlayer().numberOfTradeCardsAfterTurn = this.gameService.getCurrentPlayer().numberOfTradeCardsBeforeTurn + this.gameService.getCurrentPlayer().tradeCardDifference;
   }
 }

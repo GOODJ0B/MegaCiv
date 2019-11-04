@@ -199,7 +199,8 @@
                      [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       TREASURY:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn" [readOnly]="false" (onValueChanged)="treasuryChanged();"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn" [readOnly]="gameService.getCurrentPlayer().isReady"
+                     (onValueChanged)="treasuryChanged();"
                      [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       CITIES ON BOARD:
@@ -240,7 +241,7 @@
     <br><br>
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.WONDER_OF_THE_WORLD)">
       FREE TRADECARD LEVEL:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().wotwTradecard" [readOnly]="false"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().wotwTradecard" [readOnly]="gameService.getCurrentPlayer().isReady"
       [min]="1" [max]="9" [min]="gameService.getCurrentPlayer().citiesOnBoard + 1" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
     </div>
@@ -249,36 +250,36 @@
     [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     BUY LEVEL 9 TRADECARD FOR 15 TREASURY:
-    <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl9TradecardsBought" [readOnly]="false" (onValueChanged)="buyTradecard();"
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl9TradecardsBought" [readOnly]="gameService.getCurrentPlayer().isReady" (onValueChanged)="buyTradecard();"
     [max]="3" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)">
       BUY LEVEL 8 TRADECARD FOR 13 TREASURY:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl8TradecardsBought" [readOnly]="false" (onValueChanged)="buyTradecard();"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl8TradecardsBought" [readOnly]="gameService.getCurrentPlayer().isReady" (onValueChanged)="buyTradecard();"
       [max]="4" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
     </div>
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CARTOGRAPHY)">
       BUY LEVEL 7 TRADECARD FOR 13 TREASURY:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl7TradecardsBought" [readOnly]="false" (onValueChanged)="buyTradecard();"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl7TradecardsBought" [readOnly]="gameService.getCurrentPlayer().isReady" (onValueChanged)="buyTradecard();"
       [max]="4" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
     </div>
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)">
       BUY LEVEL 6 TRADECARD FOR 13 TREASURY:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl6TradecardsBought" [readOnly]="false" (onValueChanged)="buyTradecard();"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl6TradecardsBought" [readOnly]="gameService.getCurrentPlayer().isReady" (onValueChanged)="buyTradecard();"
       [max]="4" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
     </div>
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.RHETORIC)">
       BUY LEVEL 3 TRADECARD FOR 9 TREASURY:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl3TradecardsBought" [readOnly]="false" (onValueChanged)="buyTradecard();"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl3TradecardsBought" [readOnly]="gameService.getCurrentPlayer().isReady" (onValueChanged)="buyTradecard();"
       [max]="6" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
     </div>
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CARTOGRAPHY)">
       BUY LEVEL 2 TRADECARD FOR 5 TREASURY:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl2TradecardsBought" [readOnly]="false" (onValueChanged)="buyTradecard();"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl2TradecardsBought" [readOnly]="gameService.getCurrentPlayer().isReady" (onValueChanged)="buyTradecard();"
       [max]="11" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     </div>
   </div>
@@ -371,7 +372,8 @@
                      [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       Treasury:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn" [readOnly]="false" (onValueChanged)="treasuryChanged();"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn" [readOnly]="gameService.getCurrentPlayer().isReady"
+                     (onValueChanged)="treasuryChanged();"
                      [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       Cities on board:
