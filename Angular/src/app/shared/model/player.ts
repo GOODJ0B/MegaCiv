@@ -13,7 +13,7 @@ export class Player {
   tokensInStock = 55;
   tokensOnBoard = 0;
   //  tokensInTreasury = 0; //gaat weg
-  tokensIntreasuryBeforeTurn = 0;
+  tokensInTreasuryBeforeTurn = 0;
   treasuryUsed = 0;
   treasuryWon = 0;
   tokensInTreasuryAfterTurn = 0;

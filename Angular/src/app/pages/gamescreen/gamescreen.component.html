@@ -99,7 +99,7 @@
   </ng-container>
 
   <ng-container *ngIf="gameService.game.phase === 6">
-    <dxi-column caption="BLOCK" dataField="block" alignment="center"></dxi-column>
+    <dxi-column caption="BLOCK" dataField="item.data.block === 1 ? item.data.block === 2 ? 'EAST' : 'WEST' : '-'" alignment="center"></dxi-column>
     <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY" dataField="tokensInTreasuryAfterTurn" alignment="center"></dxi-column>
     <dxi-column caption="WONDER OF THE WORLD" dataField="" alignment="center"
@@ -119,7 +119,7 @@
   </ng-container>
 
   <ng-container *ngIf="gameService.game.phase === 7">
-    <dxi-column caption="BLOCK" dataField="block" alignment="center"></dxi-column>
+    <dxi-column caption="BLOCK" dataField="item.data.block === 1 ? item.data.block === 2 ? 'EAST' : 'WEST' : '-'" alignment="center"></dxi-column>
     <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TRADECARDS" dataField="numberOfTradeCardsBeforeTurn" alignment="center"></dxi-column>
     <dxi-column caption="TIME" dataField=""></dxi-column>
@@ -204,6 +204,13 @@
   </div>
   <div *dxTemplate="let item of 'displayName'">
     {{item.data.civilizationName}} ({{item.data.playerName}})
+  </div>
+  
+  </div>
+  <div *dxTemplate="let item of 'hasPUBLIC_WORKSdefence'">
+    <div style="background-color: grey; color: white">
+      {{ item.data.ownedAdvances.includes(advanceNumber.PUBLIC_WORKS) ? 'PUBLIC WORKS' : '' }}
+    </div>
   </div>
 
   <div *dxTemplate="let item of 'taxRevolt'">

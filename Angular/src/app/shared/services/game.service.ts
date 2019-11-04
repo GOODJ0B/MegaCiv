@@ -182,14 +182,14 @@ export class GameService {
       this.treasuryReset(this.getActivePlayers());
       for (const player of this.game.players) { //autoready spelers die deze fase niets kunnen
         if (!player.ownedAdvances.includes(AdvanceNumber.WONDER_OF_THE_WORLD) ||
-        (!player.ownedAdvances.includes(AdvanceNumber.CARTOGRAPHY) && !(player.tokensIntreasuryBeforeTurn < 5)) ||
-        (!player.ownedAdvances.includes(AdvanceNumber.RHETORIC) && !(player.tokensIntreasuryBeforeTurn < 9)) ||
-        (!player.ownedAdvances.includes(AdvanceNumber.MINING) && !(player.tokensIntreasuryBeforeTurn < 13)) ||
-        !(player.tokensIntreasuryBeforeTurn < 15)) {
+        (!player.ownedAdvances.includes(AdvanceNumber.CARTOGRAPHY) && !(player.tokensInTreasuryBeforeTurn < 5)) ||
+        (!player.ownedAdvances.includes(AdvanceNumber.RHETORIC) && !(player.tokensInTreasuryBeforeTurn < 9)) ||
+        (!player.ownedAdvances.includes(AdvanceNumber.MINING) && !(player.tokensInTreasuryBeforeTurn < 13)) ||
+        !(player.tokensInTreasuryBeforeTurn < 15)) {
           player.isReady = true;
         }
       }
-      
+
     } else if (this.game.phase === 7) {
       this.treasuryReset(this.getActivePlayers());
       this.tradecardBoughtReset(this.getActivePlayers());
@@ -271,12 +271,12 @@ export class GameService {
   }
 
   treasuryCalculations(player: Player): void {
-    player.tokensInTreasuryAfterTurn = (player.tokensIntreasuryBeforeTurn + player.treasuryWon - player.treasuryUsed);
+    player.tokensInTreasuryAfterTurn = (player.tokensInTreasuryBeforeTurn + player.treasuryWon - player.treasuryUsed);
   }
 
   treasuryReset(players: Player[]): void {
     players.forEach(player => {
-      player.tokensIntreasuryBeforeTurn = player.tokensInTreasuryAfterTurn;
+      player.tokensInTreasuryBeforeTurn = player.tokensInTreasuryAfterTurn;
       player.tokensInStock -= player.treasuryWon += player.treasuryUsed;
       player.treasuryWon = 0;
       player.treasuryUsed = 0;

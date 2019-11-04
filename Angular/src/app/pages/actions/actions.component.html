@@ -199,7 +199,7 @@
                      [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       TREASURY:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn" [readOnly]="gameService.getCurrentPlayer().isReady"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn" [readOnly]="gameService.getCurrentPlayer().isReady"
                      (onValueChanged)="treasuryChanged();"
                      [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
@@ -372,7 +372,7 @@
                      [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       Treasury:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensIntreasuryBeforeTurn" [readOnly]="gameService.getCurrentPlayer().isReady"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn" [readOnly]="gameService.getCurrentPlayer().isReady"
                      (onValueChanged)="treasuryChanged();"
                      [max]="55" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
