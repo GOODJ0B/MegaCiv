@@ -1,15 +1,15 @@
-import {Subscription} from 'rxjs';
-import {Injectable} from '@angular/core';
-
-import {Socket} from 'ngx-socket-io';
-
-import {Game} from '../model/game';
-import {startWith} from 'rxjs/operators';
-import {Player} from '../model/player';
-import {phases} from '../model/phases';
-import {AdvanceNumber} from '../model/advances.enum';
-import { BlockNumber } from '../model/blocks.enum';
+import { Injectable } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
+import { Subscription } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 import { advancesList } from '../model/advances-list';
+import { AdvanceNumber } from '../model/advances.enum';
+import { BlockNumber } from '../model/blocks.enum';
+import { Game } from '../model/game';
+import { phases } from '../model/phases';
+import { Player } from '../model/player';
+
+
 
 @Injectable({providedIn: 'root'})
 export class GameService {
@@ -88,7 +88,11 @@ export class GameService {
     if (this.everybodyIsReady() && this.game.hasStarted) {
       this.nextPhase();
     } else {
-      this.sendGameToOtherPlayers();
+      if (index) {
+        this.sendGameToOtherPlayers();
+      } else {
+        this.sendPlayerToOtherPlayers();
+      }
     }
   }
 
@@ -112,7 +116,8 @@ export class GameService {
       this.game.phase += 1;
     }
 
-    // All players are set to unready
+    // All players (including admin) are set to unready
+    this.game.players[0].isReady = false;
     for (const player of this.game.players) {
       if (player.isActive) {
         player.isReady = false;

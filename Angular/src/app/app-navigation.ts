@@ -1,19 +1,19 @@
 export const navigation = [
-  {
-    text: 'Home',
-    path: '/home',
-    icon: 'home'
-  },
+  // {
+  //   text: 'Home',
+  //   path: '/home',
+  //   icon: 'home'
+  // },
   {
     text: 'Acties',
     path: '/actions',
     icon: 'favorites'
   },
-  {
-    text: 'Overview',
-    path: '/overview',
-    icon: 'globe'
-  },
+  // {
+  //   text: 'Overview',
+  //   path: '/overview',
+  //   icon: 'globe'
+  // },
   {
     text: 'Gamescreen',
     path: '/gamescreen',

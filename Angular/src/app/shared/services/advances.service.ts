@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {GameService} from './game.service';
-import {Advance} from '../model/advance.interface';
-import {advancesList} from '../model/advances-list';
-import {AdvanceTypes} from '../model/advance-types.enum';
-import {Player} from '../model/player';
-import {AdvanceNumber} from '../model/advances.enum';
+import { Injectable } from '@angular/core';
+import { AdvanceTypes } from '../model/advance-types.enum';
+import { Advance } from '../model/advance.interface';
+import { advancesList } from '../model/advances-list';
+import { AdvanceNumber } from '../model/advances.enum';
+import { Player } from '../model/player';
+import { GameService } from './game.service';
 
 @Injectable({providedIn: 'root'})
 export class AdvancesService {
@@ -122,7 +122,7 @@ export class AdvancesService {
     if (!this.gameService.getCurrentPlayer().ownedAdvances.includes(advance.id)) {
       this.gameService.getCurrentPlayer().ownedAdvances.push(advance.id);
       this.gameService.game.advancesInPlay[advance.id] = true;
-      this.gameService.sendGameToOtherPlayers();
+      this.gameService.sendPlayerToOtherPlayers();
     }
   }
 

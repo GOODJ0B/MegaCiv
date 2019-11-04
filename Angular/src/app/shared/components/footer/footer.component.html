@@ -1,10 +1,10 @@
 <dx-button *ngIf="!gameService.getCurrentPlayer().isReady" type="success" (onClick)="playerIsReady()" width="200px" [disabled]="gameService.disableReadyButton">Ready</dx-button>
 <dx-button *ngIf="gameService.getCurrentPlayer().isReady" type="danger" (onClick)="playerIsNotReady()" width="200px">Toch niet ready</dx-button>
-
+<!-- 
 <dx-button type="normal" (onClick)="editPhase(-1)" width="150px">Previous Phase</dx-button>
 <dx-button type="normal" (onClick)="editPhase(1)" width="150px">Next Phase</dx-button>
 
-<dx-button type="default" (onClick)="test()" width="150px">TEST</dx-button>
+<dx-button type="default" (onClick)="test()" width="150px">TEST</dx-button> -->
 
 <!-- Countdown: {{ gameService.countDown }} -->
 

@@ -1,14 +1,15 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {GameService} from 'src/app/shared/services/game.service';
-import {Component, NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {Component, NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-
 import {DxButtonModule} from 'devextreme-angular/ui/button';
 import {DxCheckBoxModule} from 'devextreme-angular/ui/check-box';
 import {DxTextBoxModule} from 'devextreme-angular/ui/text-box';
-import {DxValidatorModule} from 'devextreme-angular/ui/validator';
 import {DxValidationGroupModule} from 'devextreme-angular/ui/validation-group';
+import {DxValidatorModule} from 'devextreme-angular/ui/validator';
+import {GameService} from 'src/app/shared/services/game.service';
+import {CookieService} from 'ngx-cookie-service';
+
 
 @Component({
   selector: 'app-login-form',
@@ -20,7 +21,9 @@ export class LoginFormComponent {
 
   showCivilizationButtons = false;
 
-  constructor(public readonly gameService: GameService) { }
+  constructor(public readonly gameService: GameService,
+              private readonly cookieService: CookieService) {
+  }
 
   showCivilizations() {
     if (this.playerName !== '') {
@@ -38,12 +41,12 @@ export class LoginFormComponent {
         }
       }
     }
-
+    this.cookieService.set('playerIndex', `${index}`, 1);
     this.gameService.playerIndex = index;
     this.gameService.getCurrentPlayer().isActive = index !== 0 ? true : false;
     this.gameService.getCurrentPlayer().playerName = this.playerName;
 
-    this.gameService.sendGameToOtherPlayers();
+    this.gameService.sendPlayerToOtherPlayers();
   }
 }
 @NgModule({

@@ -1,10 +1,10 @@
-import { Component, NgModule, Input, Output, EventEmitter, AfterViewInit, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {Component, EventEmitter, Input, NgModule, Output} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { UserPanelModule } from '../user-panel/user-panel.component';
-import { DxButtonModule } from 'devextreme-angular/ui/button';
-import { DxToolbarModule } from 'devextreme-angular/ui/toolbar';
-import { GameService } from '../../services/game.service';
+import {UserPanelModule} from '../user-panel/user-panel.component';
+import {DxButtonModule} from 'devextreme-angular/ui/button';
+import {DxToolbarModule} from 'devextreme-angular/ui/toolbar';
+import {GameService} from '../../services/game.service';
 
 @Component({
   selector: 'app-header',
@@ -20,9 +20,6 @@ export class HeaderComponent {
   menuToggleEnabled = false;
 
   userMenuItems = [{
-    text: 'Profile',
-    icon: 'user'
-  }, {
     text: 'Logout',
     icon: 'runner',
   }];
