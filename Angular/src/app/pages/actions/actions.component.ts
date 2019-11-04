@@ -140,8 +140,7 @@ export class ActionsComponent {
           this.gameService.game.advancesInPlay[advanceNumber] = true;
         }
       });
-      this.gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn -= this.gameService.getCurrentPlayer().treasuryUsed;
-      this.gameService.getCurrentPlayer().treasuryUsed = 0;
+      this.gameService.treasuryCalculations(this.gameService.getCurrentPlayer());
       this.gameService.getCurrentPlayer().discountToScience += this.monumentDiscountToScience + this.writenRecordDiscountToScience;
       this.gameService.getCurrentPlayer().discountToReligion += this.monumentDiscountToReligion + this.writenRecordDiscountToReligion;
       this.gameService.getCurrentPlayer().discountToCrafts += this.monumentDiscountToCrafts + this.writenRecordDiscountToCrafts;

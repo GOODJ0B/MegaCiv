@@ -229,6 +229,7 @@ export class GameService {
       this.calculateDiscountCredits(this.getActivePlayers());
 
     } else if (this.game.phase === 13) {
+      this.treasuryReset(this.getActivePlayers());
       this.game.players.forEach(player => player.selectedAdvances = []);
     }
 
