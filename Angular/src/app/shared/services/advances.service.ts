@@ -131,7 +131,7 @@ export class AdvancesService {
   }
 
   public getAdvanceName(advance: AdvanceNumber): string {
-    return advancesList[advance].name;
+    return advancesList[advance -1].name;
   }
 
   public getAdvanceTypeName(type: AdvanceTypes): string {

@@ -181,13 +181,16 @@ export class GameService {
     } else if (this.game.phase === 6) {
       this.treasuryReset(this.getActivePlayers());
       for (const player of this.game.players) { //autoready spelers die deze fase niets kunnen
-        if (!player.ownedAdvances.includes(AdvanceNumber.WONDER_OF_THE_WORLD) ||
-        (!player.ownedAdvances.includes(AdvanceNumber.CARTOGRAPHY) && !(player.tokensInTreasuryBeforeTurn < 5)) ||
-        (!player.ownedAdvances.includes(AdvanceNumber.RHETORIC) && !(player.tokensInTreasuryBeforeTurn < 9)) ||
-        (!player.ownedAdvances.includes(AdvanceNumber.MINING) && !(player.tokensInTreasuryBeforeTurn < 13)) ||
-        !(player.tokensInTreasuryBeforeTurn < 15)) {
+        if (player.ownedAdvances.includes(AdvanceNumber.WONDER_OF_THE_WORLD) ||
+        (player.ownedAdvances.includes(AdvanceNumber.CARTOGRAPHY) && (player.tokensInTreasuryBeforeTurn >= 5)) ||
+        (player.ownedAdvances.includes(AdvanceNumber.RHETORIC) && (player.tokensInTreasuryBeforeTurn >= 9)) ||
+        (player.ownedAdvances.includes(AdvanceNumber.MINING) && (player.tokensInTreasuryBeforeTurn >= 13)) ||
+        (player.tokensInTreasuryBeforeTurn >= 15)) {
+          player.isReady = false;
+        }else {
           player.isReady = true;
         }
+        this.game.players[0].isReady = false;
       }
 
     } else if (this.game.phase === 7) {
@@ -197,7 +200,7 @@ export class GameService {
       this.game.countDown = 900;
 
     } else if (this.game.phase === 8) {
-      //autoready iederen omdat deze fase nog niet ingebouwd is
+      //autoready iedereen omdat deze fase nog niet ingebouwd is
       for (const player of this.game.players) { 
         if (player.isActive) {
           player.isReady = true;
@@ -205,7 +208,7 @@ export class GameService {
       }
 
     } else if (this.game.phase === 9) {
-      //autoready iederen omdat deze fase nog niet ingebouwd is
+      //autoready iedereen omdat deze fase nog niet ingebouwd is
       for (const player of this.game.players) { 
         if (player.isActive) {
           player.isReady = true;
@@ -214,12 +217,15 @@ export class GameService {
 
     } else if (this.game.phase === 10) {
       for (const player of this.game.players) { //autoready spelers die deze fase niets kunnen
-        if (!player.ownedAdvances.includes(AdvanceNumber.FUNDAMENTALISM) || !player.ownedAdvances.includes(AdvanceNumber.UNIVERSAL_DOCTRINE) ||
-          !player.ownedAdvances.includes(AdvanceNumber.TRADE_ROUTES) || !player.ownedAdvances.includes(AdvanceNumber.POLITICS) || 
-          !player.ownedAdvances.includes(AdvanceNumber.MONOTHEISM) || !player.ownedAdvances.includes(AdvanceNumber.PROVINCIAL_EMPIRE) ||
-          !player.ownedAdvances.includes(AdvanceNumber.DIASPORA)) {
-            player.isReady = true;
+        if (player.ownedAdvances.includes(AdvanceNumber.FUNDAMENTALISM) || player.ownedAdvances.includes(AdvanceNumber.UNIVERSAL_DOCTRINE) ||
+          player.ownedAdvances.includes(AdvanceNumber.TRADE_ROUTES) || player.ownedAdvances.includes(AdvanceNumber.POLITICS) || 
+          player.ownedAdvances.includes(AdvanceNumber.MONOTHEISM) || player.ownedAdvances.includes(AdvanceNumber.PROVINCIAL_EMPIRE) ||
+          player.ownedAdvances.includes(AdvanceNumber.DIASPORA)) {
+            player.isReady = false;
+        }else {
+          player.isReady = true;
         }
+        this.game.players[0].isReady = false;
       }
 
     } else if (this.game.phase === 11) {
@@ -231,6 +237,12 @@ export class GameService {
     } else if (this.game.phase === 13) {
       this.treasuryReset(this.getActivePlayers());
       this.game.players.forEach(player => player.selectedAdvances = []);
+      //autoready iedereen omdat deze fase nog niet ingebouwd is
+      for (const player of this.game.players) { 
+        if (player.isActive) {
+          player.isReady = true;
+        }
+      }
     }
 
     this.sendGameToOtherPlayers();

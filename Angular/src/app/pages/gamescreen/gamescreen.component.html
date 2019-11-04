@@ -205,8 +205,7 @@
   <div *dxTemplate="let item of 'displayName'">
     {{item.data.civilizationName}} ({{item.data.playerName}})
   </div>
-  
-  </div>
+
   <div *dxTemplate="let item of 'hasPUBLIC_WORKSdefence'">
     <div style="background-color: grey; color: white">
       {{ item.data.ownedAdvances.includes(advanceNumber.PUBLIC_WORKS) ? 'PUBLIC WORKS' : '' }}

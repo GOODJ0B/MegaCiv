@@ -92,6 +92,7 @@ export class ActionsComponent {
   treasuryChanged() {
     this.gameService.getCurrentPlayer().tokensInStock =
       this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn;
+      this.gameService.getCurrentPlayer().tokensInTreasuryAfterTurn = this.gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn;
   }
 
   citiesOnBoardChanged() {
