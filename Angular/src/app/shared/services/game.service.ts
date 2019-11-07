@@ -172,16 +172,17 @@ export class GameService {
         if (i === 0) {
           playerList[i].personalCountDown = playerList[i].tokensOnBoard * 4;
         } else if (i === 1) {
-          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3, 5;
+          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3.5;
         } else if (i === 2) {
           playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3;
         } else {
-          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 2, 5;
+          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 2.5;
         }
         if (!playerList[i].ownedAdvances.includes(AdvanceNumber.MILITARY)) {
           playerList[i].personalCountDown += 20;
         }
       }
+      this.game.players.sort((a: Player, b: Player) => a.censusOrder - b.censusOrder);
     } else if (this.game.phase === 4) {
       this.treasuryReset(this.getActivePlayers());
       this.tradecardWonLostReset(this.getActivePlayers());
@@ -340,10 +341,10 @@ export class GameService {
         creditsToScience += advancesList[advanceNumber].discountToScience;
       });
       player.totalDiscountToArts = creditsToArts + player.discountToArts;
-      player.totalDiscountToArts = creditsToCivics + player.discountToArts;
-      player.totalDiscountToArts = creditsToCrafts + player.discountToArts;
-      player.totalDiscountToArts = creditsToReligion + player.discountToArts;
-      player.totalDiscountToArts = creditsToScience + player.discountToArts;
+      player.totalDiscountToCivics = creditsToCivics + player.discountToCivics;
+      player.totalDiscountToCrafts = creditsToCrafts + player.discountToCrafts;
+      player.totalDiscountToReligion = creditsToReligion + player.discountToReligion;
+      player.totalDiscountToScience = creditsToScience + player.discountToScience;
     });
   }
 
@@ -797,9 +798,10 @@ export class GameService {
       this.game.maxTradecards = 9;
       this.game.minorCalamitiesInPlay = true;
     }
-    for (let i = 0; i < this.game.players.length; i++) {
+    for (let i = 1; i < this.game.players.length; i++) {
       if (!this.game.players[i].isActive) {
-        this.game.players.splice(i);
+        console.log('++++++++++++ player', this.game.players[i]);
+        this.game.players.splice(i, 1);
         i--;
       }
     }
