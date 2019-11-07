@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
-import { Subscription } from 'rxjs';
-import { startWith } from 'rxjs/operators';
-import { advancesList } from '../model/advances-list';
-import { AdvanceNumber } from '../model/advances.enum';
-import { BlockNumber } from '../model/blocks.enum';
-import { Game } from '../model/game';
-import { phases } from '../model/phases';
-import { Player } from '../model/player';
-
+import {Injectable} from '@angular/core';
+import {Socket} from 'ngx-socket-io';
+import {Subscription} from 'rxjs';
+import {startWith} from 'rxjs/operators';
+import {advancesList} from '../model/advances-list';
+import {AdvanceNumber} from '../model/advances.enum';
+import {BlockNumber} from '../model/blocks.enum';
+import {Game} from '../model/game';
+import {phases} from '../model/phases';
+import {Player} from '../model/player';
 
 
 @Injectable({providedIn: 'root'})
@@ -41,7 +40,10 @@ export class GameService {
       }
       if (data.ignoreAllPlayersBut === undefined || data.ignoreAllPlayersBut === null) {
         Object.assign(this.tempGame, data);
-        this.game.players[this.tempGame.ignoreAllPlayersBut] = this.tempGame.players[this.tempGame.ignoreAllPlayersBut];
+
+        //  tslint:disable-next-line:max-line-length
+        this.game.players[this.getPlayerFromList(this.game.players, this.tempGame.ignoreAllPlayersBut)] = this.tempGame.players[this.getPlayerFromList(this.tempGame.players, this.tempGame.ignoreAllPlayersBut)];
+
         for (let i = 0; i < this.game.advancesInPlay.length; i++) {
           this.game.advancesInPlay[i] = this.game.advancesInPlay[i] || this.tempGame.advancesInPlay[i];
         }
@@ -53,6 +55,15 @@ export class GameService {
     });
   }
 
+  getPlayerFromList(list: Player[], ASTRank: number): number {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].ASTRank === ASTRank) {
+        return i;
+      }
+    }
+    return null;
+  }
+
   incommingGame() {
     if (this.currentPhase !== this.game.phase) {
       this.phaseHasChangedActions(this.game.phase);
@@ -61,7 +72,7 @@ export class GameService {
       this.startCountDown(this.game.countDown);
       this.game.countDown = 0;
     }
-    // count players in queue during phase 3
+    //  count players in queue during phase 3
     if (this.game.phase === 3) {
       let counter = 0;
       this.getActivePlayers().forEach(player => {
@@ -69,7 +80,7 @@ export class GameService {
           counter += 1;
         }
       });
-      // Start the countdown if there were players in front of you but not anymore.
+      //  Start the countdown if there were players in front of you but not anymore.
       if (this.playersInFrontOfCurrentPlayerInQueue > 0 && counter === 0) {
         this.startCountDown(this.getCurrentPlayer().personalCountDown);
       }
@@ -99,10 +110,10 @@ export class GameService {
   everybodyIsReady(): boolean {
     for (const player of this.game.players) {
       if (player.isActive && !player.isReady) {
-        return false; // Somebody is not yet ready
+        return false; //  Somebody is not yet ready
       }
     }
-    return this.game.players[0].isReady;
+    return this.getAdmin().isReady;
   }
 
   nextPhase() {
@@ -116,56 +127,56 @@ export class GameService {
       this.game.phase += 1;
     }
 
-    // All players (including admin) are set to unready
-    this.game.players[0].isReady = false;
+    //  All players (including admin) are set to unready
+    this.getAdmin().isReady = false;
     for (const player of this.game.players) {
       if (player.isActive) {
         player.isReady = false;
       }
     }
 
-    // Calculations on phase change to determine readyness and other values
+    //  Calculations on phase change to determine readyness and other values
     if (this.game.phase === 1) {
       this.getActivePlayers().forEach(player => {
         this.taxCollectionCalculations(player);
-        // als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
+        //  als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
         if (!(player.ownedAdvances.includes(AdvanceNumber.MONARCHY) || player.ownedAdvances.includes(AdvanceNumber.COINAGE))) {
           player.isReady = true;
         }
-        // Automatisch door als iedereen ready is:
-        // if (this.everybodyIsReady()) {
-        //     this.nextPhase();
-        // }
+        //  Automatisch door als iedereen ready is:
+        //  if (this.everybodyIsReady()) {
+        //      this.nextPhase();
+        //  }
       });
     } else if (this.game.phase === 2) {
-      // reset de taxRate en berekeningen van fase1
+      //  reset de taxRate en berekeningen van fase1
       this.treasuryReset(this.getActivePlayers());
       this.getActivePlayers().forEach(player => {
         player.taxRate = 2;
       });
     } else if (this.game.phase === 3) {
       const playerList = this.getActivePlayers();
-      // Sorteer spelers op aantal token (en bij gelijk aantal op originele volgorde)
+      //  Sorteer spelers op aantal token (en bij gelijk aantal op originele volgorde)
       playerList.sort((a: Player, b: Player) =>
-        b.tokensOnBoard - a.tokensOnBoard === 0 ? a.originalOrder - b.originalOrder : b.tokensOnBoard - a.tokensOnBoard
+        b.tokensOnBoard - a.tokensOnBoard === 0 ? a.ASTRank - b.ASTRank : b.tokensOnBoard - a.tokensOnBoard
       );
-      // Zet de spelers met Military achteraan de rij
+      //  Zet de spelers met Military achteraan de rij
       for (let i = 0; i < playerList.length; i++) {
         playerList[i].censusOrder = playerList[i].ownedAdvances.includes(AdvanceNumber.MILITARY) ? i + playerList.length : i;
       }
-      // Sorteer spelers op censusVolgorde
+      //  Sorteer spelers op censusVolgorde
       playerList.sort((a: Player, b: Player) => a.censusOrder - b.censusOrder);
-      // Geef iedereen een volgnr (logischer leesbaar)
+      //  Geef iedereen een volgnr (logischer leesbaar)
       for (let i = 0; i < playerList.length; i++) {
         playerList[i].censusOrder = i + 1;
         if (i === 0) {
           playerList[i].personalCountDown = playerList[i].tokensOnBoard * 4;
         } else if (i === 1) {
-          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3,5;
+          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3, 5;
         } else if (i === 2) {
           playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3;
         } else {
-          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 2,5;
+          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 2, 5;
         }
         if (!playerList[i].ownedAdvances.includes(AdvanceNumber.MILITARY)) {
           playerList[i].personalCountDown += 20;
@@ -180,17 +191,17 @@ export class GameService {
 
     } else if (this.game.phase === 6) {
       this.treasuryReset(this.getActivePlayers());
-      for (const player of this.game.players) { //autoready spelers die deze fase niets kunnen
+      for (const player of this.game.players) { // autoready spelers die deze fase niets kunnen
         if (player.ownedAdvances.includes(AdvanceNumber.WONDER_OF_THE_WORLD) ||
-        (player.ownedAdvances.includes(AdvanceNumber.CARTOGRAPHY) && (player.tokensInTreasuryBeforeTurn >= 5)) ||
-        (player.ownedAdvances.includes(AdvanceNumber.RHETORIC) && (player.tokensInTreasuryBeforeTurn >= 9)) ||
-        (player.ownedAdvances.includes(AdvanceNumber.MINING) && (player.tokensInTreasuryBeforeTurn >= 13)) ||
-        (player.tokensInTreasuryBeforeTurn >= 15)) {
+          (player.ownedAdvances.includes(AdvanceNumber.CARTOGRAPHY) && (player.tokensInTreasuryBeforeTurn >= 5)) ||
+          (player.ownedAdvances.includes(AdvanceNumber.RHETORIC) && (player.tokensInTreasuryBeforeTurn >= 9)) ||
+          (player.ownedAdvances.includes(AdvanceNumber.MINING) && (player.tokensInTreasuryBeforeTurn >= 13)) ||
+          (player.tokensInTreasuryBeforeTurn >= 15)) {
           player.isReady = false;
-        }else {
+        } else {
           player.isReady = true;
         }
-        this.game.players[0].isReady = false;
+        this.getAdmin().isReady = false;
       }
 
     } else if (this.game.phase === 7) {
@@ -200,32 +211,32 @@ export class GameService {
       this.game.countDown = 900;
 
     } else if (this.game.phase === 8) {
-      //autoready iedereen omdat deze fase nog niet ingebouwd is
-      for (const player of this.game.players) { 
+      // autoready iedereen omdat deze fase nog niet ingebouwd is
+      for (const player of this.game.players) {
         if (player.isActive) {
           player.isReady = true;
         }
       }
 
     } else if (this.game.phase === 9) {
-      //autoready iedereen omdat deze fase nog niet ingebouwd is
-      for (const player of this.game.players) { 
+      // autoready iedereen omdat deze fase nog niet ingebouwd is
+      for (const player of this.game.players) {
         if (player.isActive) {
           player.isReady = true;
         }
       }
 
     } else if (this.game.phase === 10) {
-      for (const player of this.game.players) { //autoready spelers die deze fase niets kunnen
+      for (const player of this.game.players) { // autoready spelers die deze fase niets kunnen
         if (player.ownedAdvances.includes(AdvanceNumber.FUNDAMENTALISM) || player.ownedAdvances.includes(AdvanceNumber.UNIVERSAL_DOCTRINE) ||
-          player.ownedAdvances.includes(AdvanceNumber.TRADE_ROUTES) || player.ownedAdvances.includes(AdvanceNumber.POLITICS) || 
+          player.ownedAdvances.includes(AdvanceNumber.TRADE_ROUTES) || player.ownedAdvances.includes(AdvanceNumber.POLITICS) ||
           player.ownedAdvances.includes(AdvanceNumber.MONOTHEISM) || player.ownedAdvances.includes(AdvanceNumber.PROVINCIAL_EMPIRE) ||
           player.ownedAdvances.includes(AdvanceNumber.DIASPORA)) {
-            player.isReady = false;
-        }else {
+          player.isReady = false;
+        } else {
           player.isReady = true;
         }
-        this.game.players[0].isReady = false;
+        this.getAdmin().isReady = false;
       }
 
     } else if (this.game.phase === 11) {
@@ -237,8 +248,8 @@ export class GameService {
     } else if (this.game.phase === 13) {
       this.treasuryReset(this.getActivePlayers());
       this.game.players.forEach(player => player.selectedAdvances = []);
-      //autoready iedereen omdat deze fase nog niet ingebouwd is
-      for (const player of this.game.players) { 
+      // autoready iedereen omdat deze fase nog niet ingebouwd is
+      for (const player of this.game.players) {
         if (player.isActive) {
           player.isReady = true;
         }
@@ -248,9 +259,9 @@ export class GameService {
     this.sendGameToOtherPlayers();
   }
 
-  // Things that should happen when game arrives with changed phase
+  //  Things that should happen when game arrives with changed phase
   phaseHasChangedActions(newPhase: number): void {
-    // check to prevent error on first load
+    //  check to prevent error on first load
     if (!this.getCurrentPlayer()) {
       return;
     }
@@ -275,12 +286,12 @@ export class GameService {
         player.hasTaxRevolt = true;
         this.game.taxRevoltInPlay = true;
       }
-      // collected tax can not be more than tokens in stock
+      //  collected tax can not be more than tokens in stock
       player.treasuryWon = player.tokensInStock;
     } else {
       player.hasTaxRevolt = false;
     }
-    this.treasuryCalculations(player);    
+    this.treasuryCalculations(player);
   }
 
   treasuryCalculations(player: Player): void {
@@ -295,7 +306,7 @@ export class GameService {
       player.treasuryUsed = 0;
     });
   }
-  
+
   tradecardBoughtReset(players: Player[]): void {
     players.forEach(player => {
       player.lvl9TradecardsBought = 0;
@@ -309,7 +320,7 @@ export class GameService {
 
   tradecardWonLostReset(players: Player[]): void {
     players.forEach(player => {
-      player.numberOfTradeCardsBeforeTurn = player.numberOfTradeCardsAfterTurn
+      player.numberOfTradeCardsBeforeTurn = player.numberOfTradeCardsAfterTurn;
       player.tradeCardDifference = 0;
     });
   }
@@ -328,11 +339,11 @@ export class GameService {
         creditsToReligion += advancesList[advanceNumber].discountToReligion;
         creditsToScience += advancesList[advanceNumber].discountToScience;
       });
-      player.totalDiscountToArts = creditsToArts + player.discountToArts
-      player.totalDiscountToArts = creditsToCivics + player.discountToArts
-      player.totalDiscountToArts = creditsToCrafts + player.discountToArts
-      player.totalDiscountToArts = creditsToReligion + player.discountToArts
-      player.totalDiscountToArts = creditsToScience + player.discountToArts
+      player.totalDiscountToArts = creditsToArts + player.discountToArts;
+      player.totalDiscountToArts = creditsToCivics + player.discountToArts;
+      player.totalDiscountToArts = creditsToCrafts + player.discountToArts;
+      player.totalDiscountToArts = creditsToReligion + player.discountToArts;
+      player.totalDiscountToArts = creditsToScience + player.discountToArts;
     });
   }
 
@@ -359,8 +370,19 @@ export class GameService {
   }
 
   getCurrentPlayer(): Player {
-    if (this.game.players[this.playerIndex]) {
-      return this.game.players[this.playerIndex];
+    for (const player of this.game.players) {
+      if (player.ASTRank === this.playerIndex) {
+        return player;
+      }
+    }
+    return null;
+  }
+
+  getAdmin(): Player {
+    for (const player of this.game.players) {
+      if (player.ASTRank === 0) {
+        return player;
+      }
     }
     return null;
   }
@@ -392,21 +414,21 @@ export class GameService {
 
     this.setupGame();
 
-    // let counter = 0;
-    // this.game.players.forEach(player => {
-    //   if (player.isActive) {
-    //     counter++;
-    //   }
-    // });
-    // this.applyDiscountToAdvances(counter);
-    // this.createBlock(counter);
-    // this.maxTradeCards(counter);
-    // Start game on phase 2 since nobody has cities yet.
+    //  let counter = 0;
+    //  this.game.players.forEach(player => {
+    //    if (player.isActive) {
+    //      counter++;
+    //    }
+    //  });
+    //  this.applyDiscountToAdvances(counter);
+    //  this.createBlock(counter);
+    //  this.maxTradeCards(counter);
+    //  Start game on phase 2 since nobody has cities yet.
     this.game.phase = 1;
     this.nextPhase();
   }
 
-  applyDiscountToAdvances(numberOfPlayers: number) { // niet meer nodig bij gebruik van setupGame
+  applyDiscountToAdvances(numberOfPlayers: number) { //  niet meer nodig bij gebruik van setupGame
     let discount = 0;
     if (numberOfPlayers === 5) {
       discount = 10;
@@ -422,7 +444,7 @@ export class GameService {
     });
   }
 
-  maxTradeCards(numberOfPlayers: number) { // niet meer nodig bij gebruik van setupGame
+  maxTradeCards(numberOfPlayers: number) { //  niet meer nodig bij gebruik van setupGame
     if (numberOfPlayers < 12) {
       this.game.maxTradecards = 8;
     } else {
@@ -430,7 +452,7 @@ export class GameService {
     }
   }
 
-  createBlock(numberOfPlayers: number) { // niet meer nodig bij gebruik van setupGame
+  createBlock(numberOfPlayers: number) { //  niet meer nodig bij gebruik van setupGame
 
   }
 
@@ -446,24 +468,24 @@ export class GameService {
   setupGame(): void {
     const numberOfPlayers = this.getActivePlayers().length;
     if (numberOfPlayers === 5) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.EAST;
-      this.game.players[4].block = BlockNumber.NONE;
-      this.game.players[5].block = BlockNumber.NONE;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.NONE;
-      this.game.players[8].block = BlockNumber.NONE;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.NONE;
-      this.game.players[11].block = BlockNumber.NONE;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.NONE;
-      this.game.players[14].block = BlockNumber.WEST;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.NONE;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.EAST;
+      this.game.players[4].region = BlockNumber.NONE;
+      this.game.players[5].region = BlockNumber.NONE;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.NONE;
+      this.game.players[8].region = BlockNumber.NONE;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.NONE;
+      this.game.players[11].region = BlockNumber.NONE;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.NONE;
+      this.game.players[14].region = BlockNumber.WEST;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.NONE;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 8;
       this.game.players.forEach(player => {
         player.discountToArts += 10;
@@ -473,24 +495,24 @@ export class GameService {
         player.discountToScience += 10;
       });
     } else if (numberOfPlayers === 6) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.NONE;
-      this.game.players[4].block = BlockNumber.NONE;
-      this.game.players[5].block = BlockNumber.NONE;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.EAST;
-      this.game.players[8].block = BlockNumber.NONE;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.WEST;
-      this.game.players[11].block = BlockNumber.EAST;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.EAST;
-      this.game.players[14].block = BlockNumber.NONE;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.WEST;
-      this.game.players[17].block = BlockNumber.NONE;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.NONE;
+      this.game.players[4].region = BlockNumber.NONE;
+      this.game.players[5].region = BlockNumber.NONE;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.EAST;
+      this.game.players[8].region = BlockNumber.NONE;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.WEST;
+      this.game.players[11].region = BlockNumber.EAST;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.EAST;
+      this.game.players[14].region = BlockNumber.NONE;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.WEST;
+      this.game.players[17].region = BlockNumber.NONE;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 8;
       this.game.players.forEach(player => {
         player.discountToArts += 5;
@@ -500,127 +522,127 @@ export class GameService {
         player.discountToScience += 5;
       });
     } else if (numberOfPlayers === 7) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.EAST;
-      this.game.players[4].block = BlockNumber.NONE;
-      this.game.players[5].block = BlockNumber.NONE;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.EAST;
-      this.game.players[8].block = BlockNumber.NONE;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.WEST;
-      this.game.players[11].block = BlockNumber.EAST;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.NONE;
-      this.game.players[14].block = BlockNumber.WEST;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.WEST;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.EAST;
+      this.game.players[4].region = BlockNumber.NONE;
+      this.game.players[5].region = BlockNumber.NONE;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.EAST;
+      this.game.players[8].region = BlockNumber.NONE;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.WEST;
+      this.game.players[11].region = BlockNumber.EAST;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.NONE;
+      this.game.players[14].region = BlockNumber.WEST;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.WEST;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 8;
     } else if (numberOfPlayers === 8) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.EAST;
-      this.game.players[4].block = BlockNumber.WEST;
-      this.game.players[5].block = BlockNumber.NONE;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.EAST;
-      this.game.players[8].block = BlockNumber.WEST;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.WEST;
-      this.game.players[11].block = BlockNumber.EAST;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.EAST;
-      this.game.players[14].block = BlockNumber.NONE;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.WEST;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.EAST;
+      this.game.players[4].region = BlockNumber.WEST;
+      this.game.players[5].region = BlockNumber.NONE;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.EAST;
+      this.game.players[8].region = BlockNumber.WEST;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.WEST;
+      this.game.players[11].region = BlockNumber.EAST;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.EAST;
+      this.game.players[14].region = BlockNumber.NONE;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.WEST;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 8;
     } else if (numberOfPlayers === 9) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.EAST;
-      this.game.players[4].block = BlockNumber.WEST;
-      this.game.players[5].block = BlockNumber.EAST;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.EAST;
-      this.game.players[8].block = BlockNumber.WEST;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.WEST;
-      this.game.players[11].block = BlockNumber.EAST;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.EAST;
-      this.game.players[14].block = BlockNumber.WEST;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.WEST;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.EAST;
+      this.game.players[4].region = BlockNumber.WEST;
+      this.game.players[5].region = BlockNumber.EAST;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.EAST;
+      this.game.players[8].region = BlockNumber.WEST;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.WEST;
+      this.game.players[11].region = BlockNumber.EAST;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.EAST;
+      this.game.players[14].region = BlockNumber.WEST;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.WEST;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 8;
       this.game.minorCalamitiesInPlay = true;
     } else if (numberOfPlayers === 10) {
-      this.game.players[1].block = BlockNumber.WEST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.WEST;
-      this.game.players[4].block = BlockNumber.NONE;
-      this.game.players[5].block = BlockNumber.NONE;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.NONE;
-      this.game.players[8].block = BlockNumber.NONE;
-      this.game.players[9].block = BlockNumber.WEST;
-      this.game.players[10].block = BlockNumber.NONE;
-      this.game.players[11].block = BlockNumber.NONE;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.NONE;
-      this.game.players[14].block = BlockNumber.WEST;
-      this.game.players[15].block = BlockNumber.WEST;
-      this.game.players[16].block = BlockNumber.NONE;
-      this.game.players[17].block = BlockNumber.WEST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.WEST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.WEST;
+      this.game.players[4].region = BlockNumber.NONE;
+      this.game.players[5].region = BlockNumber.NONE;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.NONE;
+      this.game.players[8].region = BlockNumber.NONE;
+      this.game.players[9].region = BlockNumber.WEST;
+      this.game.players[10].region = BlockNumber.NONE;
+      this.game.players[11].region = BlockNumber.NONE;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.NONE;
+      this.game.players[14].region = BlockNumber.WEST;
+      this.game.players[15].region = BlockNumber.WEST;
+      this.game.players[16].region = BlockNumber.NONE;
+      this.game.players[17].region = BlockNumber.WEST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 8;
       this.game.minorCalamitiesInPlay = true;
     } else if (numberOfPlayers === 11) {
-      this.game.players[1].block = BlockNumber.NONE;
-      this.game.players[2].block = BlockNumber.EAST;
-      this.game.players[3].block = BlockNumber.EAST;
-      this.game.players[4].block = BlockNumber.EAST;
-      this.game.players[5].block = BlockNumber.NONE;
-      this.game.players[6].block = BlockNumber.EAST;
-      this.game.players[7].block = BlockNumber.NONE;
-      this.game.players[8].block = BlockNumber.EAST;
-      this.game.players[9].block = BlockNumber.NONE;
-      this.game.players[10].block = BlockNumber.EAST;
-      this.game.players[11].block = BlockNumber.NONE;
-      this.game.players[12].block = BlockNumber.EAST;
-      this.game.players[13].block = BlockNumber.NONE;
-      this.game.players[14].block = BlockNumber.EAST;
-      this.game.players[15].block = BlockNumber.NONE;
-      this.game.players[16].block = BlockNumber.EAST;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.EAST;
+      this.game.players[1].region = BlockNumber.NONE;
+      this.game.players[2].region = BlockNumber.EAST;
+      this.game.players[3].region = BlockNumber.EAST;
+      this.game.players[4].region = BlockNumber.EAST;
+      this.game.players[5].region = BlockNumber.NONE;
+      this.game.players[6].region = BlockNumber.EAST;
+      this.game.players[7].region = BlockNumber.NONE;
+      this.game.players[8].region = BlockNumber.EAST;
+      this.game.players[9].region = BlockNumber.NONE;
+      this.game.players[10].region = BlockNumber.EAST;
+      this.game.players[11].region = BlockNumber.NONE;
+      this.game.players[12].region = BlockNumber.EAST;
+      this.game.players[13].region = BlockNumber.NONE;
+      this.game.players[14].region = BlockNumber.EAST;
+      this.game.players[15].region = BlockNumber.NONE;
+      this.game.players[16].region = BlockNumber.EAST;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.EAST;
       this.game.maxTradecards = 8;
       this.game.minorCalamitiesInPlay = true;
     } else if (numberOfPlayers === 12) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.WEST;
-      this.game.players[4].block = BlockNumber.NONE;
-      this.game.players[5].block = BlockNumber.NONE;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.EAST;
-      this.game.players[8].block = BlockNumber.NONE;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.NONE;
-      this.game.players[11].block = BlockNumber.EAST;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.NONE;
-      this.game.players[14].block = BlockNumber.WEST;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.NONE;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.WEST;
+      this.game.players[4].region = BlockNumber.NONE;
+      this.game.players[5].region = BlockNumber.NONE;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.EAST;
+      this.game.players[8].region = BlockNumber.NONE;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.NONE;
+      this.game.players[11].region = BlockNumber.EAST;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.NONE;
+      this.game.players[14].region = BlockNumber.WEST;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.NONE;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 8;
       this.game.players.forEach(player => {
         player.discountToArts += 5;
@@ -630,150 +652,156 @@ export class GameService {
         player.discountToScience += 5;
       });
     } else if (numberOfPlayers === 13) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.WEST;
-      this.game.players[4].block = BlockNumber.NONE;
-      this.game.players[5].block = BlockNumber.NONE;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.EAST;
-      this.game.players[8].block = BlockNumber.NONE;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.NONE;
-      this.game.players[11].block = BlockNumber.EAST;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.EAST;
-      this.game.players[14].block = BlockNumber.WEST;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.NONE;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.WEST;
+      this.game.players[4].region = BlockNumber.NONE;
+      this.game.players[5].region = BlockNumber.NONE;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.EAST;
+      this.game.players[8].region = BlockNumber.NONE;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.NONE;
+      this.game.players[11].region = BlockNumber.EAST;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.EAST;
+      this.game.players[14].region = BlockNumber.WEST;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.NONE;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 9;
     } else if (numberOfPlayers === 14) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.WEST;
-      this.game.players[4].block = BlockNumber.NONE;
-      this.game.players[5].block = BlockNumber.EAST;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.EAST;
-      this.game.players[8].block = BlockNumber.NONE;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.NONE;
-      this.game.players[11].block = BlockNumber.EAST;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.EAST;
-      this.game.players[14].block = BlockNumber.WEST;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.NONE;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.WEST;
+      this.game.players[4].region = BlockNumber.NONE;
+      this.game.players[5].region = BlockNumber.EAST;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.EAST;
+      this.game.players[8].region = BlockNumber.NONE;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.NONE;
+      this.game.players[11].region = BlockNumber.EAST;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.EAST;
+      this.game.players[14].region = BlockNumber.WEST;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.NONE;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 9;
     } else if (numberOfPlayers === 15) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.WEST;
-      this.game.players[4].block = BlockNumber.NONE;
-      this.game.players[5].block = BlockNumber.NONE;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.EAST;
-      this.game.players[8].block = BlockNumber.NONE;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.WEST;
-      this.game.players[11].block = BlockNumber.EAST;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.EAST;
-      this.game.players[14].block = BlockNumber.WEST;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.WEST;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.WEST;
+      this.game.players[4].region = BlockNumber.NONE;
+      this.game.players[5].region = BlockNumber.NONE;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.EAST;
+      this.game.players[8].region = BlockNumber.NONE;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.WEST;
+      this.game.players[11].region = BlockNumber.EAST;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.EAST;
+      this.game.players[14].region = BlockNumber.WEST;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.WEST;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 9;
       this.game.minorCalamitiesInPlay = true;
     } else if (numberOfPlayers === 16) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.WEST;
-      this.game.players[4].block = BlockNumber.NONE;
-      this.game.players[5].block = BlockNumber.EAST;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.EAST;
-      this.game.players[8].block = BlockNumber.NONE;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.WEST;
-      this.game.players[11].block = BlockNumber.EAST;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.EAST;
-      this.game.players[14].block = BlockNumber.WEST;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.WEST;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.WEST;
+      this.game.players[4].region = BlockNumber.NONE;
+      this.game.players[5].region = BlockNumber.EAST;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.EAST;
+      this.game.players[8].region = BlockNumber.NONE;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.WEST;
+      this.game.players[11].region = BlockNumber.EAST;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.EAST;
+      this.game.players[14].region = BlockNumber.WEST;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.WEST;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 9;
       this.game.minorCalamitiesInPlay = true;
     } else if (numberOfPlayers === 17) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.EAST;
-      this.game.players[4].block = BlockNumber.WEST;
-      this.game.players[5].block = BlockNumber.NONE;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.EAST;
-      this.game.players[8].block = BlockNumber.WEST;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.WEST;
-      this.game.players[11].block = BlockNumber.EAST;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.EAST;
-      this.game.players[14].block = BlockNumber.WEST;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.WEST;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.EAST;
+      this.game.players[4].region = BlockNumber.WEST;
+      this.game.players[5].region = BlockNumber.NONE;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.EAST;
+      this.game.players[8].region = BlockNumber.WEST;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.WEST;
+      this.game.players[11].region = BlockNumber.EAST;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.EAST;
+      this.game.players[14].region = BlockNumber.WEST;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.WEST;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 9;
       this.game.minorCalamitiesInPlay = true;
     } else if (numberOfPlayers === 18) {
-      this.game.players[1].block = BlockNumber.EAST;
-      this.game.players[2].block = BlockNumber.WEST;
-      this.game.players[3].block = BlockNumber.EAST;
-      this.game.players[4].block = BlockNumber.WEST;
-      this.game.players[5].block = BlockNumber.EAST;
-      this.game.players[6].block = BlockNumber.WEST;
-      this.game.players[7].block = BlockNumber.EAST;
-      this.game.players[8].block = BlockNumber.WEST;
-      this.game.players[9].block = BlockNumber.EAST;
-      this.game.players[10].block = BlockNumber.WEST;
-      this.game.players[11].block = BlockNumber.EAST;
-      this.game.players[12].block = BlockNumber.WEST;
-      this.game.players[13].block = BlockNumber.EAST;
-      this.game.players[14].block = BlockNumber.WEST;
-      this.game.players[15].block = BlockNumber.EAST;
-      this.game.players[16].block = BlockNumber.WEST;
-      this.game.players[17].block = BlockNumber.EAST;
-      this.game.players[18].block = BlockNumber.WEST;
+      this.game.players[1].region = BlockNumber.EAST;
+      this.game.players[2].region = BlockNumber.WEST;
+      this.game.players[3].region = BlockNumber.EAST;
+      this.game.players[4].region = BlockNumber.WEST;
+      this.game.players[5].region = BlockNumber.EAST;
+      this.game.players[6].region = BlockNumber.WEST;
+      this.game.players[7].region = BlockNumber.EAST;
+      this.game.players[8].region = BlockNumber.WEST;
+      this.game.players[9].region = BlockNumber.EAST;
+      this.game.players[10].region = BlockNumber.WEST;
+      this.game.players[11].region = BlockNumber.EAST;
+      this.game.players[12].region = BlockNumber.WEST;
+      this.game.players[13].region = BlockNumber.EAST;
+      this.game.players[14].region = BlockNumber.WEST;
+      this.game.players[15].region = BlockNumber.EAST;
+      this.game.players[16].region = BlockNumber.WEST;
+      this.game.players[17].region = BlockNumber.EAST;
+      this.game.players[18].region = BlockNumber.WEST;
       this.game.maxTradecards = 9;
       this.game.minorCalamitiesInPlay = true;
     } else {
-      this.game.players[1].block = BlockNumber.NONE;
-      this.game.players[2].block = BlockNumber.NONE;
-      this.game.players[3].block = BlockNumber.NONE;
-      this.game.players[4].block = BlockNumber.NONE;
-      this.game.players[5].block = BlockNumber.NONE;
-      this.game.players[6].block = BlockNumber.NONE;
-      this.game.players[7].block = BlockNumber.NONE;
-      this.game.players[8].block = BlockNumber.NONE;
-      this.game.players[9].block = BlockNumber.NONE;
-      this.game.players[10].block = BlockNumber.NONE;
-      this.game.players[11].block = BlockNumber.NONE;
-      this.game.players[12].block = BlockNumber.NONE;
-      this.game.players[13].block = BlockNumber.NONE;
-      this.game.players[14].block = BlockNumber.NONE;
-      this.game.players[15].block = BlockNumber.NONE;
-      this.game.players[16].block = BlockNumber.NONE;
-      this.game.players[17].block = BlockNumber.NONE;
-      this.game.players[18].block = BlockNumber.NONE;
+      this.game.players[1].region = BlockNumber.NONE;
+      this.game.players[2].region = BlockNumber.NONE;
+      this.game.players[3].region = BlockNumber.NONE;
+      this.game.players[4].region = BlockNumber.NONE;
+      this.game.players[5].region = BlockNumber.NONE;
+      this.game.players[6].region = BlockNumber.NONE;
+      this.game.players[7].region = BlockNumber.NONE;
+      this.game.players[8].region = BlockNumber.NONE;
+      this.game.players[9].region = BlockNumber.NONE;
+      this.game.players[10].region = BlockNumber.NONE;
+      this.game.players[11].region = BlockNumber.NONE;
+      this.game.players[12].region = BlockNumber.NONE;
+      this.game.players[13].region = BlockNumber.NONE;
+      this.game.players[14].region = BlockNumber.NONE;
+      this.game.players[15].region = BlockNumber.NONE;
+      this.game.players[16].region = BlockNumber.NONE;
+      this.game.players[17].region = BlockNumber.NONE;
+      this.game.players[18].region = BlockNumber.NONE;
       this.game.maxTradecards = 9;
       this.game.minorCalamitiesInPlay = true;
+    }
+    for (let i = 0; i < this.game.players.length; i++) {
+      if (!this.game.players[i].isActive) {
+        this.game.players.splice(i);
+        i--;
+      }
     }
   }
 

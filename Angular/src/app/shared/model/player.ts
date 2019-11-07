@@ -2,7 +2,7 @@ import {AdvanceNumber} from './advances.enum';
 import { BlockNumber } from './blocks.enum';
 
 export class Player {
-  originalOrder: number;
+  ASTRank: number;
   isActive = false;
   isReady = false;
   censusOrder = 0;
@@ -50,13 +50,13 @@ export class Player {
   lvl3TradecardsBought = 0;
   lvl2TradecardsBought = 0;
   personalCountDown = 0;
-  block: BlockNumber;
+  region: BlockNumber;
   totalDiscountToCivics = 0;
   totalDiscountToCrafts = 0;
   totalDiscountToReligion = 0;
   totalDiscountToScience = 0;
   totalDiscountToArts = 0;
-  
+
 
   constructor(civilizationName: string, AstNextAgePoint1: number, AstNextAgePoint2: number) {
     this.civilizationName = civilizationName;

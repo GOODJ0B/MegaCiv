@@ -21,8 +21,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const cookie = +this.cookieService.get('playerIndex');
-    if (cookie > -1) {
+    const cookieExists = this.cookieService.check('playerIndex');
+    if (cookieExists) {
+      const cookie = +this.cookieService.get('playerIndex');
       console.log('++++++++++++ cookie read: ', cookie);
       this.gameService.playerIndex = cookie;
     }

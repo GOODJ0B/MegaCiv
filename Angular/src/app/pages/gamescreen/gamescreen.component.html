@@ -12,7 +12,7 @@
   <dxi-column dataField="isActive" [width]="0" [selectedFilterOperation]="'='" [filterValue]="true"></dxi-column>
   <ng-container *ngIf="gameService.game.phase === 0">
     <dxi-column dataField="isReady" caption="Ready"></dxi-column>
-    <dxi-column dataField="playerName" caption="Speler"></dxi-column>
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column dataField="score" caption="score"></dxi-column>
   </ng-container>
 
@@ -41,8 +41,8 @@
 
   <ng-container *ngIf="gameService.game.phase === 3">
     <dxi-column cellTemplate="hasMILITARY" alignment="center"
-                [visible]="gameService.game.advancesInPlay[advanceNumber.MILITARY]"></dxi-column>
-    <dxi-column caption="POPULATION" dataField="tokensOnBoard" alignment="center"></dxi-column>
+                [visible]="gameService.game.advancesInPlay[advanceNumber.MILITARY]" [sortIndex]="0" sortOrder="asc"></dxi-column>
+    <dxi-column caption="POPULATION" dataField="tokensOnBoard" alignment="center" [sortIndex]="1" sortOrder="desc"></dxi-column>
     <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TIME" dataField="personalCountDown" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY USED" dataField="treasuryUsed" alignment="center"></dxi-column>
@@ -65,8 +65,8 @@
   </ng-container>
 
   <ng-container *ngIf="gameService.game.phase === 4">
-      <dxi-column cellTemplate="hasMETALWORKING" alignment="center"
-      [visible]="gameService.game.advancesInPlay[advanceNumber.METALWORKING]"></dxi-column>
+    <dxi-column cellTemplate="hasMETALWORKING" alignment="center"
+                [visible]="gameService.game.advancesInPlay[advanceNumber.METALWORKING]"></dxi-column>
     <dxi-column cellTemplate="hasENGINEERING" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.ENGINEERING]"></dxi-column>
     <dxi-column cellTemplate="hasNAVAL_WARFARE" alignment="center"
@@ -99,8 +99,9 @@
   </ng-container>
 
   <ng-container *ngIf="gameService.game.phase === 6">
-    <dxi-column caption="BLOCK" dataField="item.data.block === 1 ? item.data.block === 2 ? 'EAST' : 'WEST' : '-'" alignment="center"></dxi-column>
-    <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
+    <dxi-column caption="BLOCK" cellTemplate="Block"
+                alignment="center" sortOrder="asc" sortIndex="0"></dxi-column>
+    <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center" sortOrder="desc" sortIndex="1"></dxi-column>
     <dxi-column caption="TREASURY" dataField="tokensInTreasuryAfterTurn" alignment="center"></dxi-column>
     <dxi-column caption="WONDER OF THE WORLD" dataField="" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.WONDER_OF_THE_WORLD]"></dxi-column>
@@ -119,7 +120,7 @@
   </ng-container>
 
   <ng-container *ngIf="gameService.game.phase === 7">
-    <dxi-column caption="BLOCK" dataField="item.data.block === 1 ? item.data.block === 2 ? 'EAST' : 'WEST' : '-'" alignment="center"></dxi-column>
+    <dxi-column caption="BLOCK" cellTemplate="Block" alignment="center"></dxi-column>
     <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TRADECARDS" dataField="numberOfTradeCardsBeforeTurn" alignment="center"></dxi-column>
     <dxi-column caption="TIME" dataField=""></dxi-column>
@@ -158,7 +159,7 @@
     <dxi-column cellTemplate="hasPROVINCIAL_EMPIRE" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.PROVINCIAL_EMPIRE]"></dxi-column>
     <dxi-column cellTemplate="hasPUBLIC_WORKSdefence" alignment="center"
-                [visible]="gameService.game.advancesInPlay[advanceNumber.PUBLIC_WORKS] && gameService.game.advancesInPlay[advanceNumber.PROVINCIAL_EMPIRE]"></dxi-column>   
+                [visible]="gameService.game.advancesInPlay[advanceNumber.PUBLIC_WORKS] && gameService.game.advancesInPlay[advanceNumber.PROVINCIAL_EMPIRE]"></dxi-column>
     <dxi-column cellTemplate="hasDIASPORA" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.DIASPORA]"></dxi-column>
   </ng-container>
@@ -197,9 +198,15 @@
     <dxi-column caption="TRADECARDS" dataField="numberOfTradeCardsBeforeTurn" alignment="center"></dxi-column>
   </ng-container>
 
+
+  <div *dxTemplate="let item of 'Block'">
+    {{ item.data.region === blockNumber.WEST ? item.data.region === blockNumber.EAST ? 'EAST' : 'WEST' : '-' }}
+  </div>
   <div *dxTemplate="let item of 'selectedAdvances'">
-    <div *ngFor="let advance of item.data.selectedAdvances"
-         style="display: inline">{{advancesService.getAdvanceName(advance)}},
+    <div *ngFor="let advance of item.data.selectedAdvances" style="display: inline">
+      <div *ngIf="item.data.isReady">
+        {{advancesService.getAdvanceName(advance)}},
+      </div>
     </div>
   </div>
   <div *dxTemplate="let item of 'displayName'">
@@ -268,10 +275,10 @@
     </div>
   </div>
   <div *dxTemplate="let item of 'hasCULTURAL_ASCENDANCYnegative'">
-      <div style="background-color: red; color: white">
-        {{ item.data.ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) ? 'CULTURAL ASCENDANCY' : '' }}
-      </div>
+    <div style="background-color: red; color: white">
+      {{ item.data.ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) ? 'CULTURAL ASCENDANCY' : '' }}
     </div>
+  </div>
   <div *dxTemplate="let item of 'hasADVANCED_MILITARY'">
     <div style="background-color: yellowgreen; color: black">
       {{ item.data.ownedAdvances.includes(advanceNumber.ADVANCED_MILITARY) ? 'ADVANCED MILITARY' : '' }}
@@ -361,7 +368,7 @@
     <div style="background-color: grey; color: white">
       {{ item.data.ownedAdvances.includes(advanceNumber.ADVANCED_MILITARY) ? 'ADVANCED MILITARY' : '' }}
     </div>
-  </div>   
+  </div>
   <div *dxTemplate="let item of 'hasPHILOSOPHYdefence'">
     <div style="background-color: grey; color: white">
       {{ item.data.ownedAdvances.includes(advanceNumber.PHILOSOPHY) ? 'PHILOSOPHY' : '' }}

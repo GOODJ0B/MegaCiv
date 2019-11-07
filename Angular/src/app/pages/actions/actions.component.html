@@ -124,7 +124,7 @@
     TREASURY USED:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryUsed" (onValueChanged)="treasuryUsed();"
                    [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().shipsOnBoard === 0"
-                   [max]="gameService.getCurrentPlayer.tokensInTreasuryBeforeTurn" [min]="0" [showSpinButtons]="true"
+                   [max]="gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn" [min]="0" [showSpinButtons]="true"
                    width="100px"></dx-number-box>
     <br>
     TREASURY TOTAL:
@@ -167,7 +167,7 @@
   <div *ngIf="gameService.game.phase === 5">
       <div style="background-color: yellowgreen; color: black"
         *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.URBANISM)">
-        URBANISM: 4 tokens uit aangrenzende gebieden mogen helpen bij het stichten van een wilderness city 
+        URBANISM: 4 tokens uit aangrenzende gebieden mogen helpen bij het stichten van een wilderness city
       </div>
       <div style="background-color: yellowgreen; color: black"
         *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.AGRICULTURE)">
@@ -251,13 +251,13 @@
     <br>
     BUY LEVEL 9 TRADECARD FOR 15 TREASURY:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl9TradecardsBought"
-      [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer.tokensInTreasuryBeforeTurn < 15"
+      [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn < 15"
       (onValueChanged)="buyTradecard();" [max]="3" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)">
       BUY LEVEL 8 TRADECARD FOR 13 TREASURY:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl8TradecardsBought"
-        [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer.tokensInTreasuryBeforeTurn < 13"
+        [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn < 13"
         (onValueChanged)="buyTradecard();"
         [max]="4" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
@@ -265,15 +265,15 @@
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CARTOGRAPHY)">
       BUY LEVEL 7 TRADECARD FOR 13 TREASURY:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl7TradecardsBought"
-        [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer.tokensInTreasuryBeforeTurn < 13"
+        [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn < 13"
         (onValueChanged)="buyTradecard();"
         [max]="4" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
     </div>
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MINING)">
       BUY LEVEL 6 TRADECARD FOR 13 TREASURY:
-      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl6TradecardsBought" 
-        [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer.tokensInTreasuryBeforeTurn < 13"
+      <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl6TradecardsBought"
+        [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn < 13"
         (onValueChanged)="buyTradecard();"
         [max]="4" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
@@ -281,7 +281,7 @@
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.RHETORIC)">
       BUY LEVEL 3 TRADECARD FOR 9 TREASURY:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl3TradecardsBought"
-        [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer.tokensInTreasuryBeforeTurn < 9"
+        [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn < 9"
         (onValueChanged)="buyTradecard();"
         [max]="6" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
@@ -289,7 +289,7 @@
     <div *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CARTOGRAPHY)">
       BUY LEVEL 2 TRADECARD FOR 5 TREASURY:
         <dx-number-box [(value)]="gameService.getCurrentPlayer().lvl2TradecardsBought"
-        [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer.tokensInTreasuryBeforeTurn < 5"
+        [readOnly]="gameService.getCurrentPlayer().isReady || gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn < 5"
         (onValueChanged)="buyTradecard();"
         [max]="11" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     </div>
@@ -400,7 +400,7 @@
                      [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
       <br>
       <div style="color: red"
-           *ngIf="!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().hasCulturalAscendancy ? 3 : 2))">
+           *ngIf="!(gameService.getCurrentPlayer().tokensOnBoard >= gameService.getCurrentPlayer().citiesOnBoard * (gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) ? 3 : 2))">
         Je hebt niet genoeg tokens op het bord om je steden te ondersteunen!
       </div>
     </div>
@@ -434,7 +434,7 @@
       <br>
       Treasury used:
       <dx-number-box [(value)]="gameService.getCurrentPlayer().treasuryUsed" [showSpinButtons]="true"
-                     [max]="gameService.getCurrentPlayer().treasury" [min]="0"
+                     [max]="gameService.getCurrentPlayer().treasuryUsed" [min]="0"
                      (valueChange)="readyToSaveCheck()" width="100px">
       </dx-number-box>
       Tradecards left:

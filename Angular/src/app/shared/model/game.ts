@@ -43,7 +43,7 @@ export class Game {
 
     // set originalOrder (for sorting)
     for (let i = 0; i < this.players.length; i++) {
-      this.players[i].originalOrder = i;
+      this.players[i].ASTRank = i;
     }
   }
 

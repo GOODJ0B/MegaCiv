@@ -2,6 +2,7 @@ import {GameService} from './../../shared/services/game.service';
 import {Component} from '@angular/core';
 import {AdvancesService} from '../../shared/services/advances.service';
 import {AdvanceNumber} from '../../shared/model/advances.enum';
+import {BlockNumber} from '../../shared/model/blocks.enum';
 
 @Component({
   templateUrl: 'gamescreen.component.html'
@@ -10,6 +11,10 @@ import {AdvanceNumber} from '../../shared/model/advances.enum';
 export class GamescreenComponent {
   dataSource: any;
   priority: any[];
+
+  get blockNumber() {
+    return BlockNumber;
+  }
 
   get advanceNumber() {
     return AdvanceNumber;
