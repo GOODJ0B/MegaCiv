@@ -41,8 +41,8 @@
 
   <ng-container *ngIf="gameService.game.phase === 3">
     <dxi-column cellTemplate="hasMILITARY" alignment="center"
-                [visible]="gameService.game.advancesInPlay[advanceNumber.MILITARY]" [sortIndex]="0" sortOrder="asc"></dxi-column>
-    <dxi-column caption="POPULATION" dataField="tokensOnBoard" alignment="center" [sortIndex]="1" sortOrder="desc"></dxi-column>
+                [visible]="gameService.game.advancesInPlay[advanceNumber.MILITARY]"></dxi-column>
+    <dxi-column caption="POPULATION" dataField="tokensOnBoard" alignment="center"></dxi-column>
     <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="TIME" dataField="personalCountDown" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY USED" dataField="treasuryUsed" alignment="center"></dxi-column>
@@ -100,8 +100,8 @@
 
   <ng-container *ngIf="gameService.game.phase === 6">
     <dxi-column caption="BLOCK" cellTemplate="Block"
-                alignment="center" sortOrder="asc" sortIndex="0"></dxi-column>
-    <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center" sortOrder="desc" sortIndex="1"></dxi-column>
+                alignment="center"></dxi-column>
+    <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY" dataField="tokensInTreasuryAfterTurn" alignment="center"></dxi-column>
     <dxi-column caption="WONDER OF THE WORLD" dataField="" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.WONDER_OF_THE_WORLD]"></dxi-column>
@@ -185,11 +185,11 @@
                 [visible]="gameService.game.advancesInPlay[advanceNumber.MINING]"></dxi-column>
     <dxi-column cellTemplate="hasTRADE_EMPIRE" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.TRADE_EMPIRE]"></dxi-column>
-    <dxi-column caption="CIVICS" dataField="totalDiscountToCivics" alignment="center"></dxi-column>
-    <dxi-column caption="CRAFST" dataField="totalDiscountToCrafts" alignment="center"></dxi-column>
-    <dxi-column caption="RELIGION" dataField="totalDiscountToReligion" alignment="center"></dxi-column>
-    <dxi-column caption="SCIENCE" dataField="totalDiscountToScience" alignment="center"></dxi-column>
-    <dxi-column caption="ARTS" dataField="totalDiscountToArts" alignment="center"></dxi-column>
+    <dxi-column caption="CIVICS" cellTemplate="CIVICS" alignment="center"></dxi-column>
+    <dxi-column caption="CRAFTS" cellTemplate="CRAFTS" alignment="center"></dxi-column>
+    <dxi-column caption="RELIGION" cellTemplate="RELIGION" alignment="center"></dxi-column>
+    <dxi-column caption="SCIENCE" cellTemplate="SCIENCE" alignment="center"></dxi-column>
+    <dxi-column caption="ARTS" cellTemplate="ARTS" alignment="center"></dxi-column>
     <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="GOLD USED" dataField="tradeCardValueUsed" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY USED" dataField="treasuryUsed" alignment="center"></dxi-column>
@@ -200,7 +200,7 @@
 
 
   <div *dxTemplate="let item of 'Block'">
-    {{ item.data.region === blockNumber.WEST ? item.data.region === blockNumber.EAST ? '-' : 'EAST' : 'WEST' }}
+    {{ item.data.region === blockNumber.WEST ? 'WEST' : item.data.region === blockNumber.EAST ? 'EAST' : '-' }}
   </div>
   <div *dxTemplate="let item of 'selectedAdvances'">
     <div *ngFor="let advance of item.data.selectedAdvances" style="display: inline">
@@ -211,6 +211,32 @@
   </div>
   <div *dxTemplate="let item of 'displayName'">
     {{item.data.civilizationName}} ({{item.data.playerName}})
+  </div>
+
+    <div *dxTemplate="let item of 'CIVICS'">
+    <div style="background-color: red; color: white">
+      {{ item.data.totalDiscountToCivics}}
+    </div>
+  </div>
+  <div *dxTemplate="let item of 'CRAFTS'">
+    <div style="background-color: orange; color: black">
+      {{ item.data.totalDiscountToCivics}}
+    </div>
+  </div>
+  <div *dxTemplate="let item of 'RELIGION'">
+    <div style="background-color: yellow; color: black">
+      {{ item.data.totalDiscountToCivics}}
+    </div>
+  </div>
+  <div *dxTemplate="let item of 'SCIENCE'">
+    <div style="background-color: green; color: white">
+      {{ item.data.totalDiscountToCivics}}
+    </div>
+  </div>
+  <div *dxTemplate="let item of 'ARTS'">
+    <div style="background-color: blue; color: white">
+      {{ item.data.totalDiscountToCivics}}
+    </div>
   </div>
 
   <div *dxTemplate="let item of 'hasPUBLIC_WORKSdefence'">
