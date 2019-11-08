@@ -369,11 +369,11 @@ export class GameService {
       let creditsToReligion = 0;
       let creditsToScience = 0;
       player.ownedAdvances.forEach(advanceNumber => {
-        creditsToArts += advancesList[advanceNumber].discountToArts;
-        creditsToCivics += advancesList[advanceNumber].discountToCivics;
-        creditsToCrafts += advancesList[advanceNumber].discountToCrafts;
-        creditsToReligion += advancesList[advanceNumber].discountToReligion;
-        creditsToScience += advancesList[advanceNumber].discountToScience;
+        creditsToArts += advancesList[advanceNumber -1].discountToArts;
+        creditsToCivics += advancesList[advanceNumber -1].discountToCivics;
+        creditsToCrafts += advancesList[advanceNumber -1].discountToCrafts;
+        creditsToReligion += advancesList[advanceNumber -1].discountToReligion;
+        creditsToScience += advancesList[advanceNumber -1].discountToScience;
       });
       player.totalDiscountToArts = creditsToArts + player.discountToArts;
       player.totalDiscountToCivics = creditsToCivics + player.discountToCivics;

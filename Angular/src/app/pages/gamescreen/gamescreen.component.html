@@ -185,11 +185,11 @@
                 [visible]="gameService.game.advancesInPlay[advanceNumber.MINING]"></dxi-column>
     <dxi-column cellTemplate="hasTRADE_EMPIRE" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.TRADE_EMPIRE]"></dxi-column>
-    <dxi-column caption="CIVICS" cellTemplate="CIVICS" alignment="center"></dxi-column>
-    <dxi-column caption="CRAFTS" cellTemplate="CRAFTS" alignment="center"></dxi-column>
-    <dxi-column caption="RELIGION" cellTemplate="RELIGION" alignment="center"></dxi-column>
-    <dxi-column caption="SCIENCE" cellTemplate="SCIENCE" alignment="center"></dxi-column>
-    <dxi-column caption="ARTS" cellTemplate="ARTS" alignment="center"></dxi-column>
+    <dxi-column caption="CIVICS" cellTemplate="CIVICS" alignment="center" width="80"></dxi-column>
+    <dxi-column caption="CRAFTS" cellTemplate="CRAFTS" alignment="center" width="80"></dxi-column>
+    <dxi-column caption="RELIGION" cellTemplate="RELIGION" alignment="center" width="80"></dxi-column>
+    <dxi-column caption="SCIENCE" cellTemplate="SCIENCE" alignment="center" width="80"></dxi-column>
+    <dxi-column caption="ARTS" cellTemplate="ARTS" alignment="center" width="80"></dxi-column>
     <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
     <dxi-column caption="GOLD USED" dataField="tradeCardValueUsed" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY USED" dataField="treasuryUsed" alignment="center"></dxi-column>
@@ -220,22 +220,22 @@
   </div>
   <div *dxTemplate="let item of 'CRAFTS'">
     <div style="background-color: orange; color: black">
-      {{ item.data.totalDiscountToCivics}}
+      {{ item.data.totalDiscountToCrafts}}
     </div>
   </div>
   <div *dxTemplate="let item of 'RELIGION'">
     <div style="background-color: yellow; color: black">
-      {{ item.data.totalDiscountToCivics}}
+      {{ item.data.totalDiscountToReligion}}
     </div>
   </div>
   <div *dxTemplate="let item of 'SCIENCE'">
     <div style="background-color: green; color: white">
-      {{ item.data.totalDiscountToCivics}}
+      {{ item.data.totalDiscountToScience}}
     </div>
   </div>
   <div *dxTemplate="let item of 'ARTS'">
     <div style="background-color: blue; color: white">
-      {{ item.data.totalDiscountToCivics}}
+      {{ item.data.totalDiscountToArts}}
     </div>
   </div>
 
