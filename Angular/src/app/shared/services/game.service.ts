@@ -88,22 +88,13 @@ export class GameService {
     }
   }
 
-  playerIsReady(index?: number) {
-    let player: Player;
-    if (index) {
-      player = this.game.players[index];
-    } else {
-      player = this.getCurrentPlayer();
-    }
+  playerIsReady() {
+    const player = this.getCurrentPlayer();
     player.isReady = true;
     if (this.everybodyIsReady() && this.game.hasStarted) {
       this.nextPhase();
     } else {
-      if (index) {
-        this.sendGameToOtherPlayers();
-      } else {
-        this.sendPlayerToOtherPlayers();
-      }
+      this.sendPlayerToOtherPlayers();
     }
   }
 
