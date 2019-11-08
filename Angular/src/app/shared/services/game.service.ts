@@ -137,6 +137,7 @@ export class GameService {
 
     //  Calculations on phase change to determine readyness and other values
     if (this.game.phase === 1) {
+      this.sortPlayersByASTRank();
       this.getActivePlayers().forEach(player => {
         this.taxCollectionCalculations(player);
         //  als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
@@ -260,12 +261,8 @@ export class GameService {
     } else if (this.game.phase === 13) {
       this.treasuryReset(this.getActivePlayers());
       this.game.players.forEach(player => player.selectedAdvances = []);
-      // autoready iedereen omdat deze fase nog niet ingebouwd is
-      for (const player of this.game.players) {
-        if (player.isActive) {
-          player.isReady = true;
-        }
-      }
+      this.calculateScore();
+      this.sortPlayersByScore();
     }
 
     this.sendGameToOtherPlayers();
@@ -291,6 +288,16 @@ export class GameService {
     }
   }
 
+  calculateScore(): void {
+    this.game.players.forEach(player => {
+      player.advancesPoints = 0;
+      player.ownedAdvances.forEach(advanceNumber => {
+        player.advancesPoints += advancesList[advanceNumber -1].points;
+      });
+      player.score = (player.ASTPosition * 5) + player.advancesPoints + player.citiesOnBoard;
+    });
+  }
+
   sortPlayersByRegion() :void {
     this.game.players.sort((a: Player, b: Player) => a.region - b.region);
   }
@@ -302,6 +309,9 @@ export class GameService {
   }
   sortPlayersByTradecards() :void {
     this.game.players.sort((a: Player, b: Player) => b.numberOfTradeCardsBeforeTurn - a.numberOfTradeCardsBeforeTurn);
+  }
+  sortPlayersByScore() :void {
+    this.game.players.sort((a: Player, b: Player) => b.score - a.score);
   }
 
   taxCollectionCalculations(player: Player): void {

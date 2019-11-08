@@ -25,7 +25,7 @@ export class Player {
   AstNextAgePoint3 = 11;
   AstNextAgePoint4: 14;
   AstEndpoint: 15;
-  AstPosition = 0;
+  ASTPosition = 0;
   taxRate = 2;
   
   hasTaxRevolt = false;
@@ -43,6 +43,7 @@ export class Player {
   tradeCardValueUsed = 0;
   
   selectedAdvances: AdvanceNumber[] = [];
+  advancesPoints: number;
   ownedAdvances: AdvanceNumber[] = [];
   
   wotwTradecard = 0;

@@ -44,7 +44,7 @@
                 [visible]="gameService.game.advancesInPlay[advanceNumber.MILITARY]"></dxi-column>
     <dxi-column caption="POPULATION" dataField="tokensOnBoard" alignment="center"></dxi-column>
     <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
-    <dxi-column caption="TIME" dataField="personalCountDown" alignment="center"></dxi-column>
+    <dxi-column caption="TIME (s)" dataField="personalCountDown" alignment="center"></dxi-column>
     <dxi-column caption="TREASURY USED" dataField="treasuryUsed" alignment="center"></dxi-column>
     <dxi-column cellTemplate="hasCLOTH_MAKING" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.CLOTH_MAKING]"></dxi-column>
@@ -198,6 +198,13 @@
     <dxi-column caption="TRADECARDS" dataField="numberOfTradeCardsBeforeTurn" alignment="center"></dxi-column>
   </ng-container>
 
+  <ng-container *ngIf="gameService.game.phase === 13">
+    <dxi-column caption="SCORE" dataField="score" alignment="center"></dxi-column>  
+    <dxi-column caption="CIVILIZATION" cellTemplate="displayName"></dxi-column>
+    <dxi-column caption="AST" dataField="ASTPosition" alignment="center"></dxi-column>
+    <dxi-column caption="ADVANCE POINTS" dataField="advancesPoints" alignment="center"></dxi-column>
+    <dxi-column caption="CITIES" dataField="citiesOnBoard" alignment="center"></dxi-column>  
+  </ng-container>
 
   <div *dxTemplate="let item of 'Block'">
     {{ item.data.region === blockNumber.WEST ? 'WEST' : item.data.region === blockNumber.EAST ? 'EAST' : '-' }}

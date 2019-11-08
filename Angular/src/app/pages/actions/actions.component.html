@@ -496,4 +496,12 @@
 
     </dx-popup>
   </div>
+
+  <div *ngIf="gameService.game.phase === 13">
+    AST POSITION:
+    <dx-number-box [(value)]="gameService.getCurrentPlayer().ASTPosition" [readOnly]="gameService.getCurrentPlayer().isReady"
+    (valueChange)="recalculateScore()"
+    [max]="15" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
+  </div>
+
 </div>

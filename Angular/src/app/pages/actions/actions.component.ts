@@ -175,4 +175,9 @@ export class ActionsComponent {
   tradecardWonOrLost(){
     this.gameService.getCurrentPlayer().numberOfTradeCardsAfterTurn = this.gameService.getCurrentPlayer().numberOfTradeCardsBeforeTurn + this.gameService.getCurrentPlayer().tradeCardDifference;
   }
+
+  recalculateScore() {
+    this.gameService.getCurrentPlayer().score = (this.gameService.getCurrentPlayer().ASTPosition *5) + this.gameService.getCurrentPlayer().advancesPoints + 
+      this.gameService.getCurrentPlayer().citiesOnBoard;
+  }
 }
