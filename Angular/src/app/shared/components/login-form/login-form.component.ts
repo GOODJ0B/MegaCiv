@@ -9,6 +9,7 @@ import {DxValidationGroupModule} from 'devextreme-angular/ui/validation-group';
 import {DxValidatorModule} from 'devextreme-angular/ui/validator';
 import {GameService} from 'src/app/shared/services/game.service';
 import {CookieService} from 'ngx-cookie-service';
+import {Player} from '../../model/player';
 
 
 @Component({
@@ -31,20 +32,20 @@ export class LoginFormComponent {
     }
   }
 
-  chooseCivilization(index: number) {
+  chooseCivilization(player: Player) {
     // Als deze naam al bij een ander volk staat moet hij daar eerst weg
-    for (let i = 0; i < this.gameService.game.players.length; i++) {
-      if (i !== index) {
-        if (this.gameService.game.players[i].playerName === this.playerName) {
-          this.gameService.game.players[i].isActive = false;
-          this.gameService.game.players[i].playerName = '';
+    for (const playerObject of this.gameService.game.players) {
+      if (playerObject.ASTRank !== player.ASTRank) {
+        if (playerObject.playerName === this.playerName) {
+          playerObject.isActive = false;
+          playerObject.playerName = '';
         }
       }
     }
-    this.cookieService.set('playerIndex', `${index}`, 1);
-    this.gameService.playerIndex = index;
-    this.gameService.getCurrentPlayer().isActive = index !== 0 ? true : false;
-    this.gameService.getCurrentPlayer().playerName = this.playerName;
+    this.cookieService.set('playerIndex', `${player.ASTRank}`, 1);
+    this.gameService.playerIndex = player.ASTRank;
+    player.isActive = player.ASTRank !== 0;
+    player.playerName = player.ASTRank !== 0 ? this.playerName : player.playerName;
 
     this.gameService.sendPlayerToOtherPlayers();
   }
