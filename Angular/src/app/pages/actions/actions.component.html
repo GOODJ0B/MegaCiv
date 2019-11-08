@@ -96,7 +96,7 @@
       DIPLOMACY: spelers mogen geen van jouw steden aanvallen, behalve met DIPLOMACY of MILITARY
     </div>
     <div style="background-color: grey; color: white"
-    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MILITARY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.DIPLOMACY)">
+    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MILITARY) && gameService.game.advancesInPlay[advanceNumber.DIPLOMACY]">
       MILITARY: je mag steden van spelers met DIPLOMACY wél aanvallen
     </div>
     <div style="background-color: yellowgreen; color: black"
@@ -112,7 +112,7 @@
       CULTURAL ASCENDANCY: spelers mogen geen van jouw gebieden aanvallen, behalve met CULTURAL ASCENDANCY of ADVANCED MILITARY
     </div>
     <div style="background-color: grey; color: white"
-    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ADVANCED_MILITARY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY)">
+    *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ADVANCED_MILITARY) && gameService.game.advancesInPlay[advanceNumber.CULTURAL_ASCENDANCY]">
       ADVANCED MILITARY: je mag spelers met CULTURAL ASCENDANCY wél aanvallen
     </div>
     <br><br>
@@ -313,7 +313,7 @@
       FUNDAMENTALISM: vernietig alle tokens in een aangrenzend land, behalve barbaren/piraten en spelers met FUNDAMENTALISM of PHILOSOPHY
     </div>
     <div style="background-color: gray; color: white"
-      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PHILOSOPHY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.FUNDAMENTALISM)">
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PHILOSOPHY) && gameService.game.advancesInPlay[advanceNumber.FUNDAMENTALISM]">
       PHILOSOPHY: beschermd tegen FUNDAMENTALISM
     </div>
     <div style="background-color: yellowgreen; color: black"
@@ -329,7 +329,7 @@
       POLITICS: ontvang 5 treasury óf betaal treasury en neem alle tokens in een aangrenzend land over, behalve barbaren/piraten en spelers met POLITICS of CULTURAL ASCENDANCY
     </div>
     <div style="background-color: gray; color: white"
-      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.POLITICS)">
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.CULTURAL_ASCENDANCY) && gameService.game.advancesInPlay[advanceNumber.POLITICS]">
       CULTURAL ASCENDANCY: beschermd tegen POLITICS
     </div>
     <div style="background-color: yellowgreen; color: black"
@@ -337,7 +337,7 @@
       MONOTHEISM: neem alle tokens in een aangrenzend land over, behalve barbaren/piraten en spelers met MONOTHEISM of THEOLOGY
     </div>
     <div style="background-color: gray; color: white"
-      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.THEOLOGY) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MONOTHEISM)">
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.THEOLOGY) && gameService.game.advancesInPlay[advanceNumber.MONOTHEISM]">
       THEOLOGY: beschermd tegen MONOTHEISM
   </div>
     <div style="background-color: yellowgreen; color: black"
@@ -345,7 +345,7 @@
       PROVINCIAL EMPIRE: ontvange van tot 5 aangrenzende spelers een tradecard lvl2+, behalve spelers met PROVINCIAL EMPIRE of PUBLIC WORKS
     </div>
     <div style="background-color: gray; color: white"
-      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PUBLIC_WORKS) && gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PROVINCIAL_EMPIRE)">
+      *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.PUBLIC_WORKS) && gameService.game.advancesInPlay[advanceNumber.PROVINCIAL_EMPIRE]">
       PUBLIC WORKS: beschermd tegen PROVINCIAL EMPIRE
   </div>
     <div style="background-color: yellowgreen; color: black"

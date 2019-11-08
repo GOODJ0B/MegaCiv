@@ -207,6 +207,7 @@ export class GameService {
 
     } else if (this.game.phase === 7) {
       this.treasuryReset(this.getActivePlayers());
+      this.aquireTradecards(this.getActivePlayers());
       this.tradecardBoughtReset(this.getActivePlayers());
 
       this.game.countDown = 900;
@@ -305,6 +306,17 @@ export class GameService {
       player.tokensInStock -= player.treasuryWon += player.treasuryUsed;
       player.treasuryWon = 0;
       player.treasuryUsed = 0;
+      player.tradeCardValueUsed = 0;
+    });
+  }
+
+  aquireTradecards(players: Player[]): void {
+    players.forEach(player => {
+      player.numberOfTradeCardsBeforeTurn += player.citiesOnBoard + player.lvl9TradecardsBought + player.lvl8TradecardsBought + player.lvl7TradecardsBought +
+        player.lvl6TradecardsBought + player.lvl3TradecardsBought + player.lvl2TradecardsBought;
+      if (player.ownedAdvances.includes(AdvanceNumber.WONDER_OF_THE_WORLD)) {
+        player.numberOfTradeCardsBeforeTurn += 1
+      }
     });
   }
 

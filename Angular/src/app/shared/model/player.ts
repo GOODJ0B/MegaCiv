@@ -10,14 +10,14 @@ export class Player {
   playerName = '';
   citiesOnBoard = 0;
   citiesInStock = 9;
-  tokensInStock = 55;
-  tokensOnBoard = 0;
-  //  tokensInTreasury = 0; //gaat weg
+  tokensInStock = 54;
+  tokensOnBoard = 1;
+
   tokensInTreasuryBeforeTurn = 0;
   treasuryUsed = 0;
   treasuryWon = 0;
   tokensInTreasuryAfterTurn = 0;
-  //  treasuryDifference = 0; //gaat weg
+  
   shipsOnBoard = 0;
   score = 0;
   AstNextAgePoint1: number;
@@ -27,10 +27,11 @@ export class Player {
   AstEndpoint: 15;
   AstPosition = 0;
   taxRate = 2;
-  //  collectedTax = 0; //gaat weg
+  
   hasTaxRevolt = false;
   taxCollected = false;
   hasTimeLeft = 0;
+
   discountToCivics = 0;
   discountToCrafts = 0;
   discountToReligion = 0;
@@ -40,8 +41,10 @@ export class Player {
   numberOfTradeCardsAfterTurn = 0;
   tradeCardDifference = 0;
   tradeCardValueUsed = 0;
+  
   selectedAdvances: AdvanceNumber[] = [];
   ownedAdvances: AdvanceNumber[] = [];
+  
   wotwTradecard = 0;
   lvl9TradecardsBought = 0;
   lvl8TradecardsBought = 0;
@@ -49,8 +52,10 @@ export class Player {
   lvl6TradecardsBought = 0;
   lvl3TradecardsBought = 0;
   lvl2TradecardsBought = 0;
+  
   personalCountDown = 0;
   region: BlockNumber;
+  
   totalDiscountToCivics = 0;
   totalDiscountToCrafts = 0;
   totalDiscountToReligion = 0;

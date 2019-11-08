@@ -53,7 +53,7 @@
     <dxi-column cellTemplate="hasDIPLOMACY" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.DIPLOMACY]"></dxi-column>
     <dxi-column cellTemplate="hasMILITARYdefence" alignment="center"
-                [visible]="gameService.game.advancesInPlay[advanceNumber.MILITARY]"></dxi-column>
+                [visible]="gameService.game.advancesInPlay[advanceNumber.MILITARY] && gameService.game.advancesInPlay[advanceNumber.DIPLOMACY]"></dxi-column>
     <dxi-column cellTemplate="hasNAVAL_WARFARE" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.NAVAL_WARFARE]"></dxi-column>
     <dxi-column cellTemplate="hasROADBUILDING" alignment="center"
@@ -61,7 +61,7 @@
     <dxi-column cellTemplate="hasCULTURAL_ASCENDANCY" alignment="center"
                 [visible]="gameService.game.advancesInPlay[advanceNumber.CULTURAL_ASCENDANCY]"></dxi-column>
     <dxi-column cellTemplate="hasADVANCED_MILITARYdefence" alignment="center"
-                [visible]="gameService.game.advancesInPlay[advanceNumber.ADVANCED_MILITARY]"></dxi-column>
+                [visible]="gameService.game.advancesInPlay[advanceNumber.ADVANCED_MILITARY] && gameService.game.advancesInPlay[advanceNumber.CULTURAL_ASCENDANCY]"></dxi-column>
   </ng-container>
 
   <ng-container *ngIf="gameService.game.phase === 4">
@@ -200,7 +200,7 @@
 
 
   <div *dxTemplate="let item of 'Block'">
-    {{ item.data.region === blockNumber.WEST ? item.data.region === blockNumber.EAST ? 'EAST' : 'WEST' : '-' }}
+    {{ item.data.region === blockNumber.WEST ? item.data.region === blockNumber.EAST ? '-' : 'EAST' : 'WEST' }}
   </div>
   <div *dxTemplate="let item of 'selectedAdvances'">
     <div *ngFor="let advance of item.data.selectedAdvances" style="display: inline">
