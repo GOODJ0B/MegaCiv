@@ -35,12 +35,13 @@ export class GameService {
       startWith(this.game)
     ).subscribe(data => {
       console.log('---------------- recieved data: ', data);
+
       if (data.hasStarted === undefined) {
         data = new Game();
       }
-      if (data.ignoreAllPlayersBut === undefined || data.ignoreAllPlayersBut === null) {
+      if (!(data.ignoreAllPlayersBut === undefined || data.ignoreAllPlayersBut === null)) {
         Object.assign(this.tempGame, data);
-
+        console.log('---------------- onlyplayerupdate', data.ignoreAllPlayersBut);
         //  tslint:disable-next-line:max-line-length
         this.game.players[this.getPlayerFromList(this.game.players, this.tempGame.ignoreAllPlayersBut)] = this.tempGame.players[this.getPlayerFromList(this.tempGame.players, this.tempGame.ignoreAllPlayersBut)];
 
@@ -48,6 +49,7 @@ export class GameService {
           this.game.advancesInPlay[i] = this.game.advancesInPlay[i] || this.tempGame.advancesInPlay[i];
         }
         this.game.ignoreAllPlayersBut = undefined;
+        console.log('---------------- currentGame:', this.game);
       } else {
         Object.assign(this.game, data);
       }
@@ -183,15 +185,15 @@ export class GameService {
 
     } else if (this.game.phase === 5) {
       this.treasuryReset(this.getActivePlayers());
-      
+
     } else if (this.game.phase === 6) {
       this.treasuryReset(this.getActivePlayers());
       this.sortPlayersByASTRank();
       this.sortPlayersByASTCities();
-      this.sortPlayersByRegion();    
+      this.sortPlayersByRegion();
 
       // autoready spelers die deze fase niets kunnen
-      for (const player of this.game.players) { 
+      for (const player of this.game.players) {
         if (player.ownedAdvances.includes(AdvanceNumber.WONDER_OF_THE_WORLD) ||
           (player.ownedAdvances.includes(AdvanceNumber.CARTOGRAPHY) && (player.tokensInTreasuryBeforeTurn >= 5)) ||
           (player.ownedAdvances.includes(AdvanceNumber.RHETORIC) && (player.tokensInTreasuryBeforeTurn >= 9)) ||
@@ -208,7 +210,7 @@ export class GameService {
       this.treasuryReset(this.getActivePlayers());
       this.aquireTradecards(this.getActivePlayers());
       this.tradecardBoughtReset(this.getActivePlayers());
-      
+
       this.sortPlayersByTradecards();
 
       this.game.countDown = 900;
@@ -436,6 +438,7 @@ export class GameService {
 
   sendGameToOtherPlayers(): void {
     console.log('++++++++++++++++ send game: ', this.game);
+    this.game.ignoreAllPlayersBut = undefined;
     this.socket.emit('updateGame', this.game);
   }
 
