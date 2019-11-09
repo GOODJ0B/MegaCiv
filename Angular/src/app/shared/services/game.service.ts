@@ -132,7 +132,7 @@ export class GameService {
       this.getActivePlayers().forEach(player => {
         this.taxCollectionCalculations(player);
         //  als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
-        if (!(player.ownedAdvances.includes(AdvanceNumber.MONARCHY) || player.ownedAdvances.includes(AdvanceNumber.COINAGE))) {
+        if (player.citiesOnBoard === 0 || !(player.ownedAdvances.includes(AdvanceNumber.MONARCHY) || player.ownedAdvances.includes(AdvanceNumber.COINAGE))) {
           player.isReady = true;
         }
         //  Automatisch door als iedereen ready is:
