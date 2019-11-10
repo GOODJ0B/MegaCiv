@@ -38,14 +38,14 @@ export class ActionsComponent {
 
   readyToSaveCheck() {
     let paymentOk = false;
-    if (this.gameService.getCurrentPlayer().treasuryUsed === 0 && this.getTotalCost() <= this.gameService.getCurrentPlayer().tradeCardValueUsed) {
+    if (this.gameService.getCurrentPlayer().treasuryLost === 0 && this.getTotalCost() <= this.gameService.getCurrentPlayer().tradeCardValueUsed) {
       paymentOk = true;
     }else if (!this.gameService.getCurrentPlayer().ownedAdvances.includes(AdvanceNumber.MINING) &&
-    (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + this.gameService.getCurrentPlayer().treasuryUsed))) {
+    (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + this.gameService.getCurrentPlayer().treasuryLost))) {
       paymentOk = true;
     }else if (this.gameService.getCurrentPlayer().ownedAdvances.includes(AdvanceNumber.MINING) && 
-    (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryUsed *2)) ||
-    ((this.getTotalCost() +1) === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryUsed *2)))))  {
+    (this.getTotalCost() === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryLost *2)) ||
+    ((this.getTotalCost() +1) === (this.gameService.getCurrentPlayer().tradeCardValueUsed + (this.gameService.getCurrentPlayer().treasuryLost *2)))))  {
       paymentOk = true;
     }
     let writtenRecordOk = !this.gameService.getCurrentPlayer().selectedAdvances.includes(AdvanceNumber.WRITTEN_RECORD);
@@ -80,29 +80,29 @@ export class ActionsComponent {
   }
 
   unitsChanged() {
-    this.gameService.getCurrentPlayer().tokensInStock =
-      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn;
+    this.gameService.getCurrentPlayer().stocktokensStart =
+      this.gameService.maxUnits - this.gameService.getCurrentPlayer().populationStart - this.gameService.getCurrentPlayer().treasuryStart;
   }
 
   stockChanged() {
-    this.gameService.getCurrentPlayer().tokensOnBoard =
-      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensInStock - this.gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn;
+    this.gameService.getCurrentPlayer().populationStart =
+      this.gameService.maxUnits - this.gameService.getCurrentPlayer().stocktokensStart - this.gameService.getCurrentPlayer().treasuryStart;
   }
 
   treasuryChanged() {
-    this.gameService.getCurrentPlayer().tokensInStock =
-      this.gameService.maxUnits - this.gameService.getCurrentPlayer().tokensOnBoard - this.gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn;
-      this.gameService.getCurrentPlayer().tokensInTreasuryAfterTurn = this.gameService.getCurrentPlayer().tokensInTreasuryBeforeTurn;
+    this.gameService.getCurrentPlayer().stocktokensStart =
+      this.gameService.maxUnits - this.gameService.getCurrentPlayer().populationStart - this.gameService.getCurrentPlayer().treasuryStart;
+      this.gameService.getCurrentPlayer().treasuryEnd = this.gameService.getCurrentPlayer().treasuryStart;
   }
 
   citiesOnBoardChanged() {
-    this.gameService.getCurrentPlayer().citiesInStock =
-      this.gameService.maxCities - this.gameService.getCurrentPlayer().citiesOnBoard;
+    this.gameService.getCurrentPlayer().stockcitiesStart =
+      this.gameService.maxCities - this.gameService.getCurrentPlayer().citiesStart;
   }
 
   citiesInStockChanged() {
-    this.gameService.getCurrentPlayer().citiesOnBoard =
-      this.gameService.maxCities - this.gameService.getCurrentPlayer().citiesInStock;
+    this.gameService.getCurrentPlayer().citiesStart =
+      this.gameService.maxCities - this.gameService.getCurrentPlayer().stockcitiesStart;
   }
 
   treasuryUsed() {
@@ -166,7 +166,7 @@ export class ActionsComponent {
   }
 
   buyTradecard() {
-    this.gameService.getCurrentPlayer().treasuryUsed = 0 + this.gameService.getCurrentPlayer().lvl9TradecardsBought * 15 + this.gameService.getCurrentPlayer().lvl8TradecardsBought *13 +
+    this.gameService.getCurrentPlayer().treasuryLost = 0 + this.gameService.getCurrentPlayer().lvl9TradecardsBought * 15 + this.gameService.getCurrentPlayer().lvl8TradecardsBought *13 +
       this.gameService.getCurrentPlayer().lvl7TradecardsBought * 13 + this.gameService.getCurrentPlayer().lvl6TradecardsBought * 13 + 
       this.gameService.getCurrentPlayer().lvl3TradecardsBought * 9 + this.gameService.getCurrentPlayer().lvl2TradecardsBought * 5;
     this.gameService.treasuryCalculations(this.gameService.getCurrentPlayer());
@@ -178,6 +178,6 @@ export class ActionsComponent {
 
   recalculateScore() {
     this.gameService.getCurrentPlayer().score = (this.gameService.getCurrentPlayer().ASTPosition *5) + this.gameService.getCurrentPlayer().advancesPoints + 
-      this.gameService.getCurrentPlayer().citiesOnBoard;
+      this.gameService.getCurrentPlayer().citiesStart;
   }
 }

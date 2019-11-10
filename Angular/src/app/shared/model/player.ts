@@ -8,17 +8,38 @@ export class Player {
   censusOrder = 0;
   civilizationName: string;
   playerName = '';
-  citiesOnBoard = 0;
-  citiesInStock = 9;
-  tokensInStock = 54;
-  tokensOnBoard = 1;
-
-  tokensInTreasuryBeforeTurn = 0;
-  treasuryUsed = 0;
-  treasuryWon = 0;
-  tokensInTreasuryAfterTurn = 0;
   
-  shipsOnBoard = 0;
+  populationStart = 1;
+  populationLost: number;
+  populationGain: number;
+  populationEnd: number;
+
+  treasuryStart = 0;
+  treasuryLost: number;
+  treasuryGain: number;
+  treasuryEnd: number;
+  
+  stocktokensStart = 54;
+  stocktokensLost: number;
+  stocktokensGain: number;
+  stocktokensEnd: number;
+
+  citiesStart = 0;
+  citiesLost: number;
+  citiesGain: number;
+  citiesEnd: number;
+
+  stockcitiesStart = 9;
+  stockcitiesLost: number;
+  stockcitiesGain: number;
+  stockcitiesEnd: number;
+
+  shipsStart = 0;
+  shipsLost: number;
+  shipsGain: number;
+  shipsEnd: number;
+
+
   score = 0;
   AstNextAgePoint1: number;
   AstNextAgePoint2: number;

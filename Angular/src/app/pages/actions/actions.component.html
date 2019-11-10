@@ -2,6 +2,13 @@
 
 <div class="content-block dx-card responsive-paddings">
   <div *ngIf="gameService.game.phase === 1">
+    <div>
+      [link naar spelregels]
+      <br>
+      1a: TAX COLLECTION
+      <br>
+      1b: TAX REVOLTS
+    </div>
     <div style="background-color: yellowgreen; color: black"
       *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.COINAGE)">
       COINAGE: optioneel: taxrate +1 of -1
@@ -15,7 +22,7 @@
       DEMOCRACY: geen TAXREVOLT
     </div>
     <br><br>
-    CITIES ON BOARD:
+    CITIES ON BOARD: {{ gameService.getCurrentPlayer().citiesOnBoard }}
     <dx-number-box [(value)]="gameService.getCurrentPlayer().citiesOnBoard" [readOnly]="true"
                    [max]="9" [min]="0" [showSpinButtons]="true" width="100px"></dx-number-box>
     <br>
@@ -42,6 +49,14 @@
   </div>
 
   <div *ngIf="gameService.game.phase === 2">
+    <div>
+      [link naar spelregels]
+      <br>
+      2a: POPULATION EXPANSION
+      <br>
+      2b: CENSUS
+    </div>
+    <br>
     TOKENS ON BOARD:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().tokensOnBoard"
                    (onValueChanged)="unitsChanged();" [readOnly]="gameService.getCurrentPlayer().isReady" [max]="55"
@@ -72,6 +87,14 @@
   </div>
 
   <div *ngIf="gameService.game.phase === 3">
+    <div>
+      [link naar spelregels]
+      <br>
+      3a: MOVEMENT
+      <br>
+      3b: SHIP CONSTRUCTION & MAINTAINANCE
+    </div>
+    <br>
     <div style="background-color: yellowgreen; color: black"
     *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.MILITARY)">
       toegepast: MILITARY: iedereen zonder MILITARY moet de beurt vóór jou afronden
@@ -134,6 +157,13 @@
   </div>
 
   <div *ngIf="gameService.game.phase === 4">
+    <div>
+      [link naar spelregels]
+      <br>
+      4a: TOKEN CONFLICTS
+      <br>
+      4b: CITY ATTACKS
+    </div>
     <div style="background-color: yellowgreen; color: black"
       *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.METALWORKING)">
       METALWORKING: de andere speler moet éérst een token verwijderen
@@ -165,6 +195,15 @@
   </div>
 
   <div *ngIf="gameService.game.phase === 5">
+      <div>
+          [link naar spelregels]
+          <br>
+          5a: CITY CONSTRUCTION
+          <br>
+          5b: SURPLUS POPULATION REMOVAL
+          <br>
+          5c: CITY SUPPORT CHECK
+        </div>
       <div style="background-color: yellowgreen; color: black"
         *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.URBANISM)">
         URBANISM: 4 tokens uit aangrenzende gebieden mogen helpen bij het stichten van een wilderness city
@@ -222,6 +261,13 @@
     </div>
 
   <div *ngIf="gameService.game.phase === 6">
+    <div>
+      [link naar spelregels]
+      <br>
+      6a: DRAWING TRADECARDS
+      <br>
+      6b: ADDITIONAL PURCHASES
+    </div>
     <div style="background-color: yellowgreen; color: black"
       *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.RHETORIC)">
       RHETORIC: lvl3 tradecards kopen voor 9 treasury
@@ -296,18 +342,40 @@
   </div>
 
   <div *ngIf="gameService.game.phase === 7">
+    <div>
+      [link naar spelregels]
+      <br>
+      7: TRADE
+    </div>
     Countdown: {{ gameService.countDownVisibleString }}
   </div>
 
   <div *ngIf="gameService.game.phase === 8">
+    <div>
+      [link naar spelregels]
+      <br>
+      8: DISCARD EXCESS CALAMITIES
+    </div>
     Fase 8
   </div>
 
   <div *ngIf="gameService.game.phase === 9">
+    <div>
+      [link naar spelregels]
+      <br>
+      9a: MINOR CALAMITIES
+      <br>
+      9b: MAJOR CALAMITIES
+    </div>
     Fase 9
   </div>
 
   <div *ngIf="gameService.game.phase === 10">
+    <div>
+      [link naar spelregels]
+      <br>
+      10: SPECIAL ABILITIES
+    </div>
     <div style="background-color: yellowgreen; color: black"
       *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.FUNDAMENTALISM)">
       FUNDAMENTALISM: vernietig alle tokens in een aangrenzend land, behalve barbaren/piraten en spelers met FUNDAMENTALISM of PHILOSOPHY
@@ -357,6 +425,13 @@
   </div>
 
   <div *ngIf="gameService.game.phase === 11">
+    <div>
+      [link naar spelregels]
+      <br>
+      11a: SURPLUS POPULATION REMOVAL
+      <br>
+      11b: CITY SUPPORT CHECK
+    </div>
       <div style="background-color: yellowgreen; color: black"
         *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.AGRICULTURE)">
         AGRICULTURE: '0', '1' en '2' gebieden krijgen populationlimit +1
@@ -406,6 +481,13 @@
     </div>
 
   <div *ngIf="gameService.game.phase === 12">
+    <div>
+      [link naar spelregels]
+      <br>
+      12a: ADVANCE ACQUISITION
+      <br>
+      12b: DISCARD EXCESS TRADECARDS
+    </div>
     <div style="background-color: yellowgreen; color: black"
       *ngIf="gameService.getCurrentPlayer().ownedAdvances.includes(advanceNumber.ROADBUILDING)">
       ROADBUILDING: limiet tradecards +1
@@ -498,6 +580,14 @@
   </div>
 
   <div *ngIf="gameService.game.phase === 13">
+    <div>
+      [link naar spelregels]
+      <br>
+      13a: MOVE SUCCESSION MARKERS
+      <br>
+      13b: RESHUFFLE TRADECARDS
+    </div>
+    <br>
     AST POSITION:
     <dx-number-box [(value)]="gameService.getCurrentPlayer().ASTPosition" [readOnly]="gameService.getCurrentPlayer().isReady"
     (valueChange)="recalculateScore()"

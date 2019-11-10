@@ -14,7 +14,7 @@
         <dxi-item
             location="before"
             cssClass="header-title"
-            [text]="'Ronde: ' + this.gameService.game.turn + ', fase: ' + this.gameService.game.phase">
+            [text]="'Ronde ' + this.gameService.game.turn + ', fase ' + this.gameService.game.phase + ': ' + this.gameService.getPhaseName(this.gameService.game.phase)">
         </dxi-item>
         <dxi-item
             location="after"

@@ -35,13 +35,12 @@ export class GameService {
       startWith(this.game)
     ).subscribe(data => {
       console.log('---------------- recieved data: ', data);
-
       if (data.hasStarted === undefined) {
         data = new Game();
       }
-      if (!(data.ignoreAllPlayersBut === undefined || data.ignoreAllPlayersBut === null)) {
+      if (data.ignoreAllPlayersBut === undefined || data.ignoreAllPlayersBut === null) {
         Object.assign(this.tempGame, data);
-        console.log('---------------- onlyplayerupdate', data.ignoreAllPlayersBut);
+
         //  tslint:disable-next-line:max-line-length
         this.game.players[this.getPlayerFromList(this.game.players, this.tempGame.ignoreAllPlayersBut)] = this.tempGame.players[this.getPlayerFromList(this.tempGame.players, this.tempGame.ignoreAllPlayersBut)];
 
@@ -49,7 +48,6 @@ export class GameService {
           this.game.advancesInPlay[i] = this.game.advancesInPlay[i] || this.tempGame.advancesInPlay[i];
         }
         this.game.ignoreAllPlayersBut = undefined;
-        console.log('---------------- currentGame:', this.game);
       } else {
         Object.assign(this.game, data);
       }
@@ -134,7 +132,7 @@ export class GameService {
       this.getActivePlayers().forEach(player => {
         this.taxCollectionCalculations(player);
         //  als de speler geen advance heeft om tax rate aan te passen is hij automatisch ready
-        if (player.citiesOnBoard === 0 || !(player.ownedAdvances.includes(AdvanceNumber.MONARCHY) || player.ownedAdvances.includes(AdvanceNumber.COINAGE))) {
+        if (player.citiesStart === 0 || !(player.ownedAdvances.includes(AdvanceNumber.MONARCHY) || player.ownedAdvances.includes(AdvanceNumber.COINAGE))) {
           player.isReady = true;
         }
         //  Automatisch door als iedereen ready is:
@@ -153,7 +151,7 @@ export class GameService {
       const playerList = this.getActivePlayers();
       //  Sorteer spelers op aantal token (en bij gelijk aantal op originele volgorde)
       playerList.sort((a: Player, b: Player) =>
-        b.tokensOnBoard - a.tokensOnBoard === 0 ? a.ASTRank - b.ASTRank : b.tokensOnBoard - a.tokensOnBoard
+        b.populationStart - a.populationStart === 0 ? a.ASTRank - b.ASTRank : b.populationStart - a.populationStart
       );
       //  Zet de spelers met Military achteraan de rij
       for (let i = 0; i < playerList.length; i++) {
@@ -165,13 +163,13 @@ export class GameService {
       for (let i = 0; i < playerList.length; i++) {
         playerList[i].censusOrder = i + 1;
         if (i === 0) {
-          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 4;
+          playerList[i].personalCountDown = playerList[i].populationStart * 4;
         } else if (i === 1) {
-          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3.5;
+          playerList[i].personalCountDown = playerList[i].populationStart * 3.5;
         } else if (i === 2) {
-          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 3;
+          playerList[i].personalCountDown = playerList[i].populationStart * 3;
         } else {
-          playerList[i].personalCountDown = playerList[i].tokensOnBoard * 2.5;
+          playerList[i].personalCountDown = playerList[i].populationStart * 2.5;
         }
         if (!playerList[i].ownedAdvances.includes(AdvanceNumber.MILITARY)) {
           playerList[i].personalCountDown += 20;
@@ -185,20 +183,20 @@ export class GameService {
 
     } else if (this.game.phase === 5) {
       this.treasuryReset(this.getActivePlayers());
-
+      
     } else if (this.game.phase === 6) {
       this.treasuryReset(this.getActivePlayers());
       this.sortPlayersByASTRank();
       this.sortPlayersByASTCities();
-      this.sortPlayersByRegion();
+      this.sortPlayersByRegion();    
 
       // autoready spelers die deze fase niets kunnen
-      for (const player of this.game.players) {
+      for (const player of this.game.players) { 
         if (player.ownedAdvances.includes(AdvanceNumber.WONDER_OF_THE_WORLD) ||
-          (player.ownedAdvances.includes(AdvanceNumber.CARTOGRAPHY) && (player.tokensInTreasuryBeforeTurn >= 5)) ||
-          (player.ownedAdvances.includes(AdvanceNumber.RHETORIC) && (player.tokensInTreasuryBeforeTurn >= 9)) ||
-          (player.ownedAdvances.includes(AdvanceNumber.MINING) && (player.tokensInTreasuryBeforeTurn >= 13)) ||
-          (player.tokensInTreasuryBeforeTurn >= 15)) {
+          (player.ownedAdvances.includes(AdvanceNumber.CARTOGRAPHY) && (player.treasuryStart >= 5)) ||
+          (player.ownedAdvances.includes(AdvanceNumber.RHETORIC) && (player.treasuryStart >= 9)) ||
+          (player.ownedAdvances.includes(AdvanceNumber.MINING) && (player.treasuryStart >= 13)) ||
+          (player.treasuryStart >= 15)) {
           player.isReady = false;
         } else {
           player.isReady = true;
@@ -210,7 +208,7 @@ export class GameService {
       this.treasuryReset(this.getActivePlayers());
       this.aquireTradecards(this.getActivePlayers());
       this.tradecardBoughtReset(this.getActivePlayers());
-
+      
       this.sortPlayersByTradecards();
 
       this.game.countDown = 900;
@@ -287,7 +285,7 @@ export class GameService {
       player.ownedAdvances.forEach(advanceNumber => {
         player.advancesPoints += advancesList[advanceNumber -1].points;
       });
-      player.score = (player.ASTPosition * 5) + player.advancesPoints + player.citiesOnBoard;
+      player.score = (player.ASTPosition * 5) + player.advancesPoints + player.citiesStart;
     });
   }
 
@@ -298,7 +296,7 @@ export class GameService {
     this.game.players.sort((a: Player, b: Player) => a.ASTRank - b.ASTRank);
   }
   sortPlayersByASTCities() :void {
-    this.game.players.sort((a: Player, b: Player) => a.citiesOnBoard - b.citiesOnBoard);
+    this.game.players.sort((a: Player, b: Player) => a.citiesStart - b.citiesStart);
   }
   sortPlayersByTradecards() :void {
     this.game.players.sort((a: Player, b: Player) => b.numberOfTradeCardsBeforeTurn - a.numberOfTradeCardsBeforeTurn);
@@ -308,14 +306,14 @@ export class GameService {
   }
 
   taxCollectionCalculations(player: Player): void {
-    player.treasuryWon = player.citiesOnBoard * player.taxRate;
-    if (player.tokensInStock < player.treasuryWon) {
+    player.treasuryGain = player.citiesStart * player.taxRate;
+    if (player.stocktokensStart < player.treasuryGain) {
       if (!player.ownedAdvances.includes(AdvanceNumber.DEMOCRACY)) {
         player.hasTaxRevolt = true;
         this.game.taxRevoltInPlay = true;
       }
       //  collected tax can not be more than tokens in stock
-      player.treasuryWon = player.tokensInStock;
+      player.treasuryGain = player.stocktokensStart;
     } else {
       player.hasTaxRevolt = false;
     }
@@ -323,22 +321,22 @@ export class GameService {
   }
 
   treasuryCalculations(player: Player): void {
-    player.tokensInTreasuryAfterTurn = (player.tokensInTreasuryBeforeTurn + player.treasuryWon - player.treasuryUsed);
+    player.treasuryEnd = (player.treasuryStart + player.treasuryGain - player.treasuryLost);
   }
 
   treasuryReset(players: Player[]): void {
     players.forEach(player => {
-      player.tokensInTreasuryBeforeTurn = player.tokensInTreasuryAfterTurn;
-      player.tokensInStock -= player.treasuryWon += player.treasuryUsed;
-      player.treasuryWon = 0;
-      player.treasuryUsed = 0;
+      player.treasuryStart = player.treasuryEnd;
+      player.stocktokensStart -= player.treasuryGain += player.treasuryLost;
+      player.treasuryGain = 0;
+      player.treasuryLost = 0;
       player.tradeCardValueUsed = 0;
     });
   }
 
   aquireTradecards(players: Player[]): void {
     players.forEach(player => {
-      player.numberOfTradeCardsBeforeTurn += (player.citiesOnBoard + player.lvl9TradecardsBought + player.lvl8TradecardsBought + player.lvl7TradecardsBought +
+      player.numberOfTradeCardsBeforeTurn += (player.citiesStart + player.lvl9TradecardsBought + player.lvl8TradecardsBought + player.lvl7TradecardsBought +
         player.lvl6TradecardsBought + player.lvl3TradecardsBought + player.lvl2TradecardsBought);
       if (player.ownedAdvances.includes(AdvanceNumber.WONDER_OF_THE_WORLD)) {
         player.numberOfTradeCardsBeforeTurn += 1
@@ -438,7 +436,6 @@ export class GameService {
 
   sendGameToOtherPlayers(): void {
     console.log('++++++++++++++++ send game: ', this.game);
-    this.game.ignoreAllPlayersBut = undefined;
     this.socket.emit('updateGame', this.game);
   }
 
